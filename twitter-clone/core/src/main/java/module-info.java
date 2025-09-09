@@ -1,3 +1,3 @@
-module calc.core {
+module twitter.core {
   exports core;
 }

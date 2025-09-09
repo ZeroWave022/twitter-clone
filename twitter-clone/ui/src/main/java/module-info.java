@@ -1,5 +1,5 @@
-module calc.ui {
-  requires calc.core;
+module twitter.ui {
+  requires twitter.core;
   requires javafx.controls;
   requires javafx.fxml;
 
