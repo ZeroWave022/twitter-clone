@@ -1,0 +1,7 @@
+module twitter.ui {
+  requires twitter.core;
+  requires javafx.controls;
+  requires javafx.fxml;
+
+  opens ui to javafx.graphics, javafx.fxml;
+}
