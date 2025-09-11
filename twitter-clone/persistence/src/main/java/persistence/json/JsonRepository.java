@@ -13,10 +13,11 @@ public class JsonRepository<T> {
   private final Path filePath;
   private final TypeReference<List<T>> typeReference;
 
-  public JsonRepository(Path filePath, TypeReference<List<T>> typeReference) {
+  public JsonRepository(Path filePath) {
     this.objectMapper = new ObjectMapper();
     this.filePath = filePath;
-    this.typeReference = typeReference;
+    this.typeReference = new TypeReference<List<T>>() {
+    };
   }
 
   public List<T> load() throws IOException {

@@ -16,10 +16,7 @@ public class UserRepository {
   private List<User> users;
 
   public UserRepository(Path dataDirPath) {
-    this.jsonRepository = new JsonRepository<>(
-        dataDirPath.resolve("users.json"),
-        new TypeReference<List<User>>() {
-        });
+    this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("users.json"));
 
     // FIXME: Don't load every user into memory :)
     this.loadUsers();
