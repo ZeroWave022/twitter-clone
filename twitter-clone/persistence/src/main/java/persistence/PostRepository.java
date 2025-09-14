@@ -38,14 +38,12 @@ public class PostRepository {
     }
   }
 
-  public List<Post> getAllposts() {
+  public List<Post> getAllPosts() {
     return new ArrayList<>(this.posts);
   }
 
   public Optional<Post> getPostById(String id) {
-    return this.posts.stream()
-        .filter(post -> post.getId().equals(id))
-        .findFirst();
+    return this.posts.stream().filter(post -> post.getId().equals(id)).findFirst();
   }
 
   public boolean addPost(Post newPost) {
