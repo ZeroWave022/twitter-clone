@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import core.User;
 import persistence.json.JsonRepository;
 
@@ -43,9 +41,7 @@ public class UserRepository {
   }
 
   public Optional<User> getUserByUsername(String username) {
-    return this.users.stream()
-        .filter(user -> user.getUsername().equals(username))
-        .findFirst();
+    return this.users.stream().filter(user -> user.getUsername().equals(username)).findFirst();
   }
 
   public boolean addUser(User newUser) {

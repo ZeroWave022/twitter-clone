@@ -51,7 +51,7 @@ class PostRepositoryTest {
     User user = new User("username", "display name", "password123");
     String message = "Very imporant message";
     String id = "123";
-    Post post = new Post(user, message,id);
+    Post post = new Post(user, message, id);
 
     boolean wasAdded = this.userRepository.addPost(post);
     assertTrue(wasAdded);

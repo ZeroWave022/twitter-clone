@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import core.Post;
 import persistence.json.JsonRepository;
 
@@ -18,7 +16,7 @@ public class PostRepository {
   public PostRepository(Path dataDirPath) {
     this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("posts.json"));
 
-    // FIXME: Don't load every user into memory :)
+    // FIXME: Don't load every post into memory :)
     this.loadPosts();
   }
 
