@@ -11,7 +11,7 @@ public class Post {
     private String id;
     private User originalPoster;
     private String content;
-    private Instant createdAt;
+    // private Instant createdAt;
 
     private int likes = 0;
     private int reTweets = 0;
@@ -21,7 +21,7 @@ public class Post {
         setOriginalPoster(user);
         setContent(content);
         setId(id);
-        this.createdAt = Instant.now();
+        // this.createdAt = Instant.now();
     }
 
     public Post(){
@@ -39,9 +39,9 @@ public class Post {
         return commentsAmount;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
+    // public Instant getCreatedAt() {
+    //     return createdAt;
+    // }
 
     public static int getMaxContentLength() {
         return MAX_CONTENT_LENGTH;
@@ -76,9 +76,9 @@ public class Post {
         this.commentsAmount = commentsAmount;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
+    // public void setCreatedAt(Instant createdAt) {
+    //     this.createdAt = createdAt;
+    // }
 
     public void setId(String id) {
         if (id == null){
