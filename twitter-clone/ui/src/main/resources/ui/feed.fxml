@@ -12,7 +12,7 @@
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
    <top>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-width: 0 0 4 0; -fx-border-color: #000000;" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-width: 0 0 4 0; -fx-border-color: #123456;" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="newPostBtn" mnemonicParsing="false" onAction="#switchToMakeNewPost" prefHeight="40.0" prefWidth="90.0" text="New Post">
                <HBox.margin>
