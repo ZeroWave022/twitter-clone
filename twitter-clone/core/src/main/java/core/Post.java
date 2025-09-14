@@ -4,10 +4,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
-
 public class Post {
 
-    public static final int MAX_CONTENT_LENGTH = 280; 
+    public static final int MAX_CONTENT_LENGTH = 280;
 
     private String id;
     private User originalPoster;
@@ -18,19 +17,17 @@ public class Post {
     private int reTweets = 0;
     private int commentsAmount = 0;
 
-
-    public Post(User user,
-                String content) {
-        if (user == null){
+    public Post(User user, String content) {
+        if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        if (content == null){
+        if (content == null) {
             throw new IllegalArgumentException("Content cannot be null");
         }
-        if (content.isEmpty()){
+        if (content.isEmpty()) {
             throw new IllegalArgumentException("Content can not be emtpy");
         }
-        if (content.length() > MAX_CONTENT_LENGTH){
+        if (content.length() > MAX_CONTENT_LENGTH) {
             throw new IllegalArgumentException("Content is to long");
         }
         this.originalPoster = user;
@@ -45,7 +42,7 @@ public class Post {
     public int getLikes() {
         return likes;
     }
-    
+
     public int getCommentsAmount() {
         return commentsAmount;
     }
@@ -53,7 +50,7 @@ public class Post {
     public Instant getCreatedAt() {
         return createdAt;
     }
-    
+
     public static int getMaxContentLength() {
         return MAX_CONTENT_LENGTH;
     }
@@ -68,5 +65,33 @@ public class Post {
 
     public String getId() {
         return id;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setCommentsAmount(int commentsAmount) {
+        this.commentsAmount = commentsAmount;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public void setOriginalPoster(User originalPoster) {
+        this.originalPoster = originalPoster;
+    }
+
+    public void setReTweets(int reTweets) {
+        this.reTweets = reTweets;
     }
 }
