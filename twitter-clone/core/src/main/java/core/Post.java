@@ -17,21 +17,10 @@ public class Post {
     private int reTweets = 0;
     private int commentsAmount = 0;
 
-    public Post(User user, String content) {
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null");
-        }
-        if (content == null) {
-            throw new IllegalArgumentException("Content cannot be null");
-        }
-        if (content.isEmpty()) {
-            throw new IllegalArgumentException("Content can not be emtpy");
-        }
-        if (content.length() > MAX_CONTENT_LENGTH) {
-            throw new IllegalArgumentException("Content is to long");
-        }
-        this.originalPoster = user;
-        this.content = content;
+    public Post(User user, String content, String id) {
+        setOriginalPoster(user);
+        setContent(content);
+        setId(id);
         this.createdAt = Instant.now();
     }
 
@@ -71,6 +60,15 @@ public class Post {
     }
 
     public void setContent(String content) {
+        if (content == null) {
+            throw new IllegalArgumentException("Content cannot be null");
+        }
+        if (content.isEmpty()) {
+            throw new IllegalArgumentException("Content can not be emtpy");
+        }
+        if (content.length() > MAX_CONTENT_LENGTH) {
+            throw new IllegalArgumentException("Content is to long");
+        }
         this.content = content;
     }
 
@@ -83,6 +81,9 @@ public class Post {
     }
 
     public void setId(String id) {
+        if (id == null){
+            throw new IllegalArgumentException("Id cannot be null");
+        }
         this.id = id;
     }
 
@@ -91,6 +92,9 @@ public class Post {
     }
 
     public void setOriginalPoster(User originalPoster) {
+        if (originalPoster == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
         this.originalPoster = originalPoster;
     }
 
