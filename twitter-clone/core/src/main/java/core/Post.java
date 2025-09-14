@@ -35,6 +35,9 @@ public class Post {
         this.createdAt = Instant.now();
     }
 
+    public Post(){
+    }
+
     public String getContent() {
         return content;
     }
