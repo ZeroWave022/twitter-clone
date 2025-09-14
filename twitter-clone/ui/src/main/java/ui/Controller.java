@@ -3,10 +3,13 @@ package ui;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class Controller {
@@ -14,13 +17,24 @@ public class Controller {
   private Scene scene;
   private Parent parent;
 
+  @FXML
+  private TextField username;
+
+  @FXML
+  private TextField password;
+
+  @FXML
+  private Button logInBtn;
+  
+
   // TODO: Make auth function, possibly move to core
   public boolean auth() { //(String username, String password)
     return true;
   }
 
   // Meant to be called from log in, auth(String username, String password) needs to be implemented
-  public void switchToFeed(ActionEvent e) throws IOException {
+  @FXML
+  private void switchToFeed(ActionEvent e) throws IOException {
     if (!auth()) {
       System.out.println("Credentials not approved");
       return;
@@ -33,8 +47,8 @@ public class Controller {
     stage.show();
   }
 
-
-  public void switchToMakeNewPost(ActionEvent e) throws IOException {
+  @FXML
+  private void switchToMakeNewPost(ActionEvent e) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("makeNewPost.fxml"));
     stage = (Stage)((Node)e.getSource()).getScene().getWindow();
     scene = new Scene(root);
@@ -44,7 +58,8 @@ public class Controller {
 
 
   // TODO: Implement method and integrate with tweet code class
-  public void publishPost(ActionEvent e) throws IOException {
+  @FXML
+  private void publishPost(ActionEvent e) throws IOException {
     System.out.println("Post wanting to be published");
     
     // get text from field, fx:id postText
