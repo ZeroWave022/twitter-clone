@@ -11,7 +11,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         stage.setTitle("Twitter Clone");
-        stage.setScene(new Scene(root, 800, 600));
+        stage.setScene(new Scene(root, 1280, 720));
         stage.show();
     }
 
