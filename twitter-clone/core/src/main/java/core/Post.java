@@ -9,6 +9,7 @@ public class Post {
 
     public static final int MAX_CONTENT_LENGTH = 280; 
 
+    private String id;
     private User originalPoster;
     private String content;
     private Instant createdAt;
@@ -63,5 +64,9 @@ public class Post {
 
     public int getReTweets() {
         return reTweets;
+    }
+
+    public String getId() {
+        return id;
     }
 }
