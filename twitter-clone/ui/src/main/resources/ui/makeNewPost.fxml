@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
    <children>
       <Text layoutX="591.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new post" />
       <VBox alignment="CENTER" layoutX="466.0" layoutY="231.0" prefHeight="258.0" prefWidth="348.0" style="-fx-background-color: #6eb4f5; -fx-border-width: 1; -fx-border-color: #000000; -fx-border-radius: 8; -fx-background-radius: 8;">
