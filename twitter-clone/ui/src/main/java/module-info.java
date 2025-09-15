@@ -12,4 +12,5 @@ module twitter.ui {
   requires spring.core;
 
   opens ui to javafx.graphics, javafx.fxml, spring.core, spring.beans, spring.context;
+  opens ui.config to spring.core, spring.beans, spring.context;
 }

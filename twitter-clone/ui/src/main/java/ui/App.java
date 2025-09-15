@@ -13,7 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-@SpringBootApplication(scanBasePackages = { "twitter.ui", "twitter.persistence" })
+@SpringBootApplication(scanBasePackages = { "ui", "twitter.persistence" })
 public class App extends Application {
   private static Scene scene;
 
