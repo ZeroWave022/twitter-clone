@@ -26,7 +26,9 @@ public class App extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+    loader.setControllerFactory(springContext::getBean);
+    Parent root = loader.load();
     Scene newScene = new Scene(root, 1280, 720);
     stage.setTitle("Twitter Clone");
     stage.setScene(newScene);
