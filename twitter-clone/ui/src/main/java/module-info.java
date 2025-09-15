@@ -1,5 +1,7 @@
 module twitter.ui {
   requires twitter.core;
+  requires twitter.persistence;
+
   requires javafx.controls;
   requires javafx.fxml;
 
