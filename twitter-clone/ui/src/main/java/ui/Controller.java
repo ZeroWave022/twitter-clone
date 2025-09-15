@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import persistence.UserRepository;
+import service.UserService;
 
 @Component
 public class Controller {
-  UserRepository userRepository;
+  UserService userService;
 
   @Autowired
-  public Controller(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  public Controller(UserService userService) {
+    this.userService = userService;
   }
 
   @FXML
