@@ -16,14 +16,14 @@ import org.junit.jupiter.api.Test;
 import core.Post;
 import core.User;
 
-class PostRepositoryTest {
+class JsonPostRepositoryTest {
   private Path dataDir;
-  private PostRepository userRepository;
+  private JsonPostRepository postRepository;
 
   @BeforeEach
   void setup() throws IOException {
     this.dataDir = Files.createTempDirectory("users");
-    this.userRepository = new PostRepository(this.dataDir);
+    this.postRepository = new JsonPostRepository(this.dataDir);
   }
 
   @AfterEach
@@ -41,26 +41,24 @@ class PostRepositoryTest {
 
   @Test
   void test_emptyState() {
-    List<Post> users = this.userRepository.getAllPosts();
+    List<Post> users = this.postRepository.findAll();
     assertEquals(0, users.size());
   }
 
   @Test
   void test_addPost() {
-
     User user = new User(null, "username", "display name", "password123");
     String message = "Very imporant message";
     String id = "123";
     Post post = new Post(user, message, id);
 
-    boolean wasAdded = this.userRepository.addPost(post);
-    assertTrue(wasAdded);
+    this.postRepository.save(post);
 
-    List<Post> posts = this.userRepository.getAllPosts();
+    List<Post> posts = this.postRepository.findAll();
     assertEquals(1, posts.size());
 
-    PostRepository loadedRepository = new PostRepository(this.dataDir);
-    List<Post> loadedPosts = loadedRepository.getAllPosts();
+    JsonPostRepository loadedRepository = new JsonPostRepository(this.dataDir);
+    List<Post> loadedPosts = loadedRepository.findAll();
     assertEquals(1, loadedPosts.size());
   }
 }
