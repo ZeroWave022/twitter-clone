@@ -5,6 +5,7 @@ module twitter.service {
   requires spring.context;
   requires spring.beans;
   requires spring.tx;
+  requires com.github.spotbugs.annotations;
 
   exports service;
 }

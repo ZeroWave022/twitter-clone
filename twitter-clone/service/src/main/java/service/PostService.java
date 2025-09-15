@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import core.Post;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import persistence.PostRepository;
 
 @Service
@@ -14,6 +15,7 @@ public class PostService {
   private PostRepository postRepository;
 
   @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject the PostRepository service")
   public PostService(PostRepository postRepository) {
     this.postRepository = postRepository;
   }

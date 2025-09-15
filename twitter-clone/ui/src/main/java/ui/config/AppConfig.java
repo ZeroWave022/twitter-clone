@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import persistence.JsonPostRepository;
 import persistence.JsonUserRepository;
+import persistence.PostRepository;
 import persistence.UserRepository;
 
 @Configuration
@@ -17,13 +19,19 @@ import persistence.UserRepository;
 public class AppConfig {
   private Path dataDir;
 
-  public AppConfig() throws IOException {
+  public AppConfig() {
     this.dataDir = Paths.get(System.getProperty("user.home"), "twitter-clone");
-    Files.createDirectories(this.dataDir);
   }
 
   @Bean
-  public UserRepository jsonUserRepository() {
+  public UserRepository jsonUserRepository() throws IOException {
+    Files.createDirectories(this.dataDir);
     return new JsonUserRepository(this.dataDir);
+  }
+
+  @Bean
+  public PostRepository jsonPostRepository() throws IOException {
+    Files.createDirectories(this.dataDir);
+    return new JsonPostRepository(this.dataDir);
   }
 }
