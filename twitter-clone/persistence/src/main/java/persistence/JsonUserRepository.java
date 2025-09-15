@@ -8,14 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.springframework.stereotype.Repository;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import core.User;
 import persistence.json.JsonRepository;
 
-@Repository
 public class JsonUserRepository implements UserRepository {
   private AtomicLong nextId = new AtomicLong(0);
   private final JsonRepository<User> jsonRepository;

@@ -13,7 +13,7 @@ import persistence.JsonUserRepository;
 import persistence.UserRepository;
 
 @Configuration
-@ComponentScan(basePackages = { "ui", "twitter.persistence" })
+@ComponentScan(basePackages = { "ui", "persistence", "service" })
 public class AppConfig {
   private Path dataDir;
 
