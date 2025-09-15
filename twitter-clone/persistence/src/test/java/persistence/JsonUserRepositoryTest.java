@@ -40,22 +40,22 @@ class JsonUserRepositoryTest {
 
   @Test
   void test_emptyState() {
-    List<User> users = this.userRepository.getAllUsers();
+    List<User> users = this.userRepository.findAll();
     assertEquals(0, users.size());
   }
 
   @Test
   void test_addUser() {
-    User user = new User("username", "display name", "password123");
+    User user = new User(null, "username", "display name", "password123");
 
-    boolean wasAdded = this.userRepository.addUser(user);
-    assertTrue(wasAdded);
+    User savedUser = this.userRepository.save(user);
+    assertTrue(savedUser.getId() != null);
 
-    List<User> users = this.userRepository.getAllUsers();
+    List<User> users = this.userRepository.findAll();
     assertEquals(1, users.size());
 
     JsonUserRepository loadedRepository = new JsonUserRepository(this.dataDir);
-    List<User> loadedUsers = loadedRepository.getAllUsers();
+    List<User> loadedUsers = loadedRepository.findAll();
     assertEquals(1, loadedUsers.size());
   }
 }

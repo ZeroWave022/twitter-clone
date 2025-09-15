@@ -32,25 +32,47 @@ public class JsonUserRepository {
     try {
       this.jsonRepository.save(this.users);
     } catch (IOException e) {
-
+      System.err.println(e);
     }
   }
 
-  public List<User> getAllUsers() {
+  public void addUser(User user) {
+    this.users.add(user);
+    this.saveUsers();
+  }
+
+  @Override
+  public Optional<User> findById(Long id) {
+    return this.users.stream().filter(user -> user.getId().equals(id)).findFirst();
+  }
+
+  @Override
+  public List<User> findAll() {
     return new ArrayList<>(this.users);
   }
 
-  public Optional<User> getUserByUsername(String username) {
-    return this.users.stream().filter(user -> user.getUsername().equals(username)).findFirst();
-  }
-
-  public boolean addUser(User newUser) {
-    if (this.getUserByUsername(newUser.getUsername()).isPresent()) {
-      return false;
+  @Override
+  public User save(User user) {
+    if (user.getId() == null) {
+      user.setId(nextId.getAndIncrement());
     }
 
-    this.users.add(newUser);
-    this.saveUsers();
-    return true;
+    this.addUser(user);
+    return user;
+  }
+
+  @Override
+  public void deleteById(Long id) {
+    this.users.removeIf(user -> user.getId().equals(id));
+  }
+
+  @Override
+  public boolean existsById(Long id) {
+    return this.users.stream().anyMatch(user -> user.getId().equals(id));
+  }
+
+  @Override
+  public Optional<User> findByUsername(String username) {
+    return this.users.stream().filter(user -> user.getUsername().equals(username)).findFirst();
   }
 }

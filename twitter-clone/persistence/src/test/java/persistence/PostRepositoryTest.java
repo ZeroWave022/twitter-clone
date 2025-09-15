@@ -48,7 +48,7 @@ class PostRepositoryTest {
   @Test
   void test_addPost() {
 
-    User user = new User("username", "display name", "password123");
+    User user = new User(null, "username", "display name", "password123");
     String message = "Very imporant message";
     String id = "123";
     Post post = new Post(user, message, id);
