@@ -9,11 +9,11 @@ import java.util.Optional;
 import core.User;
 import persistence.json.JsonRepository;
 
-public class UserRepository {
+public class JsonUserRepository {
   private final JsonRepository<User> jsonRepository;
   private List<User> users;
 
-  public UserRepository(Path dataDirPath) {
+  public JsonUserRepository(Path dataDirPath) {
     this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("users.json"));
 
     // FIXME: Don't load every user into memory :)

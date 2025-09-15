@@ -15,14 +15,14 @@ import org.junit.jupiter.api.Test;
 
 import core.User;
 
-class UserRepositoryTest {
+class JsonUserRepositoryTest {
   private Path dataDir;
-  private UserRepository userRepository;
+  private JsonUserRepository userRepository;
 
   @BeforeEach
   void setup() throws IOException {
     this.dataDir = Files.createTempDirectory("users");
-    this.userRepository = new UserRepository(this.dataDir);
+    this.userRepository = new JsonUserRepository(this.dataDir);
   }
 
   @AfterEach
@@ -54,7 +54,7 @@ class UserRepositoryTest {
     List<User> users = this.userRepository.getAllUsers();
     assertEquals(1, users.size());
 
-    UserRepository loadedRepository = new UserRepository(this.dataDir);
+    JsonUserRepository loadedRepository = new JsonUserRepository(this.dataDir);
     List<User> loadedUsers = loadedRepository.getAllUsers();
     assertEquals(1, loadedUsers.size());
   }
