@@ -2,11 +2,23 @@ package ui;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import persistence.UserRepository;
 
+@Component
 public class Controller {
+  UserRepository userRepository;
+
+  @Autowired
+  public Controller(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
   @FXML
   private TextField username;
 
