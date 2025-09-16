@@ -1,6 +1,7 @@
 package core;
 
 public class User {
+  private Long id;
   private String username;
   private String displayName;
   private String password;
@@ -8,10 +9,19 @@ public class User {
   public User() {
   }
 
-  public User(String username, String displayName, String password) {
+  public User(Long id, String username, String displayName, String password) {
+    this.id = id;
     this.username = username;
     this.displayName = displayName;
     this.password = password;
+  }
+
+  public Long getId() {
+    return this.id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getUsername() {
@@ -37,5 +47,4 @@ public class User {
   public void setPassword(String password) {
     this.password = password;
   }
-
 }
