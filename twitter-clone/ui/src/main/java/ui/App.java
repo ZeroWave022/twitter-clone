@@ -17,11 +17,11 @@ import javafx.stage.Stage;
 public class App extends Application {
   private static Scene scene;
 
-  private ConfigurableApplicationContext springContext;
+  private static ConfigurableApplicationContext springContext;
 
   @Override
   public void init() throws Exception {
-    springContext = SpringApplication.run(App.class);
+    setSpringContext(SpringApplication.run(App.class));
   }
 
   @Override
@@ -42,12 +42,16 @@ public class App extends Application {
     Platform.exit();
   }
 
+  private static void setSpringContext(ConfigurableApplicationContext newSpringContext) {
+    springContext = newSpringContext;
+  }
+
   private static void setScene(Scene newScene) {
     scene = newScene;
   }
 
   public static void setRoot(String fxml) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+    FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml));
     loader.setControllerFactory(springContext::getBean);
     scene.setRoot(loader.load());
   }
