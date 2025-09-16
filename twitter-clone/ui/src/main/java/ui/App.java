@@ -47,7 +47,9 @@ public class App extends Application {
   }
 
   public static void setRoot(String fxml) throws IOException {
-    scene.setRoot(FXMLLoader.load(App.class.getResource(fxml)));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+    loader.setControllerFactory(springContext::getBean);
+    scene.setRoot(loader.load());
   }
 
   public static void main(String[] args) {
