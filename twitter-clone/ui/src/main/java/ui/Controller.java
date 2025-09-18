@@ -40,27 +40,35 @@ public class Controller {
 
   @FXML
   @SuppressWarnings("unused")
-  private void logIn() throws IOException { // (String username, String password)
-    // Save input to variables
-    String username = usernameField.getText();
-    String password = passwordField.getText();
+  private void logIn() throws IOException {
+    try {
 
-    Optional<User> maybeUser = userService.getUserByUsername(username);
+      // clear any errors
+      errorLabel.setText("");
 
-    // User exists, confirm password
-    if (maybeUser.isPresent()) {
-      User user = maybeUser.get();
-      if (user.getPassword().equals(password)) {
-        App.setRoot("feed.fxml");
-      } else {
-        errorLabel.setText("Incorrect password");
+      // Save input to variables
+      String username = usernameField.getText();
+      String password = passwordField.getText();
+
+      Optional<User> maybeUser = userService.getUserByUsername(username);
+
+      // User exists, confirm password
+      if (maybeUser.isPresent()) {
+        User user = maybeUser.get();
+        if (user.getPassword().equals(password)) {
+          App.setRoot("feed.fxml");
+        } else {
+          errorLabel.setText("Incorrect Password");
+        }
       }
-    }
-    // New user gets to log in
-    else {
-      User newUser = new User(null, username, username, password); // make new user, repo handles ID
-      userService.createUser(newUser); // add user to db
-      App.setRoot("feed.fxml"); // switch to feed
+      // New user gets to log in
+      else {
+        User newUser = new User(null, username, username, password); // make new user, repo handles ID
+        userService.createUser(newUser); // add user to db
+        App.setRoot("feed.fxml"); // switch to feed
+      }
+    } catch (IOException e) {
+      errorLabel.setText("Something went wrong");
     }
   }
 
