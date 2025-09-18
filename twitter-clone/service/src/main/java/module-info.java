@@ -1,4 +1,4 @@
-module twitter.service {
+open module twitter.service {
   requires transitive twitter.core;
   requires transitive twitter.persistence;
 
