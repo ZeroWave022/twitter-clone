@@ -24,6 +24,6 @@
             </Button>
          </children>
       </VBox>
-      <Label fx:id="errorLabel" layoutX="593.0" layoutY="415.0" prefHeight="17.0" prefWidth="94.0" />
+      <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="565.0" layoutY="413.0" prefHeight="39.0" prefWidth="150.0" textAlignment="CENTER" />
    </children>
 </Pane>
