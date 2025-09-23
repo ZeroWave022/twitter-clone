@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import core.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +20,7 @@ public class Controller {
   PostService postService;
 
   @Autowired
+  @SuppressFBWarnings(value = { "EI_EXPOSE_REP2", "URF_UNREAD_FIELD" })
   public Controller(UserService userService, PostService postService) {
     this.userService = userService;
     this.postService = postService;

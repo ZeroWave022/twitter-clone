@@ -1,4 +1,4 @@
-module twitter.ui {
+open module twitter.ui {
   requires twitter.core;
   requires twitter.service;
 
@@ -10,7 +10,11 @@ module twitter.ui {
   requires spring.context;
   requires spring.beans;
   requires spring.core;
+  requires javafx.graphics;
 
-  opens ui to javafx.graphics, javafx.fxml, spring.core, spring.beans, spring.context;
-  opens ui.config to spring.core, spring.beans, spring.context;
+  requires com.github.spotbugs.annotations;
+
+  // opens ui to javafx.graphics, javafx.fxml, spring.core, spring.beans,
+  // spring.context;
+  // opens ui.config to spring.core, spring.beans, spring.context;
 }
