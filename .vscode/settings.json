@@ -24,6 +24,6 @@
   "java.compile.nullAnalysis.mode": "automatic",
   "java.debug.settings.onBuildFailureProceed": true,
   "java.format.settings.url": ".vscode/java-formatter.xml",
-  "java.checkstyle.configuration": "/google_checks.xml"
+  "java.checkstyle.configuration": ".vscode/google_checks.xml",
+  "java.checkstyle.version": "11.0.1"
 }
-
