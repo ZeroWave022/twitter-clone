@@ -1,25 +1,34 @@
 package persistence;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import core.User;
 import persistence.json.JsonRepository;
 
+@Repository
 public class JsonUserRepository implements UserRepository {
   private AtomicLong nextId = new AtomicLong(0);
   private final JsonRepository<User> jsonRepository;
   private List<User> users;
 
-  public JsonUserRepository(Path dataDirPath) {
-    this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("users.json"), new TypeReference<List<User>>() {
+  public JsonUserRepository(@Value("${app.data.directory}") String dataDirPath) throws IOException {
+    Path dataDir = Paths.get(dataDirPath);
+    Files.createDirectories(dataDir);
+
+    this.jsonRepository = new JsonRepository<>(dataDir.resolve("users.json"), new TypeReference<List<User>>() {
     });
 
     // FIXME: Don't load every user into memory :)

@@ -1,22 +1,31 @@
 package persistence;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import core.Post;
 import persistence.json.JsonRepository;
 
+@Repository
 public class JsonPostRepository implements PostRepository {
   private final JsonRepository<Post> jsonRepository;
   private List<Post> posts;
 
-  public JsonPostRepository(Path dataDirPath) {
-    this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("posts.json"), new TypeReference<List<Post>>() {
+  public JsonPostRepository(@Value("${app.data.directory}") String dataDirPath) throws IOException {
+    Path dataDir = Paths.get(dataDirPath);
+    Files.createDirectories(dataDir);
+
+    this.jsonRepository = new JsonRepository<>(dataDir.resolve("posts.json"), new TypeReference<List<Post>>() {
 
     });
 
