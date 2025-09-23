@@ -2,6 +2,8 @@ package ui;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxAssert;
@@ -10,9 +12,8 @@ import org.testfx.service.query.NodeQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
 public class ControllerTest extends UiTestBase {
-
   @Test
-  @DisplayName("The test user is able to log in with correct password")
+  @DisplayName("A new user gets to log in, no matter their password")
   void testCorrectPassword() {
     WaitForAsyncUtils.waitForFxEvents();
 
@@ -28,16 +29,23 @@ public class ControllerTest extends UiTestBase {
 
   @Test
   @DisplayName("Testing incorrect password")
-  void testIncorrectPassword() {
+  void testIncorrectPassword() throws IOException {
     WaitForAsyncUtils.waitForFxEvents();
 
-    clickOn("#usernameField").write("test user");
+    // create a user
+    clickOn("#usernameField").write("username");
+    clickOn("#passwordField").write("password");
+    clickOn("#logInBtn");
+
+    // navigate back to the login view
+    // FIXME: Click a log out / back button instead
+    App.setRoot("login.fxml");
+
+    // attempt login with wrong password
+    clickOn("#usernameField").write("username");
     clickOn("#passwordField").write("wrong password");
     clickOn("#logInBtn");
 
-    // WaitForAsyncUtils.waitForFxEvents();
-    NodeQuery nq = lookup("#errorLabel");
-    assertFalse(nq.queryAll().isEmpty());
-    FxAssert.verifyThat(nq, LabeledMatchers.hasText("Incorrect password"));
+    FxAssert.verifyThat(lookup("#errorLabel"), LabeledMatchers.hasText("Incorrect password"));
   }
 }
