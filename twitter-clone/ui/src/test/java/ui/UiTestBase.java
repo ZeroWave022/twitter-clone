@@ -1,9 +1,10 @@
 package ui;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.TimeoutException;
-
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,11 +12,10 @@ import org.junit.jupiter.api.io.TempDir;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
-import javafx.stage.Stage;
-
 // Taken from individual mandatory deliverable in IT1901
+/**
+ * Base class for UI tests.
+ */
 public class UiTestBase extends ApplicationTest {
   @TempDir
   Path tempDir;

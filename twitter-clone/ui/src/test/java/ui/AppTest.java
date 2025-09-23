@@ -10,6 +10,9 @@ import org.testfx.service.query.NodeQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
 // Taken from individual mandatory deliverable in IT1901
+/**
+ * Integration tests for {@link App}.
+ */
 public class AppTest extends UiTestBase {
   @Test
   @DisplayName("The application should load the log in view")

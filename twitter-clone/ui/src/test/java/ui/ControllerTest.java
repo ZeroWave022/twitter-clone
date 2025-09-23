@@ -3,7 +3,6 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxAssert;
@@ -11,6 +10,9 @@ import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
+/**
+ * Integration tests for {@link Controller}.
+ */
 public class ControllerTest extends UiTestBase {
   @Test
   @DisplayName("A new user gets to log in, no matter their password")
