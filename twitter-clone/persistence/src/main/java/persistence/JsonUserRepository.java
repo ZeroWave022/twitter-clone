@@ -24,9 +24,13 @@ public class JsonUserRepository implements UserRepository {
   private final JsonRepository<User> jsonRepository;
   private List<User> users;
 
-  public JsonUserRepository(@Value("${app.data.directory}") String dataDirPath) throws IOException {
+  public JsonUserRepository(@Value("${app.data.directory}") String dataDirPath) {
     Path dataDir = Paths.get(dataDirPath);
-    Files.createDirectories(dataDir);
+    try {
+      Files.createDirectories(dataDir);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     this.jsonRepository = new JsonRepository<>(dataDir.resolve("users.json"), new TypeReference<List<User>>() {
     });

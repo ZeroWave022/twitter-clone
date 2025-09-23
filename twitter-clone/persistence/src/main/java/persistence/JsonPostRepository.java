@@ -21,9 +21,13 @@ public class JsonPostRepository implements PostRepository {
   private final JsonRepository<Post> jsonRepository;
   private List<Post> posts;
 
-  public JsonPostRepository(@Value("${app.data.directory}") String dataDirPath) throws IOException {
+  public JsonPostRepository(@Value("${app.data.directory}") String dataDirPath) {
     Path dataDir = Paths.get(dataDirPath);
-    Files.createDirectories(dataDir);
+    try {
+      Files.createDirectories(dataDir);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     this.jsonRepository = new JsonRepository<>(dataDir.resolve("posts.json"), new TypeReference<List<Post>>() {
 
