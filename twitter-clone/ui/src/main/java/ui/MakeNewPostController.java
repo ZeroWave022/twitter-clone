@@ -11,11 +11,11 @@ import javafx.scene.control.TextArea;
 import service.PostService;
 
 @Component
-public class CreateNewPostController {
+public class MakeNewPostController {
   private final PostService postService;
 
   @Autowired
-  public CreateNewPostController(PostService postService) {
+  public MakeNewPostController(PostService postService) {
     this.postService = postService;
   }
 
