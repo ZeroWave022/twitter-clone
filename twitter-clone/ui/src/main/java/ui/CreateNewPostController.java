@@ -12,36 +12,36 @@ import service.PostService;
 
 @Component
 public class CreateNewPostController {
-    private final PostService postService;
+  private final PostService postService;
 
-    @Autowired
-    public CreateNewPostController(PostService postService) {
-        this.postService = postService;
-    }
+  @Autowired
+  public CreateNewPostController(PostService postService) {
+    this.postService = postService;
+  }
 
-    @FXML
-    private TextArea postText; 
+  @FXML
+  private TextArea postText; 
 
-    @FXML
-    private Button publishBtn;
+  @FXML
+  private Button publishBtn;
 
-    @FXML
-    private Button backBtn;
+  @FXML
+  private Button backBtn;
 
-    @FXML
-    @SuppressWarnings("unused")
-    private void publishPost() throws IOException {
-        String content = postText.getText();
-        // TODO: validate length against Post.MAX_CONTENT_LENGTH
-        // TODO: get logged-in user and send post to PostService
-        System.out.println("Publishing post: " + content);
+  @FXML
+  @SuppressWarnings("unused")
+  private void publishPost() throws IOException {
+    String content = postText.getText();
+    // TODO: validate length against Post.MAX_CONTENT_LENGTH
+    // TODO: get logged-in user and send post to PostService
+    System.out.println("Publishing post: " + content);
 
-        switchToFeed();
-    }
+    switchToFeed();
+  }
 
-    @FXML
-    @SuppressWarnings("unused")
-    private void switchToFeed() throws IOException {
-        App.setRoot("feed.fxml");
-    }
+  @FXML
+  @SuppressWarnings("unused")
+  private void switchToFeed() throws IOException {
+    App.setRoot("feed.fxml");
+  }
 }
