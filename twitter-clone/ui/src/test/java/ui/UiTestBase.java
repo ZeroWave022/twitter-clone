@@ -2,6 +2,8 @@ package ui;
 
 import java.nio.file.Path;
 import java.util.concurrent.TimeoutException;
+
+import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -47,5 +49,10 @@ public class UiTestBase extends ApplicationTest {
     FxToolkit.hideStage();
     release(new KeyCode[] {});
     release(new MouseButton[] {});
+  }
+
+  void typeIntoTextInput(String selector, String text) {
+    TextInputControl field = lookup(selector).queryAs(TextInputControl.class);
+    interact(() -> field.setText(text));
   }
 }
