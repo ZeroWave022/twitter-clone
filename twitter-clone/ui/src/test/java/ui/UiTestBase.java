@@ -2,7 +2,6 @@ package ui;
 
 import java.nio.file.Path;
 import java.util.concurrent.TimeoutException;
-
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
