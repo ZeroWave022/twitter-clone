@@ -1,12 +1,15 @@
 package ui;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import core.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import service.PostService;
 import service.UserService;
@@ -23,38 +26,50 @@ public class Controller {
   }
 
   @FXML
-  private TextField username;
+  private TextField usernameField;
 
   @FXML
-  private TextField password;
+  private TextField passwordField;
 
   @FXML
+  @SuppressWarnings("unused")
   private Button logInBtn;
 
-  // TODO: Make auth function, possibly move to core
-  public boolean auth() { // (String username, String password)
-    return true;
+  @FXML
+  private Label errorLabel;
+
+  @FXML
+  @SuppressWarnings("unused")
+  private void logIn() throws IOException {
+    // clear any errors
+    errorLabel.setText("");
+
+    // Save input to variables
+    String username = usernameField.getText();
+    String password = passwordField.getText();
+
+    if (userService.logIn(username, password)) {
+      App.setRoot("feed.fxml");
+    } else {
+      errorLabel.setText("Incorrect password");
+    }
   }
 
-  // Meant to be called from log in, auth(String username, String password) needs
-  // to be implemented
   @FXML
+  @SuppressWarnings("unused")
   private void switchToFeed() throws IOException {
-    if (!auth()) {
-      System.out.println("Credentials not approved");
-      return;
-    }
-
     App.setRoot("feed.fxml");
   }
 
   @FXML
+  @SuppressWarnings("unused")
   private void switchToMakeNewPost() throws IOException {
     App.setRoot("makeNewPost.fxml");
   }
 
   // TODO: Implement method and integrate with tweet code class
   @FXML
+  @SuppressWarnings("unused")
   private void publishPost() throws IOException {
     System.out.println("Post wanting to be published");
 
