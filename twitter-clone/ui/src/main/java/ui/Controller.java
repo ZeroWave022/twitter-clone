@@ -17,6 +17,9 @@ public class Controller {
   PostService postService;
 
   @Autowired
+  @SuppressFBWarnings(value = { "EI_EXPOSE_REP2",
+      "URF_UNREAD_FIELD" }, justification = "We need to inject the UserRepository service. "
+          + "PostService will be used in the future.")
   public Controller(UserService userService, PostService postService) {
     this.userService = userService;
     this.postService = postService;
