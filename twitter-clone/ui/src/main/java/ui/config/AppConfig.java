@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import persistence.JsonPostRepository;
-import persistence.JsonUserRepository;
+import persistence.OrmUserRepository;
 import persistence.PostRepository;
 import persistence.UserRepository;
 
@@ -29,16 +29,13 @@ public class AppConfig {
   }
 
   /**
-   * Returns a {@link UserRepository} backed by JSON storage.
+   * Returns a {@link UserRepository} backed by SQLite storage.
    *
    * @return the repository instance
-   * @throws IOException if the data directory cannot be created
    */
-
   @Bean
-  public UserRepository jsonUserRepository() throws IOException {
-    Files.createDirectories(this.dataDir);
-    return new JsonUserRepository(this.dataDir);
+  public UserRepository ormUserRepository() {
+    return new OrmUserRepository();
   }
 
   /**
