@@ -1,5 +1,7 @@
 package persistence;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import core.User;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -7,10 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import core.User;
 import persistence.json.JsonRepository;
 
 public class JsonUserRepository implements UserRepository {
@@ -19,12 +17,15 @@ public class JsonUserRepository implements UserRepository {
   private List<User> users;
 
   public JsonUserRepository(Path dataDirPath) {
-    this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("users.json"), new TypeReference<List<User>>() {
-    });
+    this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("users.json"),
+        new TypeReference<List<User>>() {
+        });
 
     // FIXME: Don't load every user into memory :)
     this.loadUsers();
-    this.nextId.set(this.users.stream().map(User::getId).max(Comparator.naturalOrder()).orElse(0L) + 1);
+    Long nextId = this.users.stream().map(User::getId).max(Comparator.naturalOrder()).orElse(0L)
+        + 1;
+    this.nextId.set(nextId);
   }
 
   private void loadUsers() {
