@@ -18,7 +18,7 @@ public class Post {
   private Long id;
 
   @ManyToOne
-  private User originalPoster;
+  private User author;
   private String content;
   // private Instant createdAt;
 
@@ -28,7 +28,7 @@ public class Post {
 
   @SuppressFBWarnings(value = "CT_CONSTRUCTOR_THROW")
   public Post(User user, String content, Long id) {
-    setOriginalPoster(user);
+    setAuthor(user);
     setContent(content);
     setId(id);
     // this.createdAt = Instant.now();
@@ -58,8 +58,8 @@ public class Post {
   }
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-  public User getOriginalPoster() {
-    return originalPoster;
+  public User getAuthor() {
+    return author;
   }
 
   public int getReTweets() {
@@ -103,11 +103,11 @@ public class Post {
   }
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public void setOriginalPoster(User originalPoster) {
-    if (originalPoster == null) {
+  public void setAuthor(User author) {
+    if (author == null) {
       throw new IllegalArgumentException("User cannot be null");
     }
-    this.originalPoster = originalPoster;
+    this.author = author;
   }
 
   public void setReTweets(int reTweets) {

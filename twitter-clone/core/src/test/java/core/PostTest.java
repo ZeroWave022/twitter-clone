@@ -12,7 +12,7 @@ class PostTest {
     Post post = new Post(user, "Hello world", 1L);
 
     assertEquals(1L, post.getId());
-    assertEquals(user, post.getOriginalPoster());
+    assertEquals(user, post.getAuthor());
     assertEquals("Hello world", post.getContent());
     assertEquals(0, post.getLikes());
     assertEquals(0, post.getReTweets());
@@ -25,14 +25,14 @@ class PostTest {
     Post post = new Post();
 
     post.setId(2L);
-    post.setOriginalPoster(user);
+    post.setAuthor(user);
     post.setContent("New content");
     post.setLikes(5);
     post.setReTweets(2);
     post.setCommentsAmount(3);
 
     assertEquals(2, post.getId());
-    assertEquals(user, post.getOriginalPoster());
+    assertEquals(user, post.getAuthor());
     assertEquals("New content", post.getContent());
     assertEquals(5, post.getLikes());
     assertEquals(2, post.getReTweets());
@@ -69,9 +69,9 @@ class PostTest {
   }
 
   @Test
-  void testSetOriginalPosterRejectsNull() {
+  void testSetAuthorRejectsNull() {
     Post post = new Post();
-    Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setOriginalPoster(null));
+    Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setAuthor(null));
     assertEquals("User cannot be null", ex.getMessage());
   }
 
