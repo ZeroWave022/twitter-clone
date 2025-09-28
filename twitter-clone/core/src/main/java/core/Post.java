@@ -1,12 +1,23 @@
 package core;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "posts")
 public class Post {
 
   public static final int MAX_CONTENT_LENGTH = 280;
 
-  private String id;
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @ManyToOne
   private User originalPoster;
   private String content;
   // private Instant createdAt;
@@ -16,7 +27,7 @@ public class Post {
   private int commentsAmount = 0;
 
   @SuppressFBWarnings(value = "CT_CONSTRUCTOR_THROW")
-  public Post(User user, String content, String id) {
+  public Post(User user, String content, Long id) {
     setOriginalPoster(user);
     setContent(content);
     setId(id);
@@ -55,7 +66,7 @@ public class Post {
     return reTweets;
   }
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
@@ -64,10 +75,10 @@ public class Post {
       throw new IllegalArgumentException("Content cannot be null");
     }
     if (content.isEmpty()) {
-      throw new IllegalArgumentException("Content can not be emtpy");
+      throw new IllegalArgumentException("Content can not be empty");
     }
     if (content.length() > MAX_CONTENT_LENGTH) {
-      throw new IllegalArgumentException("Content is to long");
+      throw new IllegalArgumentException("Content is too long");
     }
     this.content = content;
   }
@@ -80,7 +91,7 @@ public class Post {
   // this.createdAt = createdAt;
   // }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     if (id == null) {
       throw new IllegalArgumentException("Id cannot be null");
     }
