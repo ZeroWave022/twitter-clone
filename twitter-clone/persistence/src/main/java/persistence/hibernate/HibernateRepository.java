@@ -1,5 +1,6 @@
 package persistence.hibernate;
 
+import core.Post;
 import core.User;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.hibernate.SessionFactory;
@@ -17,8 +18,8 @@ public class HibernateRepository {
   protected HibernateRepository() {
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().build();
     try {
-      sessionFactory = new MetadataSources(registry).addAnnotatedClass(User.class).buildMetadata()
-          .buildSessionFactory();
+      sessionFactory = new MetadataSources(registry).addAnnotatedClasses(User.class, Post.class)
+          .buildMetadata().buildSessionFactory();
     } catch (Exception e) {
       StandardServiceRegistryBuilder.destroy(registry);
       throw new RuntimeException("Failed to create SessionFactory", e);
