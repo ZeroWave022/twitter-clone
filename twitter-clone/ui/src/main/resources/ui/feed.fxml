@@ -37,6 +37,6 @@
       </HBox>
    </top>
    <center>
-      <ListView fx:id="feedList" focusTraversable="false" prefHeight="200.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="feedList" focusTraversable="false" prefHeight="200.0" prefWidth="750.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

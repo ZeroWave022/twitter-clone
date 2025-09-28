@@ -27,5 +27,7 @@ public class PostCell extends ListCell<Post> {
         setGraphic(null);
       }
     }
+    // Removes the default alternating background color for filled cells
+    setStyle("-fx-background-color: transparent;");
   }
 }
