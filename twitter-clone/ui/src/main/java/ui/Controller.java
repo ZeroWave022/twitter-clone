@@ -42,6 +42,9 @@ public class Controller {
   @FXML
   private Label errorLabel;
 
+  @FXML
+  private ListView<Post> feedList;
+
   // @FXML
   // @SuppressWarnings("unused")
   // private void logIn() throws IOException {
@@ -84,27 +87,17 @@ public class Controller {
     switchToFeed();
   }
 
-  // ---------------------------------------------------------------
-
-  @FXML
-  private ListView<Post> feedList = new ListView<>();
-
   @FXML
   public void initialize() {
     // Disable the higlight on selectio of posts
     feedList.setSelectionModel(null);
     feedList.setFocusTraversable(false);
 
-    // Test user & post
-    User user = new User(123L, "hsa31", "HenrikS-A", "hei");
-    Post post1 = new Post(user, "Dette er en flott test twitter post!!", "1");
-    Post post2 = new Post(user, "Lorem ipsum dolor sit amet", "2");
-
     // Use custom cell factory to display each Post using the post.fxml layout and
     // PostCell class
     feedList.setCellFactory(listView -> new PostCell());
 
-    feedList.getItems().addAll(post1, post2);
+    feedList.getItems().setAll(postService.getAllPosts());
 
   }
 
