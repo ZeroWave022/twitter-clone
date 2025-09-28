@@ -1,9 +1,8 @@
 package persistence;
 
+import core.Post;
 import java.util.List;
 import java.util.Optional;
-
-import core.Post;
 
 public interface PostRepository {
   Optional<Post> findById(String id);

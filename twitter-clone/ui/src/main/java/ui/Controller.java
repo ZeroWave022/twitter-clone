@@ -1,16 +1,13 @@
 package ui;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import core.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.PostService;
 import service.UserService;
 
@@ -20,6 +17,9 @@ public class Controller {
   PostService postService;
 
   @Autowired
+  @SuppressFBWarnings(value = { "EI_EXPOSE_REP2",
+      "URF_UNREAD_FIELD" }, justification = "We need to inject the UserRepository service. "
+          + "PostService will be used in the future.")
   public Controller(UserService userService, PostService postService) {
     this.userService = userService;
     this.postService = postService;

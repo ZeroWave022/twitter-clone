@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+
+import core.Post;
+import core.User;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,12 +15,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import core.Post;
-import core.User;
 import persistence.PostRepository;
 
 @ExtendWith(MockitoExtension.class)
-
 public class PostServiceTest {
   @Mock
   private PostRepository postRepository;
@@ -26,38 +26,34 @@ public class PostServiceTest {
   private PostService postService;
 
   private User user;
-  private String postID;
+  private String postId;
   private Post post;
 
   @BeforeEach
   void setup() {
     postService = new PostService(postRepository);
     this.user = new User(1L, "john", "John Pork", "pass");
-    this.postID = "123";
-    this.post = new Post(this.user, "hello world", postID);
+    this.postId = "123";
+    this.post = new Post(this.user, "hello world", postId);
   }
 
   @Test
   void getPostByIdReturnsEmptyWhenNotFound() {
-
-    when(postRepository.findById(postID)).thenReturn(Optional.empty());
-    Optional<Post> result = postService.getPostById(postID);
+    when(postRepository.findById(postId)).thenReturn(Optional.empty());
+    Optional<Post> result = postService.getPostById(postId);
     assertTrue(result.isEmpty());
-
   }
 
   @Test
   void getPostByIdReturnsPostWhenFound() {
-
-    when(postRepository.findById(postID)).thenReturn(Optional.of(post));
-    Optional<Post> result = postService.getPostById(postID);
+    when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+    Optional<Post> result = postService.getPostById(postId);
     assertEquals(result.get(), post);
-
   }
 
   @Test
-  void createPostSavesPostWhenIDIsUnique() {
-    when(postRepository.findById(postID)).thenReturn(Optional.empty());
+  void createPostSavesPostWhenIdIsUnique() {
+    when(postRepository.findById(postId)).thenReturn(Optional.empty());
     when(postRepository.save(post)).thenReturn(post);
 
     Post result = assertDoesNotThrow(() -> postService.createPost(post));
@@ -65,9 +61,8 @@ public class PostServiceTest {
   }
 
   @Test
-  void createPostThrowsExceptionWhenIDExists() {
-    when(postRepository.findById(postID)).thenReturn(Optional.of(post));
-
+  void createPostThrowsExceptionWhenIdExists() {
+    when(postRepository.findById(postId)).thenReturn(Optional.of(post));
     assertThrows(IllegalArgumentException.class, () -> postService.createPost(post));
   }
 }

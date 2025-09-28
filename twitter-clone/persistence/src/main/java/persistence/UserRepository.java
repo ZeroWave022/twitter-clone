@@ -1,9 +1,8 @@
 package persistence;
 
+import core.User;
 import java.util.List;
 import java.util.Optional;
-
-import core.User;
 
 public interface UserRepository {
   Optional<User> findById(Long id);
