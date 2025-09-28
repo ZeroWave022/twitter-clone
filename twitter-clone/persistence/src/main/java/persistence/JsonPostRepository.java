@@ -43,7 +43,7 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public Optional<Post> findById(String id) {
+  public Optional<Post> findById(Long id) {
     return this.posts.stream().filter(post -> post.getId().equals(id)).findFirst();
   }
 
@@ -59,12 +59,12 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public void deleteById(String id) {
+  public void deleteById(Long id) {
     this.posts.removeIf(post -> post.getId().equals(id));
   }
 
   @Override
-  public boolean existsById(String id) {
+  public boolean existsById(Long id) {
     return this.findById(id).isPresent();
   }
 }

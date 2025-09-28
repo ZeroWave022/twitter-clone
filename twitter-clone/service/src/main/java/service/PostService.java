@@ -13,13 +13,14 @@ public class PostService {
   private PostRepository postRepository;
 
   @Autowired
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject the PostRepository service")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject "
+      + "the PostRepository service")
   public PostService(PostRepository postRepository) {
     this.postRepository = postRepository;
   }
 
   @Transactional(readOnly = true)
-  public Optional<Post> getPostById(String id) {
+  public Optional<Post> getPostById(Long id) {
     return this.postRepository.findById(id);
   }
 
