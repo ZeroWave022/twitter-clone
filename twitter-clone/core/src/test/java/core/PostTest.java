@@ -62,13 +62,6 @@ class PostTest {
   }
 
   @Test
-  void testSetIdRejectsNull() {
-    Post post = new Post();
-    Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setId(null));
-    assertEquals("Id cannot be null", ex.getMessage());
-  }
-
-  @Test
   void testSetAuthorRejectsNull() {
     Post post = new Post();
     Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setAuthor(null));

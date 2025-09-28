@@ -92,9 +92,6 @@ public class Post {
   // }
 
   public void setId(Long id) {
-    if (id == null) {
-      throw new IllegalArgumentException("Id cannot be null");
-    }
     this.id = id;
   }
 
