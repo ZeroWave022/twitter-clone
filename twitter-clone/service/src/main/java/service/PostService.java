@@ -2,6 +2,8 @@ package service;
 
 import core.Post;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,5 +33,10 @@ public class PostService {
     }
 
     return this.postRepository.save(post);
+  }
+
+  @Transactional(readOnly = true)
+  public List<Post> getAllPosts() {
+    return this.postRepository.findAll();
   }
 }
