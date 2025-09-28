@@ -16,7 +16,8 @@ public class PostCell extends ListCell<Post> {
       setGraphic(null);
     } else {
       try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("post.fxml"));
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("post.fxml"));
+        loader.setControllerFactory(App.getSpringContext()::getBean);
         HBox postItem = loader.load();
         PostController postController = loader.getController();
 

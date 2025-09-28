@@ -44,6 +44,10 @@ public class App extends Application {
     springContext = newSpringContext;
   }
 
+  public static ConfigurableApplicationContext getSpringContext() {
+    return springContext;
+  }
+
   private static void setScene(Scene newScene) {
     scene = newScene;
   }
