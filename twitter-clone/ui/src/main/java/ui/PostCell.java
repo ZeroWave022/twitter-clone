@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 
-// This class is based on the example from this StackOverflow example:
+// This class is based on the example from this StackOverflow post:
 // https://stackoverflow.com/a/77508842
 public class PostCell extends ListCell<Post> {
 
