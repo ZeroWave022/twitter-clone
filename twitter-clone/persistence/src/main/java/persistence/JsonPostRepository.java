@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import persistence.json.JsonRepository;
 
+@Deprecated
 public class JsonPostRepository implements PostRepository {
   private final JsonRepository<Post> jsonRepository;
   private List<Post> posts;

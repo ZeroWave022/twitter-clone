@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class JsonRepository<T> {
   private final ObjectMapper objectMapper;
   private final Path filePath;
