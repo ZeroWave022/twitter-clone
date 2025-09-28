@@ -45,22 +45,22 @@ public class Controller {
   @FXML
   private ListView<Post> feedList;
 
-  // @FXML
-  // @SuppressWarnings("unused")
-  // private void logIn() throws IOException {
-  // // clear any errors
-  // errorLabel.setText("");
+  @FXML
+  @SuppressWarnings("unused")
+  private void logIn() throws IOException {
+    // clear any errors
+    errorLabel.setText("");
 
-  // // Save input to variables
-  // String username = usernameField.getText();
-  // String password = passwordField.getText();
+    // Save input to variables
+    String username = usernameField.getText();
+    String password = passwordField.getText();
 
-  // if (userService.logIn(username, password)) {
-  // App.setRoot("feed.fxml");
-  // } else {
-  // errorLabel.setText("Incorrect password");
-  // }
-  // }
+    if (userService.logIn(username, password)) {
+      App.setRoot("feed.fxml");
+    } else {
+      errorLabel.setText("Incorrect password");
+    }
+  }
 
   @FXML
   @SuppressWarnings("unused")
@@ -99,13 +99,6 @@ public class Controller {
 
     feedList.getItems().setAll(postService.getAllPosts());
 
-  }
-
-  @FXML
-  @SuppressWarnings("unused")
-  private void logIn() throws IOException {
-    errorLabel.setText("Incorrect password");
-    App.setRoot("feed.fxml");
   }
 
 }

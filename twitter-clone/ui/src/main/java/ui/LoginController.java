@@ -35,25 +35,25 @@ public class LoginController {
   @FXML
   private Label errorLabel;
 
-  // @FXML
-  // @SuppressWarnings("unused")
-  // private void logIn() throws IOException {
-  // // clear any errors
-  // errorLabel.setText("");
-
-  // // Save input to variables
-  // String username = usernameField.getText();
-  // String password = passwordField.getText();
-
-  // if (userService.logIn(username, password)) {
-  // App.setRoot("feed.fxml");
-  // } else {
-  // errorLabel.setText("Incorrect password");
-  // }
-  // }
   @FXML
   @SuppressWarnings("unused")
   private void logIn() throws IOException {
-    App.setRoot("feed.fxml");
+    // clear any errors
+    errorLabel.setText("");
+
+    // Save input to variables
+    String username = usernameField.getText();
+    String password = passwordField.getText();
+
+    if (userService.logIn(username, password)) {
+      App.setRoot("feed.fxml");
+    } else {
+      errorLabel.setText("Incorrect password");
+    }
   }
+  // @FXML
+  // @SuppressWarnings("unused")
+  // private void logIn() throws IOException {
+  // App.setRoot("feed.fxml");
+  // }
 }
