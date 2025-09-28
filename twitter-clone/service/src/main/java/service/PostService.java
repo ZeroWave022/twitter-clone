@@ -26,9 +26,16 @@ public class PostService {
 
   @Transactional
   public Post createPost(Post post) {
-    boolean postExists = this.postRepository.findById(post.getId()).isPresent();
-    if (postExists) {
-      throw new IllegalArgumentException("Id \"" + post.getId() + "\" already exists");
+    if (post == null) {
+      throw new IllegalArgumentException("Post cannot be null");
+    }
+
+    // Make sure we don't overwrite an existing post
+    if (post.getId() != null) {
+      boolean postExists = this.postRepository.findById(post.getId()).isPresent();
+      if (postExists) {
+        throw new IllegalArgumentException("Post with id \"" + post.getId() + "\" already exists");
+      }
     }
 
     return this.postRepository.save(post);
