@@ -31,4 +31,11 @@ public class HibernateRepository {
       sessionFactory.close();
     }
   }
+
+  public void dropDatabase() {
+    sessionFactory.inTransaction(session -> {
+      session.createMutationQuery("DELETE FROM Post").executeUpdate();
+      session.createMutationQuery("DELETE FROM User").executeUpdate();
+    });
+  }
 }
