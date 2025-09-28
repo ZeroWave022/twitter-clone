@@ -45,7 +45,7 @@ class JsonPostRepositoryTest {
   @Test
   void test_addPost() {
     User user = new User(null, "username", "display name", "password123");
-    String message = "Very imporant message";
+    String message = "Very important message";
     Long id = 123L;
     Post post = new Post(user, message, id);
 
