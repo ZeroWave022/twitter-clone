@@ -4,6 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -18,6 +19,7 @@ public class Post {
   private Long id;
 
   @ManyToOne
+  @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
   private User author;
   private String content;
   // private Instant createdAt;
