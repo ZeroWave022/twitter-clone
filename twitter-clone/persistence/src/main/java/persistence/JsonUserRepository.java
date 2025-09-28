@@ -71,6 +71,11 @@ public class JsonUserRepository implements UserRepository {
   }
 
   @Override
+  public User update(User user) {
+    return save(user);
+  }
+
+  @Override
   public void deleteById(Long id) {
     this.users.removeIf(user -> user.getId().equals(id));
   }

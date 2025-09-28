@@ -11,6 +11,8 @@ public interface PostRepository {
 
   Post save(Post post);
 
+  Post update(Post post);
+
   void deleteById(Long id);
 
   boolean existsById(Long id);

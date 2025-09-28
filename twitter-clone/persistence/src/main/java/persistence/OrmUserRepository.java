@@ -58,4 +58,12 @@ public class OrmUserRepository extends HibernateRepository implements UserReposi
     });
     return user;
   }
+
+  @Override
+  public User update(User user) {
+    sessionFactory.inTransaction(session -> {
+      session.merge(user);
+    });
+    return user;
+  }
 }

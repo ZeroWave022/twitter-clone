@@ -60,6 +60,11 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
+  public Post update(Post post) {
+    return save(post);
+  }
+
+  @Override
   public void deleteById(Long id) {
     this.posts.removeIf(post -> post.getId().equals(id));
   }

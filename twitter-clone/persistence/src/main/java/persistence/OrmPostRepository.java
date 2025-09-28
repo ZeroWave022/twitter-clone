@@ -45,4 +45,12 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
     });
     return post;
   }
+
+  @Override
+  public Post update(Post post) {
+    sessionFactory.inTransaction(session -> {
+      session.merge(post);
+    });
+    return post;
+  }
 }
