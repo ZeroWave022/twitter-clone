@@ -5,9 +5,13 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import core.Post;
+import core.User;
 import service.PostService;
 import service.UserService;
 
@@ -38,22 +42,22 @@ public class Controller {
   @FXML
   private Label errorLabel;
 
-  @FXML
-  @SuppressWarnings("unused")
-  private void logIn() throws IOException {
-    // clear any errors
-    errorLabel.setText("");
+  // @FXML
+  // @SuppressWarnings("unused")
+  // private void logIn() throws IOException {
+  // // clear any errors
+  // errorLabel.setText("");
 
-    // Save input to variables
-    String username = usernameField.getText();
-    String password = passwordField.getText();
+  // // Save input to variables
+  // String username = usernameField.getText();
+  // String password = passwordField.getText();
 
-    if (userService.logIn(username, password)) {
-      App.setRoot("feed.fxml");
-    } else {
-      errorLabel.setText("Incorrect password");
-    }
-  }
+  // if (userService.logIn(username, password)) {
+  // App.setRoot("feed.fxml");
+  // } else {
+  // errorLabel.setText("Incorrect password");
+  // }
+  // }
 
   @FXML
   @SuppressWarnings("unused")
@@ -79,4 +83,36 @@ public class Controller {
     // I find it prudent it recalls for auth, however it needs to be implemented
     switchToFeed();
   }
+
+  // ---------------------------------------------------------------
+
+  @FXML
+  private ListView<Post> feedList = new ListView<>();
+
+  @FXML
+  public void initialize() {
+    // Disable the higlight on selectio of posts
+    feedList.setSelectionModel(null);
+    feedList.setFocusTraversable(false);
+
+    // Test user & post
+    User user = new User(123L, "hsa31", "HenrikS-A", "hei");
+    Post post1 = new Post(user, "Dette er en flott test twitter post!!", "1");
+    Post post2 = new Post(user, "Lorem ipsum dolor sit amet", "2");
+
+    // Use custom cell factory to display each Post using the post.fxml layout and
+    // PostCell class
+    feedList.setCellFactory(listView -> new PostCell());
+
+    feedList.getItems().addAll(post1, post2);
+
+  }
+
+  @FXML
+  @SuppressWarnings("unused")
+  private void logIn() throws IOException {
+    errorLabel.setText("Incorrect password");
+    App.setRoot("feed.fxml");
+  }
+
 }
