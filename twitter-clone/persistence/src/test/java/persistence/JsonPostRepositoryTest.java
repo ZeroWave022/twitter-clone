@@ -55,7 +55,8 @@ class JsonPostRepositoryTest {
     List<Post> posts = this.postRepository.findAll();
     assertEquals(1, posts.size());
 
-    JsonPostRepository loadedRepository = new JsonPostRepository(this.dataDir.toAbsolutePath().toString());
+    JsonPostRepository loadedRepository = new JsonPostRepository(
+        this.dataDir.toAbsolutePath().toString());
     List<Post> loadedPosts = loadedRepository.findAll();
     assertEquals(1, loadedPosts.size());
   }
