@@ -111,7 +111,7 @@ public class MakeNewPostController implements Initializable{
     }
 
     User user = userService.getLoggedInUser();
-    String id = java.util.UUID.randomUUID().toString();
+    long id = 0;
     Post post = new Post(user, content, id);
 
     postService.createPost(post);    
