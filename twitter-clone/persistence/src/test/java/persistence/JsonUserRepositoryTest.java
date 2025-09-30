@@ -53,7 +53,8 @@ class JsonUserRepositoryTest {
     List<User> users = this.userRepository.findAll();
     assertEquals(1, users.size());
 
-    JsonUserRepository loadedRepository = new JsonUserRepository(this.dataDir.toAbsolutePath().toString());
+    JsonUserRepository loadedRepository = new JsonUserRepository(
+        this.dataDir.toAbsolutePath().toString());
     List<User> loadedUsers = loadedRepository.findAll();
     assertEquals(1, loadedUsers.size());
   }
