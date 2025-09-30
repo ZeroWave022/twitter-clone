@@ -1,14 +1,12 @@
 package persistence;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import core.Post;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import core.Post;
 import persistence.json.JsonRepository;
 
 public class JsonPostRepository implements PostRepository {
@@ -16,9 +14,9 @@ public class JsonPostRepository implements PostRepository {
   private List<Post> posts;
 
   public JsonPostRepository(Path dataDirPath) {
-    this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("posts.json"), new TypeReference<List<Post>>() {
-
-    });
+    this.jsonRepository = new JsonRepository<>(dataDirPath.resolve("posts.json"),
+        new TypeReference<List<Post>>() {
+        });
 
     // FIXME: Don't load every post into memory :)
     this.loadPosts();
@@ -36,7 +34,6 @@ public class JsonPostRepository implements PostRepository {
     try {
       this.jsonRepository.save(this.posts);
     } catch (IOException e) {
-
     }
   }
 
