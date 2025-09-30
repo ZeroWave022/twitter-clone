@@ -9,11 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import service.PostService;
-
 import core.Post;
 import core.User;
 import service.UserService;
-import service.PostService;
 
 @Component
 public class MakeNewPostController {
