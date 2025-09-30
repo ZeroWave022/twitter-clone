@@ -28,6 +28,11 @@ public class Post {
   private int reTweets = 0;
   private int commentsAmount = 0;
 
+  // @ManyToMany
+  // @JoinTable(name = "post_likes", joinColumns = @JoinColumn(name = "post_id"),
+  // inverseJoinColumns = @JoinColumn(name = "user_id"))
+  // private Set<User> likedByUsers = new HashSet<>();
+
   @SuppressFBWarnings(value = "CT_CONSTRUCTOR_THROW")
   public Post(User user, String content, Long id) {
     setAuthor(user);
@@ -38,6 +43,21 @@ public class Post {
 
   public Post() {
   }
+
+  // public void updateLikes(User user) {
+  // // do not change order without return statement
+  // if (likedByUsers.remove(user)) {
+  // likes = likedByUsers.size();
+  // }
+  // if (likedByUsers.add(user)) {
+  // likes = likedByUsers.size();
+  // // return;
+  // }
+  // }
+
+  // public boolean likedByUser(User user) {
+  // return likedByUsers.contains(user);
+  // }
 
   public String getContent() {
     return content;

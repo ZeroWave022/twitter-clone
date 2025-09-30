@@ -1,8 +1,9 @@
 package persistence;
 
-import core.Post;
 import java.util.List;
 import java.util.Optional;
+
+import core.Post;
 import persistence.hibernate.HibernateRepository;
 
 public class OrmPostRepository extends HibernateRepository implements PostRepository {
@@ -48,9 +49,9 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public Post update(Post post) {
-    sessionFactory.inTransaction(session -> {
-      session.merge(post);
+    return sessionFactory.fromTransaction(session -> { // changed from in to from, no idea why
+      return session.merge(post);
     });
-    return post;
+    // return post; // returns old post
   }
 }

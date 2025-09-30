@@ -1,13 +1,14 @@
 package service;
 
-import core.Post;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import core.Post;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import persistence.PostRepository;
 
 @Service
@@ -47,4 +48,13 @@ public class PostService {
   public List<Post> getAllPosts() {
     return this.postRepository.findAll();
   }
+
+  @Transactional
+  public void likePost(Post post) {
+    post.setLikes(post.getLikes() + 1);
+    postRepository.update(post);
+  }
+  // public Post update(Post post) {
+  // return postRepository.update(post);
+  // }
 }
