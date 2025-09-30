@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import persistence.json.JsonRepository;
 
+@Deprecated
 public class JsonUserRepository implements UserRepository {
   private AtomicLong nextId = new AtomicLong(0);
   private final JsonRepository<User> jsonRepository;
@@ -67,6 +68,11 @@ public class JsonUserRepository implements UserRepository {
 
     this.addUser(user);
     return user;
+  }
+
+  @Override
+  public User update(User user) {
+    return save(user);
   }
 
   @Override

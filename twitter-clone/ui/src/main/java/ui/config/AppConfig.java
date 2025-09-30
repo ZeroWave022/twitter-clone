@@ -1,14 +1,10 @@
 package ui.config;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import persistence.JsonPostRepository;
-import persistence.JsonUserRepository;
+import persistence.OrmPostRepository;
+import persistence.OrmUserRepository;
 import persistence.PostRepository;
 import persistence.UserRepository;
 
@@ -18,38 +14,23 @@ import persistence.UserRepository;
 @Configuration
 @ComponentScan(basePackages = { "ui", "persistence", "service" })
 public class AppConfig {
-  private Path dataDir;
-
   /**
-   * Initializes the {@link AppConfig} and sets the data directory to "&lt;user
-   * home&gt;/twitter-clone".
+   * Returns a {@link UserRepository} backed by SQLite storage.
+   *
+   * @return the repository instance
    */
-  public AppConfig() {
-    this.dataDir = Paths.get(System.getProperty("user.home"), "twitter-clone");
+  @Bean
+  public UserRepository ormUserRepository() {
+    return new OrmUserRepository();
   }
 
   /**
-   * Returns a {@link UserRepository} backed by JSON storage.
+   * Returns a {@link PostRepository} backed by SQLite storage.
    *
    * @return the repository instance
-   * @throws IOException if the data directory cannot be created
-   */
-
-  @Bean
-  public UserRepository jsonUserRepository() throws IOException {
-    Files.createDirectories(this.dataDir);
-    return new JsonUserRepository(this.dataDir);
-  }
-
-  /**
-   * Returns a {@link PostRepository} backed by JSON storage.
-   *
-   * @return the repository instance
-   * @throws IOException if the data directory cannot be created
    */
   @Bean
-  public PostRepository jsonPostRepository() throws IOException {
-    Files.createDirectories(this.dataDir);
-    return new JsonPostRepository(this.dataDir);
+  public PostRepository ormPostRepository() {
+    return new OrmPostRepository();
   }
 }

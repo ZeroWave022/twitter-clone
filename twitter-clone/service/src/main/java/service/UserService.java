@@ -14,7 +14,8 @@ public class UserService {
   private User loggedInUser;
 
   @Autowired
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject the UserRepository service")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject "
+      + "the UserRepository service")
   public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
   }

@@ -9,10 +9,10 @@ class PostTest {
   @Test
   void testAllArgsConstructorAndGetters() {
     User user = new User(1L, "john", "John Doe", "pass");
-    Post post = new Post(user, "Hello world", "p1");
+    Post post = new Post(user, "Hello world", 1L);
 
-    assertEquals("p1", post.getId());
-    assertEquals(user, post.getOriginalPoster());
+    assertEquals(1L, post.getId());
+    assertEquals(user, post.getAuthor());
     assertEquals("Hello world", post.getContent());
     assertEquals(0, post.getLikes());
     assertEquals(0, post.getReTweets());
@@ -24,15 +24,15 @@ class PostTest {
     User user = new User(2L, "jane", "Jane Doe", "pw");
     Post post = new Post();
 
-    post.setId("p2");
-    post.setOriginalPoster(user);
+    post.setId(2L);
+    post.setAuthor(user);
     post.setContent("New content");
     post.setLikes(5);
     post.setReTweets(2);
     post.setCommentsAmount(3);
 
-    assertEquals("p2", post.getId());
-    assertEquals(user, post.getOriginalPoster());
+    assertEquals(2, post.getId());
+    assertEquals(user, post.getAuthor());
     assertEquals("New content", post.getContent());
     assertEquals(5, post.getLikes());
     assertEquals(2, post.getReTweets());
@@ -50,7 +50,7 @@ class PostTest {
   void testSetContentRejectsEmptyString() {
     Post post = new Post();
     Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setContent(""));
-    assertEquals("Content can not be emtpy", ex.getMessage());
+    assertEquals("Content can not be empty", ex.getMessage());
   }
 
   @Test
@@ -58,20 +58,13 @@ class PostTest {
     Post post = new Post();
     String tooLong = "a".repeat(Post.MAX_CONTENT_LENGTH + 1);
     Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setContent(tooLong));
-    assertEquals("Content is to long", ex.getMessage());
+    assertEquals("Content is too long", ex.getMessage());
   }
 
   @Test
-  void testSetIdRejectsNull() {
+  void testSetAuthorRejectsNull() {
     Post post = new Post();
-    Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setId(null));
-    assertEquals("Id cannot be null", ex.getMessage());
-  }
-
-  @Test
-  void testSetOriginalPosterRejectsNull() {
-    Post post = new Post();
-    Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setOriginalPoster(null));
+    Exception ex = assertThrows(IllegalArgumentException.class, () -> post.setAuthor(null));
     assertEquals("User cannot be null", ex.getMessage());
   }
 
