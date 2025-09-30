@@ -1,5 +1,6 @@
 package ui;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -42,6 +43,12 @@ public class App extends Application {
 
   private static void setSpringContext(ConfigurableApplicationContext newSpringContext) {
     springContext = newSpringContext;
+  }
+
+  @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "We need to expose "
+      + "the spring context.")
+  public static ConfigurableApplicationContext getSpringContext() {
+    return springContext;
   }
 
   private static void setScene(Scene newScene) {
