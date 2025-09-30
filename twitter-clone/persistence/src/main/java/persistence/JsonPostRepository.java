@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import persistence.json.JsonRepository;
 
+@Deprecated
 public class JsonPostRepository implements PostRepository {
   private final JsonRepository<Post> jsonRepository;
   private List<Post> posts;
@@ -43,7 +44,7 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public Optional<Post> findById(String id) {
+  public Optional<Post> findById(Long id) {
     return this.posts.stream().filter(post -> post.getId().equals(id)).findFirst();
   }
 
@@ -59,12 +60,17 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public void deleteById(String id) {
+  public Post update(Post post) {
+    return save(post);
+  }
+
+  @Override
+  public void deleteById(Long id) {
     this.posts.removeIf(post -> post.getId().equals(id));
   }
 
   @Override
-  public boolean existsById(String id) {
+  public boolean existsById(Long id) {
     return this.findById(id).isPresent();
   }
 }
