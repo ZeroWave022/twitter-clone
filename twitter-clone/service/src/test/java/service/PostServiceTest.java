@@ -65,4 +65,17 @@ public class PostServiceTest {
     when(postRepository.findById(postId)).thenReturn(Optional.of(post));
     assertThrows(IllegalArgumentException.class, () -> postService.createPost(post));
   }
+
+  @Test
+  void createPostSavesPostWhenIdIsNull() {
+    Post postWithoutId = new Post(user, "hello world", null);
+    when(postRepository.save(postWithoutId)).thenReturn(postWithoutId);
+    Post result = assertDoesNotThrow(() -> postService.createPost(postWithoutId));
+    assertEquals(postWithoutId, result);
+  }
+
+  @Test
+  void createPostThrowsExceptionWhenPostIsNull() {
+    assertThrows(IllegalArgumentException.class, () -> postService.createPost(null));
+  }
 }
