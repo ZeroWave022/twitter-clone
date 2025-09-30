@@ -4,11 +4,9 @@ import core.Post;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
-import org.springframework.stereotype.Component;
 
 // This class is based on the example from this StackOverflow post:
 // https://stackoverflow.com/a/77508842
-@Component
 public class PostCell extends ListCell<Post> {
 
   @Override

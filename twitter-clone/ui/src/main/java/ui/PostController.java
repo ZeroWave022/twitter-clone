@@ -3,7 +3,9 @@ package ui;
 import core.Post;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PostController {
 
   @FXML
