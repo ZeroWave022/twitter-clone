@@ -16,8 +16,8 @@ public class PostController {
   private Label contentLabel;
 
   public void setData(Post post) {
-    displayNameLabel.setText(post.getOriginalPoster().getDisplayName());
-    usernameLabel.setText("@" + post.getOriginalPoster().getUsername());
+    displayNameLabel.setText(post.getAuthor().getDisplayName());
+    usernameLabel.setText("@" + post.getAuthor().getUsername());
     contentLabel.setText(post.getContent());
   }
 }

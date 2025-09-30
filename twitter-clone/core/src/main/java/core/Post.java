@@ -1,13 +1,26 @@
 package core;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "posts")
 public class Post {
 
   public static final int MAX_CONTENT_LENGTH = 280;
 
-  private String id;
-  private User originalPoster;
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @ManyToOne
+  @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
+  private User author;
   private String content;
   // private Instant createdAt;
 
@@ -16,8 +29,8 @@ public class Post {
   private int commentsAmount = 0;
 
   @SuppressFBWarnings(value = "CT_CONSTRUCTOR_THROW")
-  public Post(User user, String content, String id) {
-    setOriginalPoster(user);
+  public Post(User user, String content, Long id) {
+    setAuthor(user);
     setContent(content);
     setId(id);
     // this.createdAt = Instant.now();
@@ -47,15 +60,15 @@ public class Post {
   }
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-  public User getOriginalPoster() {
-    return originalPoster;
+  public User getAuthor() {
+    return author;
   }
 
   public int getReTweets() {
     return reTweets;
   }
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
@@ -64,10 +77,10 @@ public class Post {
       throw new IllegalArgumentException("Content cannot be null");
     }
     if (content.isEmpty()) {
-      throw new IllegalArgumentException("Content can not be emtpy");
+      throw new IllegalArgumentException("Content can not be empty");
     }
     if (content.length() > MAX_CONTENT_LENGTH) {
-      throw new IllegalArgumentException("Content is to long");
+      throw new IllegalArgumentException("Content is too long");
     }
     this.content = content;
   }
@@ -80,10 +93,7 @@ public class Post {
   // this.createdAt = createdAt;
   // }
 
-  public void setId(String id) {
-    if (id == null) {
-      throw new IllegalArgumentException("Id cannot be null");
-    }
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -92,11 +102,11 @@ public class Post {
   }
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public void setOriginalPoster(User originalPoster) {
-    if (originalPoster == null) {
+  public void setAuthor(User author) {
+    if (author == null) {
       throw new IllegalArgumentException("User cannot be null");
     }
-    this.originalPoster = originalPoster;
+    this.author = author;
   }
 
   public void setReTweets(int reTweets) {

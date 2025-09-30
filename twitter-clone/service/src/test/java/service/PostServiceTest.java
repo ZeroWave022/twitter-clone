@@ -26,14 +26,14 @@ public class PostServiceTest {
   private PostService postService;
 
   private User user;
-  private String postId;
+  private Long postId;
   private Post post;
 
   @BeforeEach
   void setup() {
     postService = new PostService(postRepository);
     this.user = new User(1L, "john", "John Pork", "pass");
-    this.postId = "123";
+    this.postId = 123L;
     this.post = new Post(this.user, "hello world", postId);
   }
 

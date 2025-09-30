@@ -17,9 +17,6 @@ public class LoginController {
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject "
       + "the UserRepository service.")
-  @SuppressFBWarnings(value = { "EI_EXPOSE_REP2",
-      "URF_UNREAD_FIELD" }, justification = "We need to inject the UserRepository service. "
-          + "PostService will be used in the future.")
   public LoginController(UserService userService) {
     this.userService = userService;
   }
@@ -52,5 +49,11 @@ public class LoginController {
     } else {
       errorLabel.setText("Incorrect password");
     }
+  }
+
+  @FXML
+  @SuppressWarnings("unused")
+  private void switchToFeed() throws IOException {
+    App.setRoot("feed.fxml");
   }
 }

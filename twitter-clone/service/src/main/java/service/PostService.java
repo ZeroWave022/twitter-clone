@@ -15,21 +15,29 @@ public class PostService {
   private PostRepository postRepository;
 
   @Autowired
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject the PostRepository service")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject "
+      + "the PostRepository service")
   public PostService(PostRepository postRepository) {
     this.postRepository = postRepository;
   }
 
   @Transactional(readOnly = true)
-  public Optional<Post> getPostById(String id) {
+  public Optional<Post> getPostById(Long id) {
     return this.postRepository.findById(id);
   }
 
   @Transactional
   public Post createPost(Post post) {
-    boolean postExists = this.postRepository.findById(post.getId()).isPresent();
-    if (postExists) {
-      throw new IllegalArgumentException("Id \"" + post.getId() + "\" already exists");
+    if (post == null) {
+      throw new IllegalArgumentException("Post cannot be null");
+    }
+
+    // Make sure we don't overwrite an existing post
+    if (post.getId() != null) {
+      boolean postExists = this.postRepository.findById(post.getId()).isPresent();
+      if (postExists) {
+        throw new IllegalArgumentException("Post with id \"" + post.getId() + "\" already exists");
+      }
     }
 
     return this.postRepository.save(post);
