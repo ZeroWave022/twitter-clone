@@ -51,9 +51,4 @@ public class LoginController {
       errorLabel.setText("Incorrect password");
     }
   }
-  // @FXML
-  // @SuppressWarnings("unused")
-  // private void logIn() throws IOException {
-  // App.setRoot("feed.fxml");
-  // }
 }
