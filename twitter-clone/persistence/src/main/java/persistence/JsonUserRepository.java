@@ -1,5 +1,7 @@
 package persistence;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import core.User;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,16 +11,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import core.User;
 import persistence.json.JsonRepository;
 
-@Repository
+@Deprecated
 public class JsonUserRepository implements UserRepository {
   private AtomicLong nextId = new AtomicLong(0);
   private final JsonRepository<User> jsonRepository;
@@ -37,7 +33,9 @@ public class JsonUserRepository implements UserRepository {
 
     // FIXME: Don't load every user into memory :)
     this.loadUsers();
-    this.nextId.set(this.users.stream().map(User::getId).max(Comparator.naturalOrder()).orElse(0L) + 1);
+    Long nextId = this.users.stream().map(User::getId).max(Comparator.naturalOrder()).orElse(0L)
+        + 1;
+    this.nextId.set(nextId);
   }
 
   private void loadUsers() {
@@ -79,6 +77,11 @@ public class JsonUserRepository implements UserRepository {
 
     this.addUser(user);
     return user;
+  }
+
+  @Override
+  public User update(User user) {
+    return save(user);
   }
 
   @Override

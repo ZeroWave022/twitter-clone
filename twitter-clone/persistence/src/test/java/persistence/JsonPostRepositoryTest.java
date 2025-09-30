@@ -1,21 +1,18 @@
 package persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import core.Post;
+import core.User;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-
-import core.Post;
-import core.User;
 
 class JsonPostRepositoryTest {
   @TempDir
@@ -49,8 +46,8 @@ class JsonPostRepositoryTest {
   @Test
   void test_addPost() {
     User user = new User(null, "username", "display name", "password123");
-    String message = "Very imporant message";
-    String id = "123";
+    String message = "Very important message";
+    Long id = 123L;
     Post post = new Post(user, message, id);
 
     this.postRepository.save(post);

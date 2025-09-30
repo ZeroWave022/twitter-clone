@@ -2,14 +2,15 @@ package ui;
 
 import java.io.IOException;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
+import core.Post;
+import core.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import service.PostService;
 import service.UserService;
@@ -20,7 +21,8 @@ public class Controller {
   PostService postService;
 
   @Autowired
-  @SuppressFBWarnings(value = { "EI_EXPOSE_REP2", "URF_UNREAD_FIELD" })
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject "
+      + "the UserRepository service.")
   public Controller(UserService userService, PostService postService) {
     this.userService = userService;
     this.postService = postService;
@@ -38,6 +40,9 @@ public class Controller {
 
   @FXML
   private Label errorLabel;
+
+  @FXML
+  private TextArea postText;
 
   @FXML
   @SuppressWarnings("unused")
@@ -68,13 +73,19 @@ public class Controller {
     App.setRoot("makeNewPost.fxml");
   }
 
-  // TODO: Implement method and integrate with tweet code class
   @FXML
   @SuppressWarnings("unused")
   private void publishPost() throws IOException {
-    System.out.println("Post wanting to be published");
+    User currentUser = userService.getLoggedInUser();
 
-    // get text from field, fx:id postText
+    if (currentUser == null) {
+      System.out.println("User not logged in. Cannot create post.");
+      return;
+    }
+
+    Post post = postService.createPost(new Post(currentUser, postText.getText(), null));
+    System.out.println("New post created with ID: " + post.getId());
+    System.out.println(post.getAuthor().getUsername() + " wrote: \n" + post.getContent());
 
     // Switch back to feed
     // I find it prudent it recalls for auth, however it needs to be implemented

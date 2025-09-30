@@ -1,14 +1,11 @@
 package service;
 
-import java.io.IOException;
+import core.User;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import core.User;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import persistence.UserRepository;
 
 @Service
@@ -17,7 +14,8 @@ public class UserService {
   private User loggedInUser;
 
   @Autowired
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject the UserRepository service")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject "
+      + "the UserRepository service")
   public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
   }

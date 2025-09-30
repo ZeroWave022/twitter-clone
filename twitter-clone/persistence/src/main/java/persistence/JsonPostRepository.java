@@ -1,5 +1,7 @@
 package persistence;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import core.Post;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,16 +9,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import core.Post;
 import persistence.json.JsonRepository;
 
-@Repository
+@Deprecated
 public class JsonPostRepository implements PostRepository {
   private final JsonRepository<Post> jsonRepository;
   private List<Post> posts;
@@ -30,7 +26,6 @@ public class JsonPostRepository implements PostRepository {
     }
 
     this.jsonRepository = new JsonRepository<>(dataDir.resolve("posts.json"), new TypeReference<List<Post>>() {
-
     });
 
     // FIXME: Don't load every post into memory :)
@@ -49,7 +44,6 @@ public class JsonPostRepository implements PostRepository {
     try {
       this.jsonRepository.save(this.posts);
     } catch (IOException e) {
-
     }
   }
 
@@ -59,7 +53,7 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public Optional<Post> findById(String id) {
+  public Optional<Post> findById(Long id) {
     return this.posts.stream().filter(post -> post.getId().equals(id)).findFirst();
   }
 
@@ -75,12 +69,17 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public void deleteById(String id) {
+  public Post update(Post post) {
+    return save(post);
+  }
+
+  @Override
+  public void deleteById(Long id) {
     this.posts.removeIf(post -> post.getId().equals(id));
   }
 
   @Override
-  public boolean existsById(String id) {
+  public boolean existsById(Long id) {
     return this.findById(id).isPresent();
   }
 }

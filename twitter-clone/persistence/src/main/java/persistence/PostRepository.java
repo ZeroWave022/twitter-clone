@@ -1,18 +1,19 @@
 package persistence;
 
+import core.Post;
 import java.util.List;
 import java.util.Optional;
 
-import core.Post;
-
 public interface PostRepository {
-  Optional<Post> findById(String id);
+  Optional<Post> findById(Long id);
 
   List<Post> findAll();
 
   Post save(Post post);
 
-  void deleteById(String id);
+  Post update(Post post);
 
-  boolean existsById(String id);
+  void deleteById(Long id);
+
+  boolean existsById(Long id);
 }
