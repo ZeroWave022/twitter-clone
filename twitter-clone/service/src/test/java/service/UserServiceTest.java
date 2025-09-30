@@ -2,6 +2,8 @@ package service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -58,5 +60,29 @@ public class UserServiceTest {
   void createUserThrowsExceptionWhenUsernameExists() {
     when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
     assertThrows(IllegalArgumentException.class, () -> userService.createUser(user));
+  }
+
+  @Test
+  void logInReturnsTrueWhenUserExistsAndPasswordMatches() {
+    when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+    boolean result = userService.logIn(user.getUsername(), user.getPassword());
+    assertTrue(result);
+    assertEquals(user, userService.getLoggedInUser());
+  }
+
+  @Test
+  void logInReturnsFalseWhenUserExistsAndPasswordDoesNotMatch() {
+    when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+    boolean result = userService.logIn(user.getUsername(), "wrongpassword");
+    assertFalse(result);
+    assertNull(userService.getLoggedInUser());
+  }
+
+  @Test
+  void logInCreatesNewUserWhenUserDoesNotExist() {
+    when(userRepository.findByUsername("newuser")).thenReturn(Optional.empty());
+    boolean result = userService.logIn("newuser", "newpassword");
+    assertTrue(result);
+    assertEquals(userService.getLoggedInUser().getUsername(), "newuser");
   }
 }
