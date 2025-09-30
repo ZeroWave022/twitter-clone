@@ -44,6 +44,8 @@ public class App extends Application {
     springContext = newSpringContext;
   }
 
+  @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "We need to expose "
+      + "the spring context.")
   public static ConfigurableApplicationContext getSpringContext() {
     return springContext;
   }
