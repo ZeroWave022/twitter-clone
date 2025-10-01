@@ -1,10 +1,17 @@
 package core;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -28,10 +35,10 @@ public class Post {
   private int reTweets = 0;
   private int commentsAmount = 0;
 
-  // @ManyToMany
-  // @JoinTable(name = "post_likes", joinColumns = @JoinColumn(name = "post_id"),
-  // inverseJoinColumns = @JoinColumn(name = "user_id"))
-  // private Set<User> likedByUsers = new HashSet<>();
+  // lazy fetch does not give hibernate/springboot access to post_likes db
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "post_likes", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+  private Set<User> likedByUsers = new HashSet<>();
 
   @SuppressFBWarnings(value = "CT_CONSTRUCTOR_THROW")
   public Post(User user, String content, Long id) {
@@ -44,20 +51,18 @@ public class Post {
   public Post() {
   }
 
-  // public void updateLikes(User user) {
-  // // do not change order without return statement
-  // if (likedByUsers.remove(user)) {
-  // likes = likedByUsers.size();
-  // }
-  // if (likedByUsers.add(user)) {
-  // likes = likedByUsers.size();
-  // // return;
-  // }
-  // }
+  public void updateLikes(User user) {
+    if (likedByUsers.contains(user)) {
+      likedByUsers.remove(user);
+    } else {
+      likedByUsers.add(user);
+    }
+    likes = likedByUsers.size();
+  }
 
-  // public boolean likedByUser(User user) {
-  // return likedByUsers.contains(user);
-  // }
+  public boolean likedByUser(User user) {
+    return likedByUsers.contains(user);
+  }
 
   public String getContent() {
     return content;
@@ -90,6 +95,10 @@ public class Post {
 
   public Long getId() {
     return id;
+  }
+
+  public Set<User> getLikedByUsers() {
+    return Collections.unmodifiableSet(likedByUsers);
   }
 
   public void setContent(String content) {
@@ -132,4 +141,9 @@ public class Post {
   public void setReTweets(int reTweets) {
     this.reTweets = reTweets;
   }
+
+  public void setLikedByUsers(Set<User> likedByUsers) {
+    this.likedByUsers = new HashSet<>(likedByUsers);
+  }
+
 }

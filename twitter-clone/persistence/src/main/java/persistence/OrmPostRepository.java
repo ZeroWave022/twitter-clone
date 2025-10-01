@@ -49,9 +49,16 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public Post update(Post post) {
-    return sessionFactory.fromTransaction(session -> { // changed from in to from, no idea why
-      return session.merge(post);
+    return sessionFactory.fromTransaction(session -> {
+      Post managedPost = session.find(Post.class, post.getId());
+      if (managedPost != null) {
+        managedPost.setContent(post.getContent());
+
+        // Sync liked users properly
+        managedPost.setLikedByUsers(post.getLikedByUsers());
+        managedPost.setLikes(post.getLikes());
+      }
+      return managedPost;
     });
-    // return post; // returns old post
   }
 }

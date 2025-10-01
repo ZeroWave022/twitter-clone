@@ -10,17 +10,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import service.PostService;
+import service.UserService;
 
 @Component
 @Scope("prototype") // Tells springboot to create individual PostController class for posts
 public class PostController {
   private final PostService postService;
+  private final UserService userService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject the "
       + "userService and postService.")
-  public PostController(PostService postService) {
+  public PostController(PostService postService, UserService userService) {
     this.postService = postService;
+    this.userService = userService;
   }
 
   @FXML
@@ -53,12 +56,13 @@ public class PostController {
   }
 
   @FXML
-  public void updateLikes() { // do not remove, posts wont show
+  public void updateLikes() {
     if (currentPost != null) {
-      postService.likePost(currentPost);
+      // User loggedInUser = userService.getLoggedInUser();
+      currentPost.updateLikes(userService.getLoggedInUser());
+      postService.update(currentPost);
       likeBtn.setText(currentPost.getLikes() + " 👍");
     }
-
   }
 
   @FXML

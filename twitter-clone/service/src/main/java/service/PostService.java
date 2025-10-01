@@ -54,7 +54,12 @@ public class PostService {
     post.setLikes(post.getLikes() + 1);
     postRepository.update(post);
   }
-  // public Post update(Post post) {
-  // return postRepository.update(post);
+
+  public Post update(Post post) {
+    return postRepository.update(post);
+  }
+
+  // public Post removeLike(Post currentPost, User loggedInUser) {
+  // return postRepository.removeLike();
   // }
 }
