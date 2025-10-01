@@ -39,6 +39,7 @@ public class PostController {
 
   private Post currentPost;
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "The Post is used in a tightly scoped controller context where mutation is safe and intentional.")
   @FXML
   public void setData(Post post) {
     this.currentPost = post;
@@ -49,8 +50,10 @@ public class PostController {
     likeBtn.setText(post.getLikes() + " 👍");
     retweetBtn.setText(post.getReTweets() + " 🔄");
 
-    // if (post.likedByUser(post.getAuthor()))
-    likeBtn.setStyle("-fx-text-fill: blue;");
+    if (post.likedByUser(userService.getLoggedInUser())) {
+      likeBtn.setStyle("-fx-text-fill: blue;");
+    }
+    // updateLikes();
     // if (post.reTweetedByUser(userService.getLoggedInUser()))
     // retweetBtn.setStyle("-fx-text-fill: cyan;");
   }
@@ -58,10 +61,15 @@ public class PostController {
   @FXML
   public void updateLikes() {
     if (currentPost != null) {
-      // User loggedInUser = userService.getLoggedInUser();
       currentPost.updateLikes(userService.getLoggedInUser());
       postService.update(currentPost);
       likeBtn.setText(currentPost.getLikes() + " 👍");
+
+      if (currentPost.likedByUser(userService.getLoggedInUser())) {
+        likeBtn.setStyle("-fx-text-fill: blue;");
+      } else {
+        likeBtn.setStyle("-fx-text-fill: black;");
+      }
     }
   }
 
