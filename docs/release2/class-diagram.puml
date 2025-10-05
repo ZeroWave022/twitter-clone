@@ -1,0 +1,118 @@
+@startuml classDiagram
+skinparam linetype ortho
+skinparam nodesep 70
+
+class User {
+  - Long id
+  - String username
+  - String displayName
+  - String password
+  - List<Post> posts
+  + User()
+  + User(Long, String, String, String)
+  + Long getId()
+  + void setId(Long)
+  + String getUsername()
+  + void setUsername(String)
+  + String getDisplayName()
+  + void setDisplayName(String)
+  + String getPassword()
+  + void setPassword(String)
+}
+
+class Post {
+  - Long id
+  - User author
+  - String content
+  - int likes
+  - int reTweets
+  - int commentsAmount
+  + Post()
+  + Post(User, String, Long)
+  + String getContent()
+  + void setContent(String)
+  + int getLikes()
+  + void setLikes(int)
+  + int getReTweets()
+  + void setReTweets(int)
+  + int getCommentsAmount()
+  + void setCommentsAmount(int)
+  + Long getId()
+  + void setId(Long)
+  + User getAuthor()
+  + void setAuthor(User)
+  + int getMaxContentLenght()
+}
+
+class UserService {
+  - UserRepository userRepository
+  - User loggedInUser
+  + UserService(UserRepository)
+  + User getLoggedInUser()
+  + void setLoggedInUser(User)
+  + boolean logIn(String, String)
+  + Optional<User> getUserByUsername(String)
+  + User createUser(User)
+}
+
+class PostService {
+  - PostRepository postRepository
+  + PostService(PostRepository)
+  + Optional<Post> getPostById(Long)
+  + Post createPost(Post)
+  + List<Post> getAllPosts()
+}
+
+interface UserRepository {
+  + void deleteById(Long)
+  + boolean existsById(Long)
+  + List<User> findAll()
+  + Optional<User> findById(Long)
+  + Optional<User> findByUsername(String)
+  + User save(User)
+  + User update(User)
+}
+
+interface PostRepository {
+  + void deleteById(Long)
+  + boolean existsById(Long)
+  + List<Post> findAll()
+  + Optional<Post> findById(Long)
+  + Post save(Post)
+  + Post update(Post)
+}
+
+class OrmUserRepository
+class OrmPostRepository
+class HibernateRepository
+
+class FeedController
+class LoginController
+class MakeNewPostController
+class PostController
+class PostCell
+
+User "1" o-left-- "*" Post : posts
+Post "*" --> "1" User : author
+
+OrmUserRepository ..|> UserRepository
+OrmPostRepository ..|> PostRepository
+
+OrmUserRepository --|> HibernateRepository
+OrmPostRepository --|> HibernateRepository
+
+UserService --> UserRepository
+UserService --> User
+PostService --> PostRepository
+PostService --> Post
+
+FeedController --> PostService
+FeedController --> UserService
+FeedController --> PostCell
+PostCell --> PostController
+PostController --> Post
+MakeNewPostController --> PostService
+MakeNewPostController --> UserService
+LoginController --> UserService
+
+@enduml
