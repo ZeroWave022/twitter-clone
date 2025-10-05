@@ -10,18 +10,19 @@ import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import core.Post;
 import core.User;
 
 class JsonPostRepositoryTest {
+  @TempDir
   private Path dataDir;
   private JsonPostRepository postRepository;
 
   @BeforeEach
   void setup() throws IOException {
-    this.dataDir = Files.createTempDirectory("users");
-    this.postRepository = new JsonPostRepository(this.dataDir);
+    this.postRepository = new JsonPostRepository(dataDir.toAbsolutePath().toString());
   }
 
   @AfterEach
@@ -55,7 +56,8 @@ class JsonPostRepositoryTest {
     List<Post> posts = this.postRepository.findAll();
     assertEquals(1, posts.size());
 
-    JsonPostRepository loadedRepository = new JsonPostRepository(this.dataDir);
+    JsonPostRepository loadedRepository = new JsonPostRepository(
+        this.dataDir.toAbsolutePath().toString());
     List<Post> loadedPosts = loadedRepository.findAll();
     assertEquals(1, loadedPosts.size());
   }
