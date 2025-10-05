@@ -12,15 +12,16 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 class JsonUserRepositoryTest {
+  @TempDir
   private Path dataDir;
   private JsonUserRepository userRepository;
 
   @BeforeEach
   void setup() throws IOException {
-    this.dataDir = Files.createTempDirectory("users");
-    this.userRepository = new JsonUserRepository(this.dataDir);
+    this.userRepository = new JsonUserRepository(dataDir.toAbsolutePath().toString());
   }
 
   @AfterEach
@@ -52,7 +53,8 @@ class JsonUserRepositoryTest {
     List<User> users = this.userRepository.findAll();
     assertEquals(1, users.size());
 
-    JsonUserRepository loadedRepository = new JsonUserRepository(this.dataDir);
+    JsonUserRepository loadedRepository = new JsonUserRepository(
+        this.dataDir.toAbsolutePath().toString());
     List<User> loadedUsers = loadedRepository.findAll();
     assertEquals(1, loadedUsers.size());
   }
