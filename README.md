@@ -58,3 +58,13 @@ The `<module>` must be replaced with the module name, without the angle brackets
 - [Release 1 docs](./docs/release1/README.md)
 - [Project description](./docs/release1/project-description.md)
 - [Usage of AI tools](./docs/release1/ai-tools.md)
+
+### Release 2
+
+- [Release 2 docs](./docs/release2/README.md)
+- [Usage of AI tools](./docs/release2/ai-tools.md)
+- [Code quality](./docs/release2/code-quality.md)
+- [Persistence](./docs/release2/persistence.md)
+- [Teamwork](./docs/release2/teamwork.md)
+- [Work-practicies](./docs/release2/work-practicies.md)
+- [Workflow](./docs/release2/workflow.md)
