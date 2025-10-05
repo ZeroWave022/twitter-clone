@@ -13,7 +13,7 @@ import org.testfx.service.query.NodeQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
 /**
- * Integration tests for {@link Controller}.
+ * Integration tests for {@link LogInController}.
  */
 public class LogInControllerTest extends UiTestBase {
   @Test
