@@ -13,6 +13,8 @@ module twitter.ui {
   requires javafx.graphics;
 
   requires com.github.spotbugs.annotations;
+  requires javafx.base;
+  requires javafx.graphics;
 
   opens ui to javafx.graphics, javafx.fxml, spring.core, spring.beans, spring.context;
   opens ui.config to spring.core, spring.beans, spring.context;
