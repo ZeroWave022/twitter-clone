@@ -68,3 +68,10 @@ The `<module>` must be replaced with the module name, without the angle brackets
 - [Teamwork](./docs/release2/teamwork.md)
 - [Work-practicies](./docs/release2/work-practicies.md)
 - [Workflow](./docs/release2/workflow.md)
+
+- [Package diagram](./docs/release2/package-diagram.puml)
+- [Class diagram](./docs/release2/class-diagram.puml)
+
+| Package diagram | Class diagram |
+|---------------|----------------|
+| ![Package diagram](./docs/images/package-diagram.png) | ![Class diagram](./docs/images/class-diagram.png) |
