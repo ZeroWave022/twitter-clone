@@ -1,18 +1,18 @@
 package persistence;
 
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import core.Post;
+import core.User;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import core.Post;
-import core.User;
-
+/** Integration test for {@link OrmPostRepository}. */
 class OrmPostRepositoryTest {
   private OrmUserRepository userRepository = new OrmUserRepository();
   private OrmPostRepository postRepository = new OrmPostRepository();
