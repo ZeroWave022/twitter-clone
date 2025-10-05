@@ -1,6 +1,6 @@
 # Twitter Clone Release 2
 
-## Features implemented in Release 1
+## Features implemented in Release 2
 
 * **Spring Framework** as a dependency for managing dependency injection
 * **Database persistence** - Introduced SQLite database support with Hibernate ORM for persistence
