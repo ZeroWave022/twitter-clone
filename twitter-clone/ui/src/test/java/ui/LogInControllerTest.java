@@ -15,7 +15,7 @@ import org.testfx.util.WaitForAsyncUtils;
 /**
  * Integration tests for {@link Controller}.
  */
-public class ControllerTest extends UiTestBase {
+public class LogInControllerTest extends UiTestBase {
   @Test
   @DisplayName("A new user gets to log in, no matter their password")
   void testCorrectPassword() {

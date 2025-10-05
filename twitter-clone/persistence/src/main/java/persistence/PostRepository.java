@@ -2,7 +2,6 @@ package persistence;
 
 import core.Post;
 import core.User;
-
 import java.util.List;
 import java.util.Optional;
 
