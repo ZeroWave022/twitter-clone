@@ -39,8 +39,10 @@ public class JsonPostRepository implements PostRepository {
       e.printStackTrace();
     }
 
-    this.jsonRepository = new JsonRepository<>(dataDir.resolve("posts.json"), new TypeReference<List<Post>>() {
-    });
+    this.jsonRepository = new JsonRepository<>(
+        dataDir.resolve("posts.json"),
+        new TypeReference<List<Post>>() {
+        });
 
     // FIXME: Don't load every post into memory :)
     this.loadPosts();
@@ -62,6 +64,7 @@ public class JsonPostRepository implements PostRepository {
     try {
       this.jsonRepository.save(this.posts);
     } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 

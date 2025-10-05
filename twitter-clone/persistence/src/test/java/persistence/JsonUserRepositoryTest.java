@@ -32,6 +32,7 @@ class JsonUserRepositoryTest {
         try {
           Files.delete(filePath);
         } catch (IOException e) {
+          e.printStackTrace();
         }
       });
     }
