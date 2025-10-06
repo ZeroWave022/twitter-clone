@@ -1,0 +1,17 @@
+schemaVersion: 2.1.0
+metadata:
+  name: twitter-clone
+components:
+  - name: twitter-clone
+    container:
+      image: adrianstoica/it1901:latest
+      memoryLimit: 3Gi
+      endpoints:
+        - exposure: public
+          name: 6080-desktop-ui
+          protocol: https
+          targetPort: 6080
+        - exposure: public
+          name: 8080-tcp
+          protocol: http
+          targetPort: 8080

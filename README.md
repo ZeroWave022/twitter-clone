@@ -16,7 +16,7 @@ Welcome to group 8's Informatics Project I GitHub repository!
 
 We assume you have installed:
 
-- Java 21 or above
+- Java 17 or above
 - The latest version of Maven 3.9.x
 
 All other dependencies are described in the different `pom.xml` files and shall be installed automatically by Maven.
