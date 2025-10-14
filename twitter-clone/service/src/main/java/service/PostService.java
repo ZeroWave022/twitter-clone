@@ -79,11 +79,13 @@ public class PostService {
     return this.postRepository.save(post);
   }
 
+  /** Returns a list of all posts. */
   @Transactional(readOnly = true)
   public List<Post> getAllPosts() {
     return this.postRepository.findAll();
   }
 
+  /** Returns a list of all posts. */
   @Transactional(readOnly = true)
   public List<Post> getAllPosts(boolean withRelations) {
     if (withRelations) {
@@ -92,16 +94,14 @@ public class PostService {
     return this.postRepository.findAll();
   }
 
+  /** Likes/unlikes the @param post by the @param user . */
   @Transactional
   public void likePost(Post post, User user) {
     this.postRepository.likePost(post, user);
   }
 
+  /** updates an existing @param post . */
   public Post update(Post post) {
     return postRepository.update(post);
   }
-
-  // public Post removeLike(Post currentPost, User loggedInUser) {
-  // return postRepository.removeLike();
-  // }
 }
