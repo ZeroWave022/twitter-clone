@@ -2,7 +2,10 @@ package ui;
 
 import core.Post;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 
 // This class is based on the example from this StackOverflow post:
@@ -14,6 +17,21 @@ import javafx.scene.layout.HBox;
  * PostController.
  */
 public class PostCell extends ListCell<Post> {
+  private HBox postItem;
+  private PostController postController;
+
+  public PostCell() {
+    try {
+      FXMLLoader loader = new FXMLLoader(App.class.getResource("post.fxml"));
+      loader.setControllerFactory(App.getSpringContext()::getBean);
+      postItem = loader.load();
+      postController = loader.getController();
+    } catch (Exception e) {
+      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR, "Could not load post view.", ButtonType.OK);
+      alert.show();
+    }
+  }
 
   @Override
   protected void updateItem(Post post, boolean empty) {
@@ -22,19 +40,8 @@ public class PostCell extends ListCell<Post> {
       setText(null);
       setGraphic(null);
     } else {
-      try {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("post.fxml"));
-        loader.setControllerFactory(App.getSpringContext()::getBean);
-        HBox postItem = loader.load();
-        PostController postController = loader.getController();
-
-        postController.setData(post);
-        setGraphic(postItem);
-
-      } catch (Exception e) {
-        e.printStackTrace();
-        setGraphic(null);
-      }
+      postController.setData(post);
+      setGraphic(postItem);
     }
     // Removes the default alternating background color for filled cells
     setStyle("-fx-background-color: transparent;");
