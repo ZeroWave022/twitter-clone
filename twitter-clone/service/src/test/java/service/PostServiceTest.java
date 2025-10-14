@@ -44,14 +44,14 @@ public class PostServiceTest {
 
   @Test
   void getPostByIdReturnsEmptyWhenNotFound() {
-    when(postRepository.findById(postId)).thenReturn(Optional.empty());
+    when(postRepository.findById(postId, false)).thenReturn(Optional.empty());
     Optional<Post> result = postService.getPostById(postId);
     assertTrue(result.isEmpty());
   }
 
   @Test
   void getPostByIdReturnsPostWhenFound() {
-    when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+    when(postRepository.findById(postId, false)).thenReturn(Optional.of(post));
     Optional<Post> result = postService.getPostById(postId);
     assertEquals(result.get(), post);
   }

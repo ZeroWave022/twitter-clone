@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.Post;
 import core.User;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,12 +76,13 @@ class OrmPostRepositoryTest {
     // Like the post
     postRepository.likePost(post, user);
 
-    Post updatedPost = postRepository.findById(post.getId()).orElseThrow();
+    Post updatedPost = postRepository.findById(post.getId(), true).orElseThrow();
     assertEquals(1, updatedPost.getLikes());
     assertTrue(updatedPost.getLikedByUsers().contains(user));
   }
 
   @Test
+  @Transactional
   @DisplayName("User likes and then unlikes a post")
   void test_likePostToggles() {
     User user = new User(null, "username", "display name", "password123");
@@ -96,7 +98,7 @@ class OrmPostRepositoryTest {
 
     // Unlike
     postRepository.likePost(post, user);
-    Post unlikedPost = postRepository.findById(post.getId()).orElseThrow();
+    Post unlikedPost = postRepository.findById(post.getId(), true).orElseThrow();
     assertEquals(0, unlikedPost.getLikes());
     assertFalse(unlikedPost.getLikedByUsers().contains(user));
   }

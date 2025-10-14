@@ -31,24 +31,24 @@ class PostControllerTest extends UiTestBase {
 
   @BeforeEach
   void setupData() {
-    new OrmPostRepository().dropDatabase();
-    new OrmUserRepository().dropDatabase();
+    OrmPostRepository postRepository = new OrmPostRepository();
+    OrmUserRepository userRepository = new OrmUserRepository();
+    postRepository.dropDatabase();
 
     user = new User(null, "username", "Display Name", "password123");
-    OrmUserRepository userRepository = new OrmUserRepository();
-    userRepository.save(user);
+    UserService userService = new UserService(userRepository);
+    userService.createUser(user);
 
     post = new Post(user, "UI test post", null);
-    postService = new PostService(new OrmPostRepository());
+    postService = new PostService(postRepository);
     postService.createPost(post);
 
-    userService = new UserService(new OrmUserRepository());
+    userService = new UserService(userRepository);
   }
 
   @AfterEach
   void cleanupData() {
     new OrmPostRepository().dropDatabase();
-    new OrmUserRepository().dropDatabase();
   }
 
   @Test
@@ -70,14 +70,14 @@ class PostControllerTest extends UiTestBase {
     assertNotNull(likeBtn, "Like button should be loaded");
     assertEquals(0, post.getLikes());
     interact(likeBtn::fire);
-    Post updatedPost = postService.getPostById(post.getId()).orElseThrow();
+    Post updatedPost = postService.getPostById(post.getId(), true).orElseThrow();
     assertEquals(1, updatedPost.getLikes());
     assertTrue(updatedPost.likedByUser(user));
     FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("blue"));
 
     // unlike and check
     interact(likeBtn::fire);
-    updatedPost = postService.getPostById(post.getId()).orElseThrow();
+    updatedPost = postService.getPostById(post.getId(), true).orElseThrow();
     assertEquals(0, updatedPost.getLikes());
     assertFalse(updatedPost.likedByUser(user));
     FxAssert.verifyThat(likeBtn, b -> !b.getStyle().contains("blue"));
@@ -101,7 +101,7 @@ class PostControllerTest extends UiTestBase {
     // like and check
     Button likeBtn = lookup("#likeBtn").nth(0).queryAs(Button.class);
     interact(likeBtn::fire);
-    Post updatedPost = postService.getPostById(post.getId()).orElseThrow();
+    Post updatedPost = postService.getPostById(post.getId(), true).orElseThrow();
     assertEquals(2, updatedPost.getLikes(), "Post should now have 2 likes");
     assertTrue(updatedPost.likedByUser(secondUser),
         "Second user should be registered as liking the post");
