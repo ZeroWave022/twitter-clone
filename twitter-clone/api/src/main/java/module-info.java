@@ -16,4 +16,7 @@ module twitter.api {
   requires spring.security.crypto;
 
   opens api to spring.core, spring.beans, spring.context;
+  opens api.config to spring.core, spring.beans, spring.context;
+  opens api.service to spring.core, spring.beans, spring.context;
+  opens api.controller to spring.core, spring.beans, spring.context;
 }
