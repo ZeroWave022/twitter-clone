@@ -41,8 +41,9 @@ public class JsonPostRepository implements PostRepository {
       e.printStackTrace();
     }
 
-    this.jsonRepository = new JsonRepository<>(dataDir.resolve("posts.json"), new TypeReference<List<Post>>() {
-    });
+    this.jsonRepository = new JsonRepository<>(dataDir.resolve("posts.json"),
+        new TypeReference<List<Post>>() {
+        });
 
     // FIXME: Don't load every post into memory :)
     this.loadPosts();
@@ -79,6 +80,12 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
+  public Optional<Post> findById(Long id, boolean withRelations) {
+    throw new UnsupportedOperationException("Method 'findById' using the 'withRealtions' boolean "
+        + "is unimplemented in JsonPostRepository");
+  }
+
+  @Override
   public Optional<Post> findById(Long id) {
     return this.posts.stream().filter(post -> post.getId().equals(id)).findFirst();
   }
@@ -86,6 +93,12 @@ public class JsonPostRepository implements PostRepository {
   @Override
   public List<Post> findAll() {
     return new ArrayList<>(this.posts);
+  }
+
+  @Override
+  public List<Post> findAll(boolean withRelations) {
+    throw new UnsupportedOperationException("Method 'findAll' using the 'withRealtions' boolean "
+        + "is unimplemented in JsonPostRepository");
   }
 
   @Override

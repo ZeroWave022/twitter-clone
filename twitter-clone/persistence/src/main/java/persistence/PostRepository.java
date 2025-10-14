@@ -12,8 +12,12 @@ public interface PostRepository {
   /** Finds a post by ID. */
   Optional<Post> findById(Long id);
 
+  Optional<Post> findById(Long id, boolean withRelations);
+
   /** Returns all posts. */
   List<Post> findAll();
+
+  List<Post> findAll(boolean withRelations);
 
   /** Saves a new post. */
   Post save(Post post);

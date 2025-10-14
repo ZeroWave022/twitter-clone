@@ -50,7 +50,7 @@ public class FeedController {
     // PostCell class
     feedList.setCellFactory(listView -> new PostCell());
 
-    feedList.getItems().setAll(postService.getAllPosts());
+    feedList.getItems().setAll(postService.getAllPosts(true));
   }
 
   @FXML

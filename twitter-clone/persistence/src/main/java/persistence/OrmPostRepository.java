@@ -34,13 +34,43 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public List<Post> findAll() {
+    return this.findAll(false);
+  }
+
+  @Override
+  public List<Post> findAll(boolean withRelations) {
+    if (withRelations) {
+      return sessionFactory.fromTransaction(session -> {
+        List<Post> posts = session
+            .createSelectionQuery("FROM Post p LEFT JOIN FETCH p.likedByUsers", Post.class)
+            .getResultList();
+        return posts;
+      });
+    }
+
     return sessionFactory.fromTransaction(session -> {
-      return session.createSelectionQuery("from Post", Post.class).getResultList();
+      List<Post> posts = session.createQuery("SELECT p FROM Post p", Post.class).getResultList();
+      return posts;
     });
   }
 
   @Override
   public Optional<Post> findById(Long id) {
+    return this.findById(id, false);
+  }
+
+  @Override
+  public Optional<Post> findById(Long id, boolean withRelations) {
+    if (withRelations) {
+      return sessionFactory.fromTransaction(session -> {
+        Post post = session
+            .createQuery("SELECT p FROM Post p LEFT JOIN FETCH p.likedByUsers WHERE p.id = :id",
+                Post.class)
+            .setParameter("id", id).getSingleResult();
+        return Optional.ofNullable(post);
+      });
+    }
+
     return sessionFactory.fromTransaction(session -> {
       Post post = session.find(Post.class, id);
       return Optional.ofNullable(post);

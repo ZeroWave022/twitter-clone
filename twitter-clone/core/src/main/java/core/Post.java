@@ -2,7 +2,6 @@ package core;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -32,6 +31,7 @@ public class Post {
   @ManyToOne
   @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
   private User author;
+
   private String content;
   // private Instant createdAt;
 
@@ -39,7 +39,7 @@ public class Post {
   private int reTweets = 0;
   private int commentsAmount = 0;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany
   @JoinTable(name = "post_likes", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
   private Set<User> likedByUsers = new HashSet<>();
 
