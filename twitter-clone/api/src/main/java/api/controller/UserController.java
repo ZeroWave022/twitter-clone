@@ -21,7 +21,6 @@ import persistence.UserRepository;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-  @Autowired
   private final UserRepository userRepository;
 
   /**
