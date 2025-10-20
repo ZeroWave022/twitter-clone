@@ -24,6 +24,11 @@ public class UserController {
   @Autowired
   private final UserRepository userRepository;
 
+  /**
+   * Constructs a new UserController.
+   *
+   * @param userRepository the repository to use for user operations
+   */
   @Autowired
   public UserController(UserRepository userRepository) {
     this.userRepository = userRepository;

@@ -22,6 +22,11 @@ public class PostController {
   @Autowired
   private PostService postService;
 
+  /**
+   * Constructs a new PostController.
+   *
+   * @param postService the service to use for post operations
+   */
   @Autowired
   public PostController(PostService postService) {
     this.postService = postService;
