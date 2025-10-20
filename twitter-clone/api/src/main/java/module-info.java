@@ -7,6 +7,7 @@ module twitter.api {
   requires spring.context;
   requires spring.beans;
   requires spring.security.core;
+  requires twitter.service;
   requires jjwt.api;
   requires spring.web;
   requires org.apache.tomcat.embed.core;
