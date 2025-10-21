@@ -66,15 +66,6 @@ public class Post {
   public Post() {
   }
 
-  // /** Likes/unlikes the post by the @param user */
-  // public void updateLikes(User user) {
-  // if (likedByUsers.contains(user)) {
-  // likedByUsers.remove(user);
-  // } else {
-  // likedByUsers.add(user);
-  // }
-  // likes = likedByUsers.size();
-  // }
 
   /** @return true if the @param user has liked the post */
   public boolean likedByUser(User user) {
