@@ -75,7 +75,8 @@ public class MakeNewPostController implements Initializable {
       boolean over = nv != null && nv.length() > Post.MAX_CONTENT_LENGTH;
       charCount.setStyle(over ? "-fx-text-fill: #d32f2f;" : "");
       postText.setStyle(over
-          ? "-fx-background-insets: 0; -fx-background-color: white; -fx-border-color: #d32f2f; -fx-border-width: 1; -fx-border-radius: 4;"
+          ? "-fx-background-insets: 0; -fx-background-color: white; -fx-border-color: #d32f2f; "
+              + "-fx-border-width: 1; -fx-border-radius: 4;"
           : "");
     });
   }

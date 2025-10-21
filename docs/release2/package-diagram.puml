@@ -1,0 +1,34 @@
+@startuml packageDiagram
+skinparam linetype ortho
+
+database "SQLite DB" as DB
+
+package "UI Module" {
+  [FeedController]
+  [LoginController]
+  [MakeNewPostController]
+  [PostCell]
+  [PostController]
+}
+
+package "Service Module" {
+  [UserService]
+  [PostService]
+}
+
+package "Persistence Module" {
+  [OrmUserRepository]
+  [OrmPostRepository]
+  [HibernateRepository]
+}
+
+package "Core Module" {
+  [User]
+  [Post]
+}
+
+"UI Module" --> "Service Module" : User actions
+"Service Module" --> "Persistence Module" : Saving data
+"Persistence Module" --> "Core Module" : depends on
+"Persistence Module" --down--> DB : Reads/writes
+@enduml

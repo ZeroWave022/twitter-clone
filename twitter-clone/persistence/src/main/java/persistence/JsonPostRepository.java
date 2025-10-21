@@ -65,6 +65,7 @@ public class JsonPostRepository implements PostRepository {
     try {
       this.jsonRepository.save(this.posts);
     } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 

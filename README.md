@@ -16,7 +16,7 @@ Welcome to group 8's Informatics Project I GitHub repository!
 
 We assume you have installed:
 
-- Java 21 or above
+- Java 17 or above
 - The latest version of Maven 3.9.x
 
 All other dependencies are described in the different `pom.xml` files and shall be installed automatically by Maven.
@@ -58,3 +58,20 @@ The `<module>` must be replaced with the module name, without the angle brackets
 - [Release 1 docs](./docs/release1/README.md)
 - [Project description](./docs/release1/project-description.md)
 - [Usage of AI tools](./docs/release1/ai-tools.md)
+
+### Release 2
+
+- [Release 2 docs](./docs/release2/README.md)
+- [Usage of AI tools](./docs/release2/ai-tools.md)
+- [Code quality](./docs/release2/code-quality.md)
+- [Persistence](./docs/release2/persistence.md)
+- [Teamwork](./docs/release2/teamwork.md)
+- [Work-practicies](./docs/release2/work-practicies.md)
+- [Workflow](./docs/release2/workflow.md)
+
+- [Package diagram](./docs/release2/package-diagram.puml)
+- [Class diagram](./docs/release2/class-diagram.puml)
+
+| Package diagram | Class diagram |
+|---------------|----------------|
+| ![Package diagram](./docs/images/package-diagram.png) | ![Class diagram](./docs/images/class-diagram.png) |
