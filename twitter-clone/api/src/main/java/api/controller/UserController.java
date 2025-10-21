@@ -1,10 +1,13 @@
 package api.controller;
 
 import core.User;
+import core.payload.request.UpdateUserRequest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +25,7 @@ import persistence.UserRepository;
 @RequestMapping("/api/users")
 public class UserController {
   private final UserRepository userRepository;
+  private PasswordEncoder passwordEncoder;
 
   /**
    * Constructs a new UserController.
@@ -29,8 +33,11 @@ public class UserController {
    * @param userRepository the repository to use for user operations
    */
   @Autowired
-  public UserController(UserRepository userRepository) {
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring Repository is thread-safe")
+  public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+
   }
 
   /**
@@ -50,7 +57,7 @@ public class UserController {
    * @return the user if found, or 404 if not found
    */
   @GetMapping("/{id}")
-  public ResponseEntity<User> getUser(@PathVariable Long id) {
+  public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
     return userRepository.findById(id).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -74,11 +81,13 @@ public class UserController {
    * @return the updated user if found, or 404 if not found
    */
   @PutMapping("/{id}")
-  public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+  public ResponseEntity<User> updateUser(@PathVariable("id") Long id,
+      @RequestBody UpdateUserRequest updateUserRequest) {
     return userRepository.findById(id).map(existingUser -> {
-      existingUser.setDisplayName(updatedUser.getDisplayName());
-      existingUser.setUsername(updatedUser.getUsername());
-      existingUser.setPassword(updatedUser.getPassword());
+
+      existingUser.setDisplayName(updateUserRequest.getDisplayName());
+      existingUser.setUsername(updateUserRequest.getUsername());
+      existingUser.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
       return ResponseEntity.ok(userRepository.update(existingUser));
     }).orElse(ResponseEntity.notFound().build());
   }

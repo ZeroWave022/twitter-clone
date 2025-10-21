@@ -7,7 +7,6 @@ module twitter.api {
   requires spring.context;
   requires spring.beans;
   requires spring.security.core;
-  requires twitter.service;
   requires jjwt.api;
   requires spring.web;
   requires org.apache.tomcat.embed.core;
@@ -15,9 +14,10 @@ module twitter.api {
   requires spring.security.web;
   requires spring.security.config;
   requires spring.security.crypto;
+  requires com.github.spotbugs.annotations;
 
   opens api to spring.core, spring.beans, spring.context;
   opens api.config to spring.core, spring.beans, spring.context;
   opens api.service to spring.core, spring.beans, spring.context;
-  opens api.controller to spring.core, spring.beans, spring.context;
+  opens api.controller to spring.core, spring.beans, spring.context, spring.web;
 }

@@ -1,16 +1,25 @@
 package api.controller;
 
 import core.Post;
+import core.User;
+import core.payload.request.CreatePostRequest;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import persistence.PostRepository;
+import persistence.UserRepository;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import service.PostService;
 
 /**
  * REST controller for managing Post entities. Provides endpoints for CRUD
@@ -19,16 +28,19 @@ import service.PostService;
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
-  private PostService postService;
+  private final PostRepository postRepository;
+  private final UserRepository userRepository;
 
   /**
    * Constructs a new PostController.
    *
-   * @param postService the service to use for post operations
+   * @param postRepository the repository to use for post operations
    */
   @Autowired
-  public PostController(PostService postService) {
-    this.postService = postService;
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "Spring Repository is thread-safe")
+  public PostController(PostRepository postRepository, UserRepository userRepository) {
+    this.postRepository = postRepository;
+    this.userRepository = userRepository;
   }
 
   /**
@@ -39,7 +51,7 @@ public class PostController {
    */
   @GetMapping("/{id}")
   public ResponseEntity<?> getPost(@PathVariable Long id) {
-    return postService.getPostById(id).map(ResponseEntity::ok)
+    return postRepository.findById(id).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
@@ -50,7 +62,7 @@ public class PostController {
    */
   @GetMapping
   public ResponseEntity<List<Post>> getAllPosts() {
-    return ResponseEntity.ok(postService.getAllPosts());
+    return ResponseEntity.ok(postRepository.findAll());
   }
 
   /**
@@ -60,10 +72,17 @@ public class PostController {
    * @return the created post
    */
   @PostMapping
-  public ResponseEntity<?> createPost(@RequestBody Post post) {
+  public ResponseEntity<?> createPost(@RequestBody CreatePostRequest createPostRequest) {
     try {
-      return ResponseEntity.ok(postService.createPost(post));
-    } catch (IllegalArgumentException e) {
+      UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      User user = userRepository.findByUsername(userDetails.getUsername()).get();
+
+      Post post = new Post();
+      post.setAuthor(user);
+      post.setContent(createPostRequest.getText());
+      return ResponseEntity.ok(postRepository.save(post));
+    } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
