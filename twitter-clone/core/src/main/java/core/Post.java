@@ -24,6 +24,13 @@ public class Post {
 
   public static final int MAX_CONTENT_LENGTH = 280;
 
+  /**
+   * Indicates whether the post is an original post or a retweet.
+   */
+  public enum Type {
+    ORIGINAL, RETWEET
+  }
+
   @Id
   @GeneratedValue
   private Long id;
@@ -32,12 +39,17 @@ public class Post {
   @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
   private User author;
 
+  @ManyToOne
+  @JoinColumn(name = "original_post_id", nullable = true)
+  private Post originalPost = null;
+
   private String content;
   // private Instant createdAt;
 
   private int likes = 0;
   private int reTweets = 0;
   private int commentsAmount = 0;
+  private Type type;
 
   @ManyToMany
   @JoinTable(name = "post_likes", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -66,7 +78,6 @@ public class Post {
   public Post() {
   }
 
-
   /** @return true if the @param user has liked the post */
   public boolean likedByUser(User user) {
     return likedByUsers.contains(user);
@@ -74,6 +85,27 @@ public class Post {
 
   public String getContent() {
     return content;
+  }
+
+  public void setType(Type type) {
+    this.type = type;
+  }
+
+  public Type getType() {
+    return type;
+  }
+
+  public Post getOriginalPost() {
+    return originalPost;
+  }
+
+  public void setOriginalPost(Post originalPost) {
+    if (originalPost == null){
+      this.type = Type.ORIGINAL;
+      return;
+    }
+    this.originalPost = originalPost;
+    this.type = Type.RETWEET;
   }
 
   public int getLikes() {
