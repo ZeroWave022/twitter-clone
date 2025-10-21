@@ -1,15 +1,18 @@
 package api.service;
 
+import core.User;
+import io.jsonwebtoken.lang.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import core.User;
-import io.jsonwebtoken.lang.Collections;
 import persistence.UserRepository;
 
+/**
+ * An implementation of {@link UserDetailsService} that reads users from an
+ * injected {@link UserRepository}.
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
@@ -18,7 +21,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+        .orElseThrow(
+            () -> new UsernameNotFoundException("User Not Found with username: " + username));
 
     return new org.springframework.security.core.userdetails.User(
         user.getUsername(),

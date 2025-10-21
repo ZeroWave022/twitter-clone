@@ -76,8 +76,8 @@ public class UserController {
   /**
    * Update an existing user.
    *
-   * @param id          the ID of the user to update
-   * @param updatedUser the updated user data
+   * @param id                the ID of the user to update
+   * @param updateUserRequest the updated user data
    * @return the updated user if found, or 404 if not found
    */
   @PutMapping("/{id}")

@@ -1,5 +1,8 @@
 package core.payload.request;
 
+/**
+ * A DTO for logging in.
+ */
 public class LoginRequest {
   private String username;
   private String password;

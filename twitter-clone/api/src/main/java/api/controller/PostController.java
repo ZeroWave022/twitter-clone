@@ -4,22 +4,19 @@ import core.Post;
 import core.User;
 import core.payload.request.CreatePostRequest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import persistence.PostRepository;
-import persistence.UserRepository;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import persistence.PostRepository;
+import persistence.UserRepository;
 
 /**
  * REST controller for managing Post entities. Provides endpoints for CRUD
@@ -68,13 +65,16 @@ public class PostController {
   /**
    * Creates a new post.
    *
-   * @param post the post to create
+   * @param createPostRequest the post to create
    * @return the created post
    */
   @PostMapping
   public ResponseEntity<?> createPost(@RequestBody CreatePostRequest createPostRequest) {
     try {
-      UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      UserDetails userDetails = (UserDetails) SecurityContextHolder
+          .getContext()
+          .getAuthentication()
+          .getPrincipal();
 
       User user = userRepository.findByUsername(userDetails.getUsername()).get();
 
