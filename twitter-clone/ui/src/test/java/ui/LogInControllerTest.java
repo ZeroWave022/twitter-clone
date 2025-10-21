@@ -12,10 +12,8 @@ import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
-/**
- * Integration tests for {@link Controller}.
- */
-public class ControllerTest extends UiTestBase {
+/** Integration tests for {@link LogInController}. */
+public class LogInControllerTest extends UiTestBase {
   @Test
   @DisplayName("A new user gets to log in, no matter their password")
   void testCorrectPassword() {

@@ -2,6 +2,8 @@ package persistence;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import core.Post;
+import core.User;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,8 +41,7 @@ public class JsonPostRepository implements PostRepository {
       e.printStackTrace();
     }
 
-    this.jsonRepository = new JsonRepository<>(
-        dataDir.resolve("posts.json"),
+    this.jsonRepository = new JsonRepository<>(dataDir.resolve("posts.json"),
         new TypeReference<List<Post>>() {
         });
 
@@ -80,6 +81,12 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
+  public Optional<Post> findById(Long id, boolean withRelations) {
+    throw new UnsupportedOperationException("Method 'findById' using the 'withRealtions' boolean "
+        + "is unimplemented in JsonPostRepository");
+  }
+
+  @Override
   public Optional<Post> findById(Long id) {
     return this.posts.stream().filter(post -> post.getId().equals(id)).findFirst();
   }
@@ -87,6 +94,12 @@ public class JsonPostRepository implements PostRepository {
   @Override
   public List<Post> findAll() {
     return new ArrayList<>(this.posts);
+  }
+
+  @Override
+  public List<Post> findAll(boolean withRelations) {
+    throw new UnsupportedOperationException("Method 'findAll' using the 'withRealtions' boolean "
+        + "is unimplemented in JsonPostRepository");
   }
 
   @Override
@@ -108,5 +121,10 @@ public class JsonPostRepository implements PostRepository {
   @Override
   public boolean existsById(Long id) {
     return this.findById(id).isPresent();
+  }
+
+  @Override
+  public void likePost(Post post, User user) {
+    System.out.println("Method in deprecated class is not implemented.");
   }
 }

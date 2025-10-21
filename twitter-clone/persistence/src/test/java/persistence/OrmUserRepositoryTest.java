@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/** Integration test for {@link OrmUserRepository}. */
 class OrmUserRepositoryTest {
   private OrmUserRepository userRepository = new OrmUserRepository();
 
