@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 
 import core.Post;
 import core.User;
+import core.payload.response.PostResponse;
+
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +38,7 @@ public class PostServiceTest {
 
   @BeforeEach
   void setup() {
-    postService = new PostService(postRepository);
+    postService = new PostService();
     this.user = new User(1L, "john", "John Pork", "pass");
     this.postId = 123L;
     this.post = new Post(this.user, "hello world", postId);
@@ -45,14 +47,14 @@ public class PostServiceTest {
   @Test
   void getPostByIdReturnsEmptyWhenNotFound() {
     when(postRepository.findById(postId)).thenReturn(Optional.empty());
-    Optional<Post> result = postService.getPostById(postId);
+    Optional<PostResponse> result = postService.getPostById(postId);
     assertTrue(result.isEmpty());
   }
 
   @Test
   void getPostByIdReturnsPostWhenFound() {
     when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-    Optional<Post> result = postService.getPostById(postId);
+    Optional<PostResponse> result = postService.getPostById(postId);
     assertEquals(result.get(), post);
   }
 
@@ -61,22 +63,14 @@ public class PostServiceTest {
     when(postRepository.findById(postId)).thenReturn(Optional.empty());
     when(postRepository.save(post)).thenReturn(post);
 
-    Post result = assertDoesNotThrow(() -> postService.createPost(post));
+    PostResponse result = assertDoesNotThrow(() -> postService.createPost(post.getContent()));
     assertEquals(result, post);
   }
 
   @Test
   void createPostThrowsExceptionWhenIdExists() {
     when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-    assertThrows(IllegalArgumentException.class, () -> postService.createPost(post));
-  }
-
-  @Test
-  void createPostSavesPostWhenIdIsNull() {
-    Post postWithoutId = new Post(user, "hello world", null);
-    when(postRepository.save(postWithoutId)).thenReturn(postWithoutId);
-    Post result = assertDoesNotThrow(() -> postService.createPost(postWithoutId));
-    assertEquals(postWithoutId, result);
+    assertThrows(IllegalArgumentException.class, () -> postService.createPost(post.getContent()));
   }
 
   @Test

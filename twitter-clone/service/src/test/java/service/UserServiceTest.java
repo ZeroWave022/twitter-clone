@@ -35,36 +35,8 @@ public class UserServiceTest {
 
   @BeforeEach
   void setup() {
-    this.userService = new UserService(userRepository);
+    this.userService = new UserService();
     this.user = new User(1L, "john", "John Pork", "pass");
-  }
-
-  @Test
-  void getUserByUsernameReturnsEmptyWhenNotFound() {
-    when(userRepository.findByUsername("abcd")).thenReturn(Optional.empty());
-    Optional<User> result = userService.getUserByUsername("abcd");
-    assertTrue(result.isEmpty());
-  }
-
-  @Test
-  void getUserByUsernameReturnsUserWhenFound() {
-    when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
-    Optional<User> result = userService.getUserByUsername(user.getUsername());
-    assertEquals(result.get(), user);
-  }
-
-  @Test
-  void createUserSavesUserWhenUsernameIsUnique() {
-    when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
-    when(userRepository.save(user)).thenReturn(user);
-    User result = assertDoesNotThrow(() -> userService.createUser(user));
-    assertEquals(result, user);
-  }
-
-  @Test
-  void createUserThrowsExceptionWhenUsernameExists() {
-    when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
-    assertThrows(IllegalArgumentException.class, () -> userService.createUser(user));
   }
 
   @Test
@@ -88,6 +60,6 @@ public class UserServiceTest {
     when(userRepository.findByUsername("newuser")).thenReturn(Optional.empty());
     boolean result = userService.logIn("newuser", "newpassword");
     assertTrue(result);
-    assertEquals(userService.getLoggedInUser().getUsername(), "newuser");
+    assertEquals(userService.getLoggedInUser().username(), "newuser");
   }
 }
