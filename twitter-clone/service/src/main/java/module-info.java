@@ -6,6 +6,8 @@ open module twitter.service {
   requires spring.beans;
   requires spring.tx;
   requires com.github.spotbugs.annotations;
+  requires spring.webflux;
+  requires spring.web;
 
   exports service;
 }
