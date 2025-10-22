@@ -65,6 +65,8 @@ public class PostController {
     System.out.println("Current user is: " + userService.getLoggedInUser().getUsername());
     if (post.likedByUser(userService.getLoggedInUser())) {
       likeBtn.setStyle("-fx-text-fill: blue;");
+    } else {
+      likeBtn.setStyle("-fx-text-fill: black;");
     }
     // updateLikes();
     // if (post.reTweetedByUser(userService.getLoggedInUser()))
