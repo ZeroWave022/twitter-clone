@@ -46,7 +46,7 @@ public class AuthController {
    * @return jwt auth token
    */
   @PostMapping("/login")
-  public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+  public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
     if (userRepository.findByUsername(loginRequest.username()).isEmpty()) {
       User user = new User(null, loginRequest.username(), loginRequest.username(),
           passwordEncoder.encode(loginRequest.password()));
@@ -66,7 +66,7 @@ public class AuthController {
   }
 
   @GetMapping("/me")
-  public ResponseEntity<?> getAuthenticatedUser() {
+  public ResponseEntity<UserResponse> getAuthenticatedUser() {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
         .getAuthentication()
         .getPrincipal();
