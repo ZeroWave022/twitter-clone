@@ -14,6 +14,10 @@ public class ApiClientService {
         .build();
   }
 
+  public void setJwtToken(String jwtToken) {
+    this.jwtToken = jwtToken;
+  }
+
   public <T> T get(String path, Class<T> responseType) {
     return this.webClient.get()
         .uri(path)
