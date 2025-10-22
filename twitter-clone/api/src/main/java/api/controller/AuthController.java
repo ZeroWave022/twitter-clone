@@ -4,13 +4,17 @@ import api.service.JwtUtilsService;
 import core.User;
 import core.payload.request.LoginRequest;
 import core.payload.response.LoginResponse;
+import core.payload.response.UserResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,5 +63,16 @@ public class AuthController {
     String jwt = jwtUtilsService.generateJwtToken(authenticaton);
 
     return ResponseEntity.ok(new LoginResponse(jwt));
+  }
+
+  @GetMapping("/me")
+  public ResponseEntity<?> getAuthenticatedUser() {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+        .getAuthentication()
+        .getPrincipal();
+
+    User user = userRepository.findByUsername(userDetails.getUsername()).get();
+
+    return ResponseEntity.ok(new UserResponse(user.getId(), user.getUsername(), user.getDisplayName()));
   }
 }
