@@ -1,5 +1,7 @@
 package service;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -31,7 +33,34 @@ public class ApiClientService {
         .block();
   }
 
+  public <T> T get(String path, ParameterizedTypeReference<T> responseType) {
+    return this.webClient.get()
+        .uri(path)
+        .headers(headers -> {
+          if (this.jwtToken != null) {
+            headers.setBearerAuth(this.jwtToken);
+          }
+        })
+        .retrieve()
+        .bodyToMono(responseType)
+        .block();
+  }
+
   public <T, R> R post(String path, T body, Class<R> responseType) {
+    return this.webClient.post()
+        .uri(path)
+        .headers(headers -> {
+          if (this.jwtToken != null) {
+            headers.setBearerAuth(this.jwtToken);
+          }
+        })
+        .bodyValue(body)
+        .retrieve()
+        .bodyToMono(responseType)
+        .block();
+  }
+
+  public <T, R> R post(String path, T body, ParameterizedTypeReference<R> responseType) {
     return this.webClient.post()
         .uri(path)
         .headers(headers -> {
