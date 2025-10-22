@@ -3,6 +3,7 @@ package api.controller;
 import core.Post;
 import core.User;
 import core.payload.request.CreatePostRequest;
+import core.payload.response.PostResponse;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import api.service.PostService;
 import persistence.PostRepository;
 import persistence.UserRepository;
 
@@ -27,6 +30,9 @@ import persistence.UserRepository;
 public class PostController {
   private final PostRepository postRepository;
   private final UserRepository userRepository;
+
+  @Autowired
+  private PostService postService;
 
   /**
    * Constructs a new PostController.
@@ -47,8 +53,10 @@ public class PostController {
    * @return the post if found, or 404 if not found
    */
   @GetMapping("/{id}")
-  public ResponseEntity<?> getPost(@PathVariable Long id) {
-    return postRepository.findById(id).map(ResponseEntity::ok)
+  public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
+    return postRepository.findById(id)
+        .map(postService::toDTO)
+        .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
@@ -58,8 +66,12 @@ public class PostController {
    * @return list of all posts
    */
   @GetMapping
-  public ResponseEntity<List<Post>> getAllPosts() {
-    return ResponseEntity.ok(postRepository.findAll());
+  public ResponseEntity<List<PostResponse>> getAllPosts() {
+    return ResponseEntity.ok(
+        postRepository.findAll()
+            .stream()
+            .map(postService::toDTO)
+            .toList());
   }
 
   /**
@@ -69,7 +81,7 @@ public class PostController {
    * @return the created post
    */
   @PostMapping
-  public ResponseEntity<?> createPost(@RequestBody CreatePostRequest createPostRequest) {
+  public ResponseEntity<PostResponse> createPost(@RequestBody CreatePostRequest createPostRequest) {
     try {
       UserDetails userDetails = (UserDetails) SecurityContextHolder
           .getContext()
@@ -81,10 +93,9 @@ public class PostController {
       Post post = new Post();
       post.setAuthor(user);
       post.setContent(createPostRequest.getText());
-      return ResponseEntity.ok(postRepository.save(post));
+      return ResponseEntity.ok(postService.toDTO(postRepository.save(post)));
     } catch (Exception e) {
-      return ResponseEntity.badRequest().body(e.getMessage());
+      return ResponseEntity.badRequest().build();
     }
   }
-
 }
