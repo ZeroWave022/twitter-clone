@@ -1,14 +1,16 @@
 package ui;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import core.Post;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.PostService;
 import service.UserService;
 
@@ -47,6 +49,9 @@ public class ProfileController {
     feedList.setCellFactory(listView -> new PostCell());
 
     feedList.getItems().setAll(postService.postsByUser(userService.getLoggedInUser()));
+
+    displayNameLabel.setText(userService.getLoggedInUser().getDisplayName());
+    usernameLabel.setText("@" + userService.getLoggedInUser().getUsername());
   }
 
   @FXML
