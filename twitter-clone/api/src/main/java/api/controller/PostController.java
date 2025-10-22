@@ -92,7 +92,7 @@ public class PostController {
 
       Post post = new Post();
       post.setAuthor(user);
-      post.setContent(createPostRequest.getText());
+      post.setContent(createPostRequest.content());
       return ResponseEntity.ok(postService.toDTO(postRepository.save(post)));
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();

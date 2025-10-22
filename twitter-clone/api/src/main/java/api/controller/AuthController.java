@@ -47,17 +47,17 @@ public class AuthController {
    */
   @PostMapping("/login")
   public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-    if (userRepository.findByUsername(loginRequest.getUsername()).isEmpty()) {
-      User user = new User(null, loginRequest.getUsername(), loginRequest.getUsername(),
-          passwordEncoder.encode(loginRequest.getPassword()));
+    if (userRepository.findByUsername(loginRequest.username()).isEmpty()) {
+      User user = new User(null, loginRequest.username(), loginRequest.username(),
+          passwordEncoder.encode(loginRequest.password()));
 
       userRepository.save(user);
     }
 
     Authentication authenticaton = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
-            loginRequest.getUsername(),
-            loginRequest.getPassword()));
+            loginRequest.username(),
+            loginRequest.password()));
 
     SecurityContextHolder.getContext().setAuthentication(authenticaton);
     String jwt = jwtUtilsService.generateJwtToken(authenticaton);

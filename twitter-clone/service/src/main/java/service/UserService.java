@@ -50,7 +50,7 @@ public class UserService {
       return false;
     }
 
-    apiClient.setJwtToken(loginResponse.getJwtToken());
+    apiClient.setJwtToken(loginResponse.jwtToken());
     this.updateLoggedInUser();
 
     return true;
