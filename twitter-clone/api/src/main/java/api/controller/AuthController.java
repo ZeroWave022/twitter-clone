@@ -50,9 +50,8 @@ public class AuthController {
       userRepository.save(user);
     }
 
-    Authentication authenticaton = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(
-            loginRequest.getUsername(),
+    Authentication authenticaton = authenticationManager
+        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
             loginRequest.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authenticaton);

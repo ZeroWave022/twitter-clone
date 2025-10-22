@@ -30,11 +30,9 @@ public class JwtUtilsService {
   public String generateJwtToken(Authentication authentication) {
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-    return Jwts.builder()
-        .subject(userDetails.getUsername())
+    return Jwts.builder().subject(userDetails.getUsername())
         .issuedAt(new Date(System.currentTimeMillis()))
-        .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-        .signWith(getKey())
+        .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs)).signWith(getKey())
         .compact();
   }
 
@@ -49,11 +47,7 @@ public class JwtUtilsService {
    * @return the extracted username
    */
   public String getUsernameFromJwtToken(String token) {
-    return Jwts.parser()
-        .verifyWith(getKey())
-        .build()
-        .parseSignedClaims(token)
-        .getPayload()
+    return Jwts.parser().verifyWith(getKey()).build().parseSignedClaims(token).getPayload()
         .getSubject();
   }
 

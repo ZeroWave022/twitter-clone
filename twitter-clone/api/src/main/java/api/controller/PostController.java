@@ -71,9 +71,7 @@ public class PostController {
   @PostMapping
   public ResponseEntity<?> createPost(@RequestBody CreatePostRequest createPostRequest) {
     try {
-      UserDetails userDetails = (UserDetails) SecurityContextHolder
-          .getContext()
-          .getAuthentication()
+      UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
           .getPrincipal();
 
       User user = userRepository.findByUsername(userDetails.getUsername()).get();
