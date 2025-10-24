@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,18 +35,24 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     try {
       String jwt = parseJwt(request);
 
-      if (jwt != null && jwtUtilsService.validateJwtToken(jwt)) {
-        String username = jwtUtilsService.getUsernameFromJwtToken(jwt);
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        var authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-            userDetails.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+      if (jwt == null || !jwtUtilsService.validateJwtToken(jwt)) {
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.getWriter().flush();
+        return;
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+
+      String username = jwtUtilsService.getUsernameFromJwtToken(jwt);
+
+      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+      var authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+          userDetails.getAuthorities());
+      authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+    } catch (UsernameNotFoundException e) {
+      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      response.getWriter().flush();
+      return;
     }
 
     filterChain.doFilter(request, response);
