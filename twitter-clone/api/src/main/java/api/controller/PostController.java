@@ -47,7 +47,7 @@ public class PostController {
    * @return the post if found, or 404 if not found
    */
   @GetMapping("/{id}")
-  public ResponseEntity<?> getPost(@PathVariable Long id) {
+  public ResponseEntity<?> getPost(@PathVariable("id") Long id) {
     return postRepository.findById(id).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
