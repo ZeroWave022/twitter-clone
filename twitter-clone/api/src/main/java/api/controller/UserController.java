@@ -4,9 +4,13 @@ import core.User;
 import core.payload.request.UpdateUserRequest;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,12 +87,25 @@ public class UserController {
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable("id") Long id,
       @RequestBody UpdateUserRequest updateUserRequest) {
-    return userRepository.findById(id).map(existingUser -> {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+        .getAuthentication()
+        .getPrincipal();
 
-      existingUser.setDisplayName(updateUserRequest.getDisplayName());
-      existingUser.setUsername(updateUserRequest.getUsername());
-      existingUser.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
-      return ResponseEntity.ok(userRepository.update(existingUser));
-    }).orElse(ResponseEntity.notFound().build());
+    String username = userDetails.getUsername();
+
+    Optional<User> maybeUser = userRepository.findById(id);
+    if (maybeUser.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    User existingUser = maybeUser.get();
+    if (!existingUser.getUsername().equals(username)) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    existingUser.setDisplayName(updateUserRequest.getDisplayName());
+    existingUser.setUsername(updateUserRequest.getUsername());
+    existingUser.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
+    return ResponseEntity.ok(userRepository.update(existingUser));
   }
 }
