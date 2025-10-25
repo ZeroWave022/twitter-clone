@@ -3,8 +3,6 @@ package persistence;
 import com.fasterxml.jackson.core.type.TypeReference;
 import core.Post;
 import core.User;
-import core.payload.response.PostResponse;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
