@@ -2,7 +2,6 @@ package service;
 
 import core.payload.request.CreatePostRequest;
 import core.payload.response.PostResponse;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +58,7 @@ public class PostService {
   /**
    * Creates a new post.
    *
-   * @param post the post to create
+   * @param content the content of the post
    * @return the saved post
    */
   @Transactional
@@ -102,7 +101,6 @@ public class PostService {
   }
 
   // TODO: add if needed
-  /** updates an existing @param post . */
   // public PostResponse update(Post post) {
   // return postRepository.update(post);
   // }

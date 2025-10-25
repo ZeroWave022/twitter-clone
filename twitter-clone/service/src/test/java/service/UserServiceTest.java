@@ -4,15 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 import core.User;
 import core.payload.request.LoginRequest;
 import core.payload.response.LoginResponse;
 import core.payload.response.UserResponse;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,9 +43,14 @@ public class UserServiceTest {
   @Test
   void logInReturnsTrueWhenUserExistsAndPasswordMatches() {
     LoginResponse fakeJwt = new LoginResponse("jwt-token");
-    UserResponse fakeUser = new UserResponse(user.getId(), user.getUsername(), user.getDisplayName());
+    UserResponse fakeUser = new UserResponse(
+        user.getId(),
+        user.getUsername(),
+        user.getDisplayName());
 
-    when(apiClient.post(eq("/auth/login"), any(LoginRequest.class), eq(LoginResponse.class))).thenReturn(fakeJwt);
+    when(apiClient.post(eq("/auth/login"), any(LoginRequest.class), eq(LoginResponse.class)))
+        .thenReturn(fakeJwt);
+
     when(apiClient.get(eq("/auth/me"), eq(UserResponse.class))).thenReturn(fakeUser);
 
     assertTrue(userService.logIn(user.getUsername(), user.getPassword()));
@@ -61,7 +65,9 @@ public class UserServiceTest {
         null,
         null,
         null);
-    when(apiClient.post(eq("/auth/login"), any(LoginRequest.class), eq(LoginResponse.class))).thenThrow(exception);
+    when(apiClient.post(eq("/auth/login"), any(LoginRequest.class), eq(LoginResponse.class)))
+        .thenThrow(exception);
+
     assertFalse(userService.logIn(user.getUsername(), user.getPassword()));
     assertNull(userService.getLoggedInUser());
   }

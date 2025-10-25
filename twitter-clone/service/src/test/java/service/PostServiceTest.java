@@ -2,17 +2,14 @@ package service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-
-import java.util.Set;
-
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 import core.Post;
 import core.User;
 import core.payload.response.PostResponse;
 import core.payload.response.UserResponse;
-
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,9 +51,18 @@ public class PostServiceTest {
 
   @Test
   void getPostByIdReturnsPostWhenFound() {
-    UserResponse fakeAuthor = new UserResponse(user.getId(), user.getUsername(), user.getDisplayName());
-    PostResponse fakePost = new PostResponse(post.getId(), post.getContent(), post.getLikes(), post.getReTweets(),
-        post.getCommentsAmount(), fakeAuthor, Set.of());
+    UserResponse fakeAuthor = new UserResponse(
+        user.getId(),
+        user.getUsername(),
+        user.getDisplayName());
+    PostResponse fakePost = new PostResponse(
+        post.getId(),
+        post.getContent(),
+        post.getLikes(),
+        post.getReTweets(),
+        post.getCommentsAmount(),
+        fakeAuthor,
+        Set.of());
     when(apiClient.get(eq("/api/posts/" + postId), eq(PostResponse.class))).thenReturn(fakePost);
     assertEquals(fakePost, postService.getPostById(postId).get());
   }
