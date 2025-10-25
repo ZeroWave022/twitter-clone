@@ -87,9 +87,6 @@ class PostControllerTest extends UiTestBase {
     post = postService.likePost(post.id());
     assertEquals(1, post.likes(), "Post should already have 1 like from first user");
 
-    userService.logIn("seconduser", "pass456");
-    UserResponse secondUser = userService.getLoggedInUser();
-
     typeIntoTextInput("#usernameField", "seconduser");
     typeIntoTextInput("#passwordField", "pass456");
     Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
@@ -99,10 +96,15 @@ class PostControllerTest extends UiTestBase {
     // like and check
     Button likeBtn = lookup("#likeBtn").nth(0).queryAs(Button.class);
     interact(likeBtn::fire);
+
     PostResponse updatedPost = postService.getPostById(post.id()).orElseThrow();
     assertEquals(2, updatedPost.likes(), "Post should now have 2 likes");
+
+    userService.logIn("seconduser", "pass456");
+    UserResponse secondUser = userService.getLoggedInUser();
     assertTrue(updatedPost.likedByUser(secondUser.id()),
         "Second user should be registered as liking the post");
+
     assertTrue(updatedPost.likedByUser(user.id()), "First user's like should still be counted");
     FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("blue"));
   }

@@ -3,9 +3,9 @@ package ui;
 import core.payload.response.PostResponse;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 
 // This class is based on the example from this StackOverflow post:
@@ -20,6 +20,9 @@ public class PostCell extends ListCell<PostResponse> {
   private HBox postItem;
   private PostController postController;
 
+  /**
+   * Constructs a PostCell object.
+   */
   public PostCell() {
     try {
       FXMLLoader loader = new FXMLLoader(App.class.getResource("post.fxml"));

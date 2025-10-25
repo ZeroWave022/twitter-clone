@@ -27,7 +27,6 @@ public class FeedController {
    * @param postService the post service
    */
   @Autowired
-  @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "PostService will be used in the future.")
   public FeedController(UserService userService, PostService postService) {
     this.userService = userService;
     this.postService = postService;
