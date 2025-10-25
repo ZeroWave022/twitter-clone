@@ -55,8 +55,8 @@ public class PostController {
     displayNameLabel.setText(post.getAuthor().getDisplayName());
     usernameLabel.setText("@" + post.getAuthor().getUsername());
     contentLabel.setText(post.getContent());
-    likeBtn.setText(post.getLikes() + " 👍");
-    retweetBtn.setText(post.getReTweets() + " 🔄");
+    likeBtn.setText(String.valueOf(post.getLikes()));
+    retweetBtn.setText(String.valueOf(post.getReTweets()));
 
     if (post.likedByUser(userService.getLoggedInUser())) {
       likeBtn.setStyle("-fx-text-fill: blue;");
@@ -72,7 +72,7 @@ public class PostController {
     if (currentPost != null) {
       postService.likePost(currentPost, userService.getLoggedInUser());
       postService.update(currentPost);
-      likeBtn.setText(currentPost.getLikes() + " 👍");
+      likeBtn.setText(String.valueOf(currentPost.getLikes()));
 
       if (currentPost.likedByUser(userService.getLoggedInUser())) {
         likeBtn.setStyle("-fx-text-fill: blue;");
