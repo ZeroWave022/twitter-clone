@@ -3,7 +3,6 @@ package service;
 import core.payload.request.LoginRequest;
 import core.payload.response.LoginResponse;
 import core.payload.response.UserResponse;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +37,7 @@ public class UserService {
    * @return true if login succeeded
    */
   public boolean logIn(String username, String password) {
+    System.out.println(username + " " + password);
     LoginResponse loginResponse;
     try {
       loginResponse = this.apiClient.post(

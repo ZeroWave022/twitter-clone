@@ -53,8 +53,8 @@ public class PostController {
    * @return the post if found, or 404 if not found
    */
   @GetMapping("/{id}")
-  public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
-    return postRepository.findById(id)
+  public ResponseEntity<PostResponse> getPost(@PathVariable("id") Long id) {
+    return postRepository.findById(id, true)
         .map(postService::toDTO)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
@@ -68,7 +68,7 @@ public class PostController {
   @GetMapping
   public ResponseEntity<List<PostResponse>> getAllPosts() {
     return ResponseEntity.ok(
-        postRepository.findAll()
+        postRepository.findAll(true)
             .stream()
             .map(postService::toDTO)
             .toList());
@@ -83,9 +83,7 @@ public class PostController {
   @PostMapping
   public ResponseEntity<PostResponse> createPost(@RequestBody CreatePostRequest createPostRequest) {
     try {
-      UserDetails userDetails = (UserDetails) SecurityContextHolder
-          .getContext()
-          .getAuthentication()
+      UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
           .getPrincipal();
 
       User user = userRepository.findByUsername(userDetails.getUsername()).get();
@@ -97,5 +95,18 @@ public class PostController {
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }
+  }
+
+  @PostMapping("/{id}/likes")
+  public ResponseEntity<PostResponse> togglePostLike(@PathVariable("id") Long id) {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+
+    User user = userRepository.findByUsername(userDetails.getUsername()).get();
+    return postRepository.findById(id, true)
+        .map(post -> postRepository.likePost(post, user))
+        .map(postService::toDTO)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 }

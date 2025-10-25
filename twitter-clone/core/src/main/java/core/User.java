@@ -82,4 +82,27 @@ public class User {
   public void setPassword(String password) {
     this.password = password;
   }
+
+  // needed to compare users between different instances of logged in
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    User user = (User) o;
+
+    if (id != null && user.id != null) {
+      return id.equals(user.id);
+    }
+
+    return username != null && username.equals(user.username);
+  }
+
+  // needed to compare users between different instances of logged in
+  @Override
+  public int hashCode() {
+    return id != null ? id.hashCode() : (username != null ? username.hashCode() : 0);
+  }
+
 }

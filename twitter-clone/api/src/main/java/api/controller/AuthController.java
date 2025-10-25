@@ -47,6 +47,8 @@ public class AuthController {
    */
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    System.out.println(loginRequest.username() + " " + loginRequest.password());
+
     if (userRepository.findByUsername(loginRequest.username()).isEmpty()) {
       User user = new User(null, loginRequest.username(), loginRequest.username(),
           passwordEncoder.encode(loginRequest.password()));

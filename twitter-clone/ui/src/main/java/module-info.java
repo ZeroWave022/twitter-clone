@@ -14,6 +14,7 @@ module twitter.ui {
 
   requires com.github.spotbugs.annotations;
   requires javafx.base;
+  requires twitter.persistence;
 
   requires spring.webflux;
   requires reactor.core;

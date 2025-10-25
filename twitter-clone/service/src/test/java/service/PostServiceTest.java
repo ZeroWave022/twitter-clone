@@ -1,12 +1,12 @@
 package service;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+
+import java.util.Set;
+
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.any;
 
 import core.Post;
 import core.User;
@@ -56,7 +56,7 @@ public class PostServiceTest {
   void getPostByIdReturnsPostWhenFound() {
     UserResponse fakeAuthor = new UserResponse(user.getId(), user.getUsername(), user.getDisplayName());
     PostResponse fakePost = new PostResponse(post.getId(), post.getContent(), post.getLikes(), post.getReTweets(),
-        post.getCommentsAmount(), fakeAuthor);
+        post.getCommentsAmount(), fakeAuthor, Set.of());
     when(apiClient.get(eq("/api/posts/" + postId), eq(PostResponse.class))).thenReturn(fakePost);
     assertEquals(fakePost, postService.getPostById(postId).get());
   }

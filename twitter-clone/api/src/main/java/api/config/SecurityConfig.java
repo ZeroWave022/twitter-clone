@@ -33,13 +33,10 @@ public class SecurityConfig {
    */
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(csrf -> csrf.disable())
-        .cors(cors -> cors.disable())
+    http.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/auth/login").permitAll()
+        .authorizeHttpRequests(authorize -> authorize.requestMatchers("/auth/login").permitAll()
             .anyRequest().authenticated())
         .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -54,8 +51,7 @@ public class SecurityConfig {
    * @return an implementation of {@link AuthenticationManager}
    */
   @Bean
-  public AuthenticationManager authenticationManager(
-      UserDetailsService userDetailsService,
+  public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
       PasswordEncoder passwordEncoder) {
     DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(
         userDetailsService);
