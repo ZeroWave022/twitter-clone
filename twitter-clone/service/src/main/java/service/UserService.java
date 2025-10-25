@@ -37,7 +37,6 @@ public class UserService {
    * @return true if login succeeded
    */
   public boolean logIn(String username, String password) {
-    System.out.println(username + " " + password);
     LoginResponse loginResponse;
     try {
       loginResponse = this.apiClient.post(
