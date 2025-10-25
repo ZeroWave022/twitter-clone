@@ -37,14 +37,14 @@
                   <Font size="14.0" />
                </font>
             </PasswordField>
-            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="150.0" textAlignment="CENTER">
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="150.0" textAlignment="CENTER" textFill="#d00000">
                <VBox.margin>
-                  <Insets top="5.0" />
+                  <Insets bottom="3.0" top="3.0" />
                </VBox.margin>
             </Label>
             <Button fx:id="logInBtn" mnemonicParsing="false" onAction="#logIn" prefHeight="28.0" prefWidth="60.0" text="Log in">
                <VBox.margin>
-                  <Insets top="5.0" />
+                  <Insets top="3.0" />
                </VBox.margin>
                <font>
                   <Font size="14.0" />
