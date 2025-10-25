@@ -6,3 +6,4 @@ target/
 .classpath
 org.eclipse.*.prefs
 twitter-clone.db
+**/api/**/application.properties
