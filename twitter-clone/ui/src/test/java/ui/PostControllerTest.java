@@ -5,10 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.concurrent.TimeoutException;
-
-import core.Post;
-import core.User;
 import core.payload.response.PostResponse;
 import core.payload.response.UserResponse;
 import javafx.scene.control.Button;
@@ -22,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.testfx.api.FxAssert;
 import org.testfx.util.WaitForAsyncUtils;
 import persistence.OrmPostRepository;
-import persistence.OrmUserRepository;
 import service.PostService;
 import service.UserService;
 
@@ -39,7 +34,7 @@ class PostControllerTest extends UiTestBase {
   private PostResponse post;
 
   @BeforeEach
-  void setupData() throws Exception {
+  void setupData() {
     OrmPostRepository postRepository = new OrmPostRepository();
     postRepository.dropDatabase();
 
@@ -49,7 +44,7 @@ class PostControllerTest extends UiTestBase {
   }
 
   @AfterEach
-  void cleanupData() throws TimeoutException {
+  void cleanupData() {
     new OrmPostRepository().dropDatabase();
   }
 
