@@ -5,10 +5,14 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -92,47 +96,46 @@ public class PostController {
 
   /** Updates the retweet UI elements when the retweet button is pressed. */
   @FXML
-  public void updateRetweets() throws IOException {
-    if (currentPost == null){
+  public void updateRetweets() {
+    if (currentPost == null)
       return;
-    }
 
-    // Offer choices
-    ButtonType retweet = new ButtonType("Retweet");
-    ButtonType quote = new ButtonType("Quote…");
-    ButtonType cancel = ButtonType.CANCEL;
+    // Create dialog
+    Dialog<String> dialog = new Dialog<>();
+    dialog.setTitle("Retweet");
+    dialog.setHeaderText("Add an optional message and confirm your retweet");
+    // Buttons
+    ButtonType retweetBtnType = new ButtonType("Retweet", ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(retweetBtnType, ButtonType.CANCEL);
 
-    Alert alert = new Alert(Alert.AlertType.NONE, "Share this post with your followers?", retweet,
-        quote, cancel);
-    alert.setHeaderText("Retweet");
-    alert.showAndWait().ifPresent(choice -> {
-      if (choice == retweet) {
-        onConfirmRetweet();
-      } else if (choice == quote) {
-        openQuoteComposer();
-      } // else Cancel -> do nothing
+    // Content: a TextArea
+    TextArea messageArea = new TextArea();
+    messageArea.setPromptText("Add a message (optional)");
+    messageArea.setWrapText(true);
+    messageArea.setPrefRowCount(3);
+
+    dialog.getDialogPane().setContent(messageArea);
+
+    // Convert result
+    dialog.setResultConverter(dialogButton -> {
+      if (dialogButton == retweetBtnType) {
+        return messageArea.getText().trim(); // may be empty
+      }
+      return null;
     });
+
+    Optional<String> result = dialog.showAndWait();
+    result.ifPresent(msg -> onConfirmRetweet(msg));
   }
 
-  private void onConfirmRetweet() {
+  private void onConfirmRetweet(String msg) {
     // var user = userService.getLoggedInUser();
-    // boolean nowRetweeted = postService.toggleRetweet(currentPost, user); // implement this
+    // Post retweetPost = new Post(user, "", null);
+    // boolean nowRetweeted = postService.createRetweet(currentPost, retweetPost); // implement this
 
     // postService.update(currentPost);
     // retweetBtn.setText(currentPost.getReTweets() + " 🔄");
     // retweetBtn.setStyle(nowRetweeted ? "-fx-text-fill: cyan;" : "-fx-text-fill: black;");
-  }
-
-  // @Autowired
-  // private NavigationService navigation;
-
-  private void openQuoteComposer() {
-    // navigation.set(new ComposeParams(currentPost, false)); // false => not "retweet-only"
-    // try {
-    //   App.setRoot("makeNewPost.fxml");
-    // } catch (IOException e) {
-    //   new Alert(Alert.AlertType.ERROR, "Could not open compose.").showAndWait();
-    // }
   }
 
 }
