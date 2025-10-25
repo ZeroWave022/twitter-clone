@@ -1,5 +1,6 @@
 package api.controller;
 
+import api.service.PostService;
 import core.Post;
 import core.User;
 import core.payload.request.CreatePostRequest;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import api.service.PostService;
 import persistence.PostRepository;
 import persistence.UserRepository;
 
@@ -55,7 +54,7 @@ public class PostController {
   @GetMapping("/{id}")
   public ResponseEntity<PostResponse> getPost(@PathVariable("id") Long id) {
     return postRepository.findById(id, true)
-        .map(postService::toDTO)
+        .map(postService::toDto)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -70,7 +69,7 @@ public class PostController {
     return ResponseEntity.ok(
         postRepository.findAll(true)
             .stream()
-            .map(postService::toDTO)
+            .map(postService::toDto)
             .toList());
   }
 
@@ -91,12 +90,18 @@ public class PostController {
       Post post = new Post();
       post.setAuthor(user);
       post.setContent(createPostRequest.content());
-      return ResponseEntity.ok(postService.toDTO(postRepository.save(post)));
+      return ResponseEntity.ok(postService.toDto(postRepository.save(post)));
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }
   }
 
+  /**
+   * Toggles whether the authenticated user has liked a post.
+   *
+   * @param id the post's id
+   * @return the updated post DTO
+   */
   @PostMapping("/{id}/likes")
   public ResponseEntity<PostResponse> togglePostLike(@PathVariable("id") Long id) {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -105,7 +110,7 @@ public class PostController {
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
     return postRepository.findById(id, true)
         .map(post -> postRepository.likePost(post, user))
-        .map(postService::toDTO)
+        .map(postService::toDto)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

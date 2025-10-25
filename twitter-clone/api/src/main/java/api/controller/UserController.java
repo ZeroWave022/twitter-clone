@@ -1,12 +1,12 @@
 package api.controller;
 
+import api.service.UserService;
 import core.User;
 import core.payload.request.UpdateUserRequest;
 import core.payload.response.UserResponse;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import api.service.UserService;
 import persistence.UserRepository;
 
 /**
@@ -56,7 +54,7 @@ public class UserController {
    */
   @GetMapping
   public List<UserResponse> getAllUsers() {
-    return userRepository.findAll().stream().map(userService::toDTO).toList();
+    return userRepository.findAll().stream().map(userService::toDto).toList();
   }
 
   /**
@@ -68,7 +66,7 @@ public class UserController {
   @GetMapping("/{id}")
   public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long id) {
     return userRepository.findById(id)
-        .map(userService::toDTO)
+        .map(userService::toDto)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -102,6 +100,6 @@ public class UserController {
     existingUser.setDisplayName(updateUserRequest.displayName());
     existingUser.setUsername(updateUserRequest.username());
     existingUser.setPassword(passwordEncoder.encode(updateUserRequest.password()));
-    return ResponseEntity.ok(userService.toDTO(userRepository.update(existingUser)));
+    return ResponseEntity.ok(userService.toDto(userRepository.update(existingUser)));
   }
 }

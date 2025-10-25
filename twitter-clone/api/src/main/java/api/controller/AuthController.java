@@ -5,7 +5,6 @@ import core.User;
 import core.payload.request.LoginRequest;
 import core.payload.response.LoginResponse;
 import core.payload.response.UserResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -65,6 +64,11 @@ public class AuthController {
     return ResponseEntity.ok(new LoginResponse(jwt));
   }
 
+  /**
+   * Returns the authenticated user's data.
+   *
+   * @return the user's data as a DTO
+   */
   @GetMapping("/me")
   public ResponseEntity<UserResponse> getAuthenticatedUser() {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
@@ -73,6 +77,7 @@ public class AuthController {
 
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
 
-    return ResponseEntity.ok(new UserResponse(user.getId(), user.getUsername(), user.getDisplayName()));
+    return ResponseEntity.ok(
+        new UserResponse(user.getId(), user.getUsername(), user.getDisplayName()));
   }
 }
