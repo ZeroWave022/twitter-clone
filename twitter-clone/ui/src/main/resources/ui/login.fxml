@@ -37,9 +37,14 @@
                   <Font size="14.0" />
                </font>
             </PasswordField>
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="150.0" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
             <Button fx:id="logInBtn" mnemonicParsing="false" onAction="#logIn" prefHeight="28.0" prefWidth="60.0" text="Log in">
                <VBox.margin>
-                  <Insets top="15.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
                <font>
                   <Font size="14.0" />
@@ -47,6 +52,10 @@
             </Button>
          </children>
       </VBox>
-      <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="565.0" layoutY="450.0" prefHeight="39.0" prefWidth="150.0" textAlignment="CENTER" />
+      <Text fill="#5e5e5e" layoutX="495.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account yet? Enter your preferred username and password, and click Log in to create one!" wrappingWidth="290.0">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
