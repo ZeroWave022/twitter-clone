@@ -3,8 +3,13 @@ package ui;
 import core.Post;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -69,22 +74,65 @@ public class PostController {
   /** Updates the likes UI elements when the like button is pressed. */
   @FXML
   public void updateLikes() {
-    if (currentPost != null) {
-      postService.likePost(currentPost, userService.getLoggedInUser());
-      postService.update(currentPost);
-      likeBtn.setText(currentPost.getLikes() + " 👍");
-
-      if (currentPost.likedByUser(userService.getLoggedInUser())) {
-        likeBtn.setStyle("-fx-text-fill: blue;");
-      } else {
-        likeBtn.setStyle("-fx-text-fill: black;");
-      }
+    if (currentPost == null) {
+      return;
     }
+
+    postService.likePost(currentPost, userService.getLoggedInUser());
+    postService.update(currentPost);
+    likeBtn.setText(currentPost.getLikes() + " 👍");
+
+    if (currentPost.likedByUser(userService.getLoggedInUser())) {
+      likeBtn.setStyle("-fx-text-fill: blue;");
+    } else {
+      likeBtn.setStyle("-fx-text-fill: black;");
+    }
+
   }
 
   /** Updates the retweet UI elements when the retweet button is pressed. */
   @FXML
-  public void updateRetweets() { // do not remove, posts wont show
+  public void updateRetweets() throws IOException {
+    if (currentPost == null){
+      return;
+    }
 
+    // Offer choices
+    ButtonType retweet = new ButtonType("Retweet");
+    ButtonType quote = new ButtonType("Quote…");
+    ButtonType cancel = ButtonType.CANCEL;
+
+    Alert alert = new Alert(Alert.AlertType.NONE, "Share this post with your followers?", retweet,
+        quote, cancel);
+    alert.setHeaderText("Retweet");
+    alert.showAndWait().ifPresent(choice -> {
+      if (choice == retweet) {
+        onConfirmRetweet();
+      } else if (choice == quote) {
+        openQuoteComposer();
+      } // else Cancel -> do nothing
+    });
   }
+
+  private void onConfirmRetweet() {
+    // var user = userService.getLoggedInUser();
+    // boolean nowRetweeted = postService.toggleRetweet(currentPost, user); // implement this
+
+    // postService.update(currentPost);
+    // retweetBtn.setText(currentPost.getReTweets() + " 🔄");
+    // retweetBtn.setStyle(nowRetweeted ? "-fx-text-fill: cyan;" : "-fx-text-fill: black;");
+  }
+
+  // @Autowired
+  // private NavigationService navigation;
+
+  private void openQuoteComposer() {
+    // navigation.set(new ComposeParams(currentPost, false)); // false => not "retweet-only"
+    // try {
+    //   App.setRoot("makeNewPost.fxml");
+    // } catch (IOException e) {
+    //   new Alert(Alert.AlertType.ERROR, "Could not open compose.").showAndWait();
+    // }
+  }
+
 }
