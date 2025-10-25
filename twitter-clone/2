@@ -1,3 +1,0 @@
-spring.application.name=api
-jwtSecret=wA8fSN8ai8eHYxt2DpXsMvuVtssQ0jVmBXWiLXk1gSHkpUPBd2+SdKKVrJfyjxkzOKcS3WqByBEpNKKe0VTMeg==
-jwtExpirationMs=86400000
