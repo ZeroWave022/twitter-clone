@@ -44,7 +44,8 @@ public class PostServiceTest {
 
   @Test
   void getPostByIdReturnsEmptyWhenNotFound() {
-    var exception = WebClientResponseException.create(404, "Not Found", null, null, null);
+    WebClientResponseException exception = WebClientResponseException.create(404, "Not Found", null,
+        null, null);
     when(apiClient.get(eq("/api/posts/" + postId), eq(PostResponse.class))).thenThrow(exception);
     assertTrue(postService.getPostById(postId).isEmpty());
   }

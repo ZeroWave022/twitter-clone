@@ -57,7 +57,8 @@ public class UserServiceTest {
 
   @Test
   void logInReturnsFalseWhenUserExistsAndPasswordDoesNotMatch() {
-    var exception = WebClientResponseException.create(403, "Forbidden", null, null, null);
+    WebClientResponseException exception = WebClientResponseException.create(403, "Forbidden", null,
+        null, null);
     when(apiClient.post(eq("/auth/login"), any(LoginRequest.class), eq(LoginResponse.class)))
         .thenThrow(exception);
 
