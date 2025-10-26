@@ -46,7 +46,16 @@ mvn -q -pl api exec:java -Dexec.mainClass="api.utils.JwtKeyGenerator"
 
 Override the example secret with the generated value.
 
+Install all the modules, skipping all tests, as this slows down the installation and crashes if there is no api server running:
+
+```sh
+mvn install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
+```
+
 ### Running the app
+
+> [!NOTE]
+> The client requires the API to be running on localhost:8080
 
 Start the api:
 
