@@ -72,7 +72,8 @@ public class UserController {
   }
 
   /**
-   * Update an existing user.
+   * Update an existing user. Warning: Updating your username will invalidate the
+   * current JWT, so it will need to be regenerated using `POST /auth/login`.
    *
    * @param id                the ID of the user to update
    * @param updateUserRequest the updated user data
