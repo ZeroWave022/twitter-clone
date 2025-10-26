@@ -13,13 +13,8 @@ import java.util.Set;
  * @param author         author as a {@link UserResponse} DTO
  * @param likedByUsers   set of user ids that have liked the post
  */
-public record PostResponse(Long id,
-    String content,
-    int likes,
-    int reTweets,
-    int commentsAmount,
-    UserResponse author,
-    Set<Long> likedByUsers) {
+public record PostResponse(Long id, String content, int likes, int reTweets, int commentsAmount,
+    UserResponse author, Set<Long> likedByUsers) {
   /**
    * Makes sure all fields are truly read only.
    */

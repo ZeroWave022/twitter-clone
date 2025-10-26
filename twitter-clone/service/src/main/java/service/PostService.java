@@ -31,9 +31,7 @@ public class PostService {
   public Optional<PostResponse> getPostById(Long id) {
     PostResponse post;
     try {
-      post = this.apiClient.get(
-          "/api/posts/" + id,
-          PostResponse.class);
+      post = this.apiClient.get("/api/posts/" + id, PostResponse.class);
     } catch (WebClientResponseException.NotFound e) {
       return Optional.empty();
     }
@@ -67,9 +65,7 @@ public class PostService {
       throw new IllegalArgumentException("Post cannot be null");
     }
 
-    PostResponse post = this.apiClient.post(
-        "/api/posts",
-        new CreatePostRequest(content),
+    PostResponse post = this.apiClient.post("/api/posts", new CreatePostRequest(content),
         PostResponse.class);
 
     return post;
@@ -78,10 +74,8 @@ public class PostService {
   /** Returns a list of all posts. */
   @Transactional(readOnly = true)
   public List<PostResponse> getAllPosts() {
-    return this.apiClient.get(
-        "/api/posts",
-        new ParameterizedTypeReference<List<PostResponse>>() {
-        });
+    return this.apiClient.get("/api/posts", new ParameterizedTypeReference<List<PostResponse>>() {
+    });
   }
 
   /** Returns a list of all posts. */
@@ -94,9 +88,7 @@ public class PostService {
   /** Likes/unlikes the @param post by the @param user . */
   @Transactional
   public PostResponse likePost(Long postId) {
-    return this.apiClient.post(
-        "/api/posts/" + postId + "/likes",
-        Collections.emptyMap(),
+    return this.apiClient.post("/api/posts/" + postId + "/likes", Collections.emptyMap(),
         PostResponse.class);
   }
 

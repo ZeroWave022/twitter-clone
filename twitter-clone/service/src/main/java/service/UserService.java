@@ -39,9 +39,7 @@ public class UserService {
   public boolean logIn(String username, String password) {
     LoginResponse loginResponse;
     try {
-      loginResponse = this.apiClient.post(
-          "/auth/login",
-          new LoginRequest(username, password),
+      loginResponse = this.apiClient.post("/auth/login", new LoginRequest(username, password),
           LoginResponse.class);
     } catch (WebClientResponseException.Forbidden e) {
       // 403 http status indicates wrong credentials
@@ -55,9 +53,7 @@ public class UserService {
   }
 
   private void updateLoggedInUser() {
-    UserResponse user = this.apiClient.get(
-        "/auth/me",
-        UserResponse.class);
+    UserResponse user = this.apiClient.get("/auth/me", UserResponse.class);
 
     this.loggedInUser = user;
   }

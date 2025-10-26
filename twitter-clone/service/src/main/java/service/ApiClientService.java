@@ -16,9 +16,7 @@ public class ApiClientService {
    * Constructs an ApiClientService that hits localhost at port 8080.
    */
   public ApiClientService() {
-    this.webClient = WebClient.builder()
-        .baseUrl("http://localhost:8080")
-        .build();
+    this.webClient = WebClient.builder().baseUrl("http://localhost:8080").build();
   }
 
   /**
@@ -39,16 +37,11 @@ public class ApiClientService {
    * @return the response body deserialized into the type {@code T}
    */
   public <T> T get(String path, Class<T> responseType) {
-    return this.webClient.get()
-        .uri(path)
-        .headers(headers -> {
-          if (this.jwtToken != null) {
-            headers.setBearerAuth(this.jwtToken);
-          }
-        })
-        .retrieve()
-        .bodyToMono(responseType)
-        .block();
+    return this.webClient.get().uri(path).headers(headers -> {
+      if (this.jwtToken != null) {
+        headers.setBearerAuth(this.jwtToken);
+      }
+    }).retrieve().bodyToMono(responseType).block();
   }
 
   /**
@@ -60,16 +53,11 @@ public class ApiClientService {
    * @return the response body deserialized into the type {@code T}
    */
   public <T> T get(String path, ParameterizedTypeReference<T> responseType) {
-    return this.webClient.get()
-        .uri(path)
-        .headers(headers -> {
-          if (this.jwtToken != null) {
-            headers.setBearerAuth(this.jwtToken);
-          }
-        })
-        .retrieve()
-        .bodyToMono(responseType)
-        .block();
+    return this.webClient.get().uri(path).headers(headers -> {
+      if (this.jwtToken != null) {
+        headers.setBearerAuth(this.jwtToken);
+      }
+    }).retrieve().bodyToMono(responseType).block();
   }
 
   /**
@@ -83,17 +71,11 @@ public class ApiClientService {
    * @return the response body deserialized into the type {@code R}
    */
   public <T, R> R post(String path, T body, Class<R> responseType) {
-    return this.webClient.post()
-        .uri(path)
-        .headers(headers -> {
-          if (this.jwtToken != null) {
-            headers.setBearerAuth(this.jwtToken);
-          }
-        })
-        .bodyValue(body)
-        .retrieve()
-        .bodyToMono(responseType)
-        .block();
+    return this.webClient.post().uri(path).headers(headers -> {
+      if (this.jwtToken != null) {
+        headers.setBearerAuth(this.jwtToken);
+      }
+    }).bodyValue(body).retrieve().bodyToMono(responseType).block();
   }
 
   /**
@@ -107,16 +89,10 @@ public class ApiClientService {
    * @return the response body deserialized into the type {@code R}
    */
   public <T, R> R post(String path, T body, ParameterizedTypeReference<R> responseType) {
-    return this.webClient.post()
-        .uri(path)
-        .headers(headers -> {
-          if (this.jwtToken != null) {
-            headers.setBearerAuth(this.jwtToken);
-          }
-        })
-        .bodyValue(body)
-        .retrieve()
-        .bodyToMono(responseType)
-        .block();
+    return this.webClient.post().uri(path).headers(headers -> {
+      if (this.jwtToken != null) {
+        headers.setBearerAuth(this.jwtToken);
+      }
+    }).bodyValue(body).retrieve().bodyToMono(responseType).block();
   }
 }

@@ -51,18 +51,10 @@ public class PostServiceTest {
 
   @Test
   void getPostByIdReturnsPostWhenFound() {
-    UserResponse fakeAuthor = new UserResponse(
-        user.getId(),
-        user.getUsername(),
+    UserResponse fakeAuthor = new UserResponse(user.getId(), user.getUsername(),
         user.getDisplayName());
-    PostResponse fakePost = new PostResponse(
-        post.getId(),
-        post.getContent(),
-        post.getLikes(),
-        post.getReTweets(),
-        post.getCommentsAmount(),
-        fakeAuthor,
-        Set.of());
+    PostResponse fakePost = new PostResponse(post.getId(), post.getContent(), post.getLikes(),
+        post.getReTweets(), post.getCommentsAmount(), fakeAuthor, Set.of());
     when(apiClient.get(eq("/api/posts/" + postId), eq(PostResponse.class))).thenReturn(fakePost);
     assertEquals(fakePost, postService.getPostById(postId).get());
   }

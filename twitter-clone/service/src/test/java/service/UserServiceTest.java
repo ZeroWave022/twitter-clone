@@ -43,9 +43,7 @@ public class UserServiceTest {
   @Test
   void logInReturnsTrueWhenUserExistsAndPasswordMatches() {
     LoginResponse fakeJwt = new LoginResponse("jwt-token");
-    UserResponse fakeUser = new UserResponse(
-        user.getId(),
-        user.getUsername(),
+    UserResponse fakeUser = new UserResponse(user.getId(), user.getUsername(),
         user.getDisplayName());
 
     when(apiClient.post(eq("/auth/login"), any(LoginRequest.class), eq(LoginResponse.class)))
@@ -59,12 +57,7 @@ public class UserServiceTest {
 
   @Test
   void logInReturnsFalseWhenUserExistsAndPasswordDoesNotMatch() {
-    var exception = WebClientResponseException.create(
-        403,
-        "Forbidden",
-        null,
-        null,
-        null);
+    var exception = WebClientResponseException.create(403, "Forbidden", null, null, null);
     when(apiClient.post(eq("/auth/login"), any(LoginRequest.class), eq(LoginResponse.class)))
         .thenThrow(exception);
 
