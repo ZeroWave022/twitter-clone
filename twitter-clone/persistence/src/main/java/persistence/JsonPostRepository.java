@@ -124,7 +124,6 @@ public class JsonPostRepository implements PostRepository {
 
   @Override
   public Post likePost(Post post, User user) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'likePost'");
   }
 }
