@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.PostController">
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.PostController">
    <children>
       <VBox maxWidth="-Infinity" prefHeight="115.0" prefWidth="700.0" style="-fx-border-color: #00000030; -fx-border-width: 1; -fx-border-radius: 8;">
          <children>
@@ -35,17 +35,17 @@
                <children>
                   <Button fx:id="likeBtn" minWidth="50.0" mnemonicParsing="false" onAction="#updateLikes" text="XX" textAlignment="CENTER">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
+                        <ImageView fx:id="likeImageView" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
                            <image>
-                              <Image url="@../icons/like.png" />
+                              <Image url="@../icons/likeOff.png" />
                            </image>
                         </ImageView>
                      </graphic></Button>
                   <Button fx:id="retweetBtn" minWidth="50.0" mnemonicParsing="false" onAction="#updateRetweets" text="XX" textAlignment="CENTER">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
+                        <ImageView fx:id="retweetImageView" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
                            <image>
-                              <Image url="@../icons/repost.png" />
+                              <Image url="@../icons/retweetOff.png" />
                            </image>
                         </ImageView>
                      </graphic></Button>
