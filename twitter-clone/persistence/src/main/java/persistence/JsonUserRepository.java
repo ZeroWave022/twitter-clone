@@ -42,8 +42,7 @@ public class JsonUserRepository implements UserRepository {
       e.printStackTrace();
     }
 
-    this.jsonRepository = new JsonRepository<>(
-        dataDir.resolve("users.json"),
+    this.jsonRepository = new JsonRepository<>(dataDir.resolve("users.json"),
         new TypeReference<List<User>>() {
         });
 

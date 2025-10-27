@@ -99,8 +99,8 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
   }
 
   @Override
-  public void likePost(Post post, User user) {
-    sessionFactory.inTransaction(session -> {
+  public Post likePost(Post post, User user) {
+    return sessionFactory.fromTransaction(session -> {
       HashSet<User> likedByUsers = new HashSet<>(post.getLikedByUsers());
       if (likedByUsers.contains(user)) {
         likedByUsers.remove(user);
@@ -109,7 +109,7 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
       }
       post.setLikedByUsers(likedByUsers);
       post.setLikes(likedByUsers.size());
-      session.merge(post);
+      return session.merge(post);
     });
   }
 }

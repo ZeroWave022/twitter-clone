@@ -1,11 +1,11 @@
 package ui;
 
-import core.Post;
+import core.payload.response.PostResponse;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 
 // This class is based on the example from this StackOverflow post:
@@ -16,10 +16,13 @@ import javafx.scene.layout.HBox;
  * Custom ListCell for displaying Post objects in a ListView. and binds data via
  * PostController.
  */
-public class PostCell extends ListCell<Post> {
+public class PostCell extends ListCell<PostResponse> {
   private HBox postItem;
   private PostController postController;
 
+  /**
+   * Constructs a PostCell object.
+   */
   public PostCell() {
     try {
       FXMLLoader loader = new FXMLLoader(App.class.getResource("post.fxml"));
@@ -34,7 +37,7 @@ public class PostCell extends ListCell<Post> {
   }
 
   @Override
-  protected void updateItem(Post post, boolean empty) {
+  protected void updateItem(PostResponse post, boolean empty) {
     super.updateItem(post, empty);
     if (empty || post == null) {
       setText(null);

@@ -1,26 +1,10 @@
 package core.payload.request;
 
 /**
- * A DTO for logging in.
+ * DTO for logging in.
+ *
+ * @param username username
+ * @param password password in plain text
  */
-public class LoginRequest {
-  private String username;
-  private String password;
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
+public record LoginRequest(String username, String password) {
 }
