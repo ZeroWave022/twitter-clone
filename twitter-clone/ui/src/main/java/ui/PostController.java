@@ -33,47 +33,68 @@ public class PostController {
   }
 
   // -------- post.fxml (regular) --------
-  @FXML private Label displayNameLabel;
-  @FXML private Label usernameLabel;
-  @FXML private Label contentLabel;   // ALSO used by retweetPost.fxml as the *outer* (retweeter) message
-  @FXML private Button likeBtn;
-  @FXML private Button retweetBtn;
+  @FXML
+  private Label displayNameLabel;
+  @FXML
+  private Label usernameLabel;
+  @FXML
+  private Label contentLabel; // ALSO used by retweetPost.fxml as the *outer* (retweeter) message
+  @FXML
+  private Button likeBtn;
+  @FXML
+  private Button retweetBtn;
 
   // -------- retweetPost.fxml (outer retweet header) --------
-  @FXML private Label displayNameLabelRetweet;  // retweeter name
-  @FXML private Label usernameLabelRetweet;     // retweeter username
+  @FXML
+  private Label displayNameLabelRetweet; // retweeter name
+  @FXML
+  private Label usernameLabelRetweet; // retweeter username
 
   // -------- retweetPost.fxml (inner original content) --------
-  @FXML private Label contentLabel1;            // original post content
+  @FXML
+  private Label contentLabel1; // original post content
 
   private Post currentPost;
+
+  private boolean isOwn(Post p) {
+    var me = userService.getLoggedInUser();
+    if (me == null || p == null || p.getAuthor() == null) {
+      return false;
+    }
+    return me.getId() != null && me.getId().equals(p.getAuthor().getId());
+  }
 
   @FXML
   public void setData(Post post) {
     this.currentPost = post;
 
-    boolean isRetweet = post.getOriginalPost() != null
-        || post.getType() == Post.Type.RETWEET;
+    boolean isRetweet = post.getOriginalPost() != null || post.getType() == Post.Type.RETWEET;
 
     if (!isRetweet) {
       // ===== Regular post (post.fxml) =====
-      if (displayNameLabel != null) displayNameLabel.setText(post.getAuthor().getDisplayName());
-      if (usernameLabel != null)    usernameLabel.setText("@" + post.getAuthor().getUsername());
-      if (contentLabel != null)     contentLabel.setText(post.getContent());
+      if (displayNameLabel != null) {
+        displayNameLabel.setText(post.getAuthor().getDisplayName());
+      }
+      if (usernameLabel != null) {
+        usernameLabel.setText("@" + post.getAuthor().getUsername());
+      }
+      if (contentLabel != null) {
+        contentLabel.setText(post.getContent());
+      }
 
       if (likeBtn != null) {
         likeBtn.setText(post.getLikes() + " 👍");
-        likeBtn.setStyle(post.likedByUser(userService.getLoggedInUser())
-            ? "-fx-text-fill: blue;" : "-fx-text-fill: black;");
+        likeBtn.setStyle(post.likedByUser(userService.getLoggedInUser()) ? "-fx-text-fill: blue;"
+            : "-fx-text-fill: black;");
       }
       if (retweetBtn != null) {
+        boolean own = isOwn(post);
         retweetBtn.setText(post.getReTweets() + " 🔄");
+        retweetBtn.setVisible(!own);
+        retweetBtn.setManaged(!own);
       }
       return;
     }
-
-    // ===== Retweet layout (retweetPost.fxml) =====
-    Post original = post.getOriginalPost();
 
     // Outer header: retweeter info
     if (displayNameLabelRetweet != null) {
@@ -92,10 +113,17 @@ public class PostController {
       contentLabel.setManaged(show); // collapse space when there is no comment
     }
 
+    // ===== Retweet layout (retweetPost.fxml) =====
+    Post original = post.getOriginalPost();
+
     // Inner card: original post info (names reuse the same ids as post.fxml)
     if (original != null) {
-      if (displayNameLabel != null) displayNameLabel.setText(original.getAuthor().getDisplayName());
-      if (usernameLabel != null)    usernameLabel.setText("@" + original.getAuthor().getUsername());
+      if (displayNameLabel != null) {
+        displayNameLabel.setText(original.getAuthor().getDisplayName());
+      }
+      if (usernameLabel != null) {
+        usernameLabel.setText("@" + original.getAuthor().getUsername());
+      }
 
       if (contentLabel1 != null) {
         contentLabel1.setText(original.getContent());
@@ -107,9 +135,15 @@ public class PostController {
       }
     } else {
       // Defensive fallback (shouldn't happen): show retweet as a normal post
-      if (displayNameLabel != null) displayNameLabel.setText(post.getAuthor().getDisplayName());
-      if (usernameLabel != null)    usernameLabel.setText("@" + post.getAuthor().getUsername());
-      if (contentLabel1 != null)    contentLabel1.setText(post.getContent());
+      if (displayNameLabel != null) {
+        displayNameLabel.setText(post.getAuthor().getDisplayName());
+      }
+      if (usernameLabel != null) {
+        usernameLabel.setText("@" + post.getAuthor().getUsername());
+      }
+      if (contentLabel1 != null) {
+        contentLabel1.setText(post.getContent());
+      }
       if (contentLabel != null) {
         contentLabel.setText(post.getContent());
         contentLabel.setVisible(true);
@@ -120,19 +154,23 @@ public class PostController {
 
   @FXML
   public void updateLikes() {
-    if (currentPost == null || likeBtn == null) return;
+    if (currentPost == null || likeBtn == null) {
+      return;
+    }
 
     postService.likePost(currentPost, userService.getLoggedInUser());
     postService.update(currentPost);
 
     likeBtn.setText(currentPost.getLikes() + " 👍");
-    likeBtn.setStyle(currentPost.likedByUser(userService.getLoggedInUser())
-        ? "-fx-text-fill: blue;" : "-fx-text-fill: black;");
+    likeBtn.setStyle(currentPost.likedByUser(userService.getLoggedInUser()) ? "-fx-text-fill: blue;"
+        : "-fx-text-fill: black;");
   }
 
   @FXML
   public void updateRetweets() {
-    if (currentPost == null || retweetBtn == null) return;
+    if (currentPost == null || retweetBtn == null) {
+      return;
+    }
 
     Dialog<String> dialog = new Dialog<>();
     dialog.setTitle("Retweet");
@@ -159,8 +197,12 @@ public class PostController {
     // Build retweet safely: set original first so empty content is allowed
     Post retweetPost = new Post();
     retweetPost.setAuthor(user);
-    retweetPost.setOriginalPost(currentPost);              // marks as RETWEET
-    retweetPost.setContent(msg == null ? "" : msg);        // optional comment
+    retweetPost.setOriginalPost(currentPost); // marks as RETWEET
+    retweetPost.setContent(msg == null ? "" : msg); // optional comment
+
+    if (retweetPost.getAuthor().equals(currentPost.getAuthor())) {
+      return;
+    }
 
     postService.createPost(retweetPost);
 
@@ -179,4 +221,3 @@ public class PostController {
     }
   }
 }
-
