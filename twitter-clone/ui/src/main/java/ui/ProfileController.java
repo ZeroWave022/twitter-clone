@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import core.Post;
 import core.User;
-import core.util.NumberFormatter;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -70,8 +69,8 @@ public class ProfileController {
 
   public void updateProfileCounters() {
     User currentUser = userService.getLoggedInUser();
-    postCountLabel.setText(NumberFormatter.formatCount(postService.getPostCount(currentUser)));
-    likeCountLabel.setText(NumberFormatter.formatCount(postService.getLikesCount(currentUser)));
+    postCountLabel.setText(String.valueOf(postService.getPostCount(currentUser)));
+    likeCountLabel.setText(String.valueOf(postService.getLikesCount(currentUser))); // NumberFormatter.formatCount(
   }
 
   @FXML
