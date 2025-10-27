@@ -99,12 +99,19 @@ public class Post {
     return type;
   }
 
+  @SuppressFBWarnings(value = {
+      "EI_EXPOSE_REP" }, justification = "Returning entity references is required"
+          + " for JPA relationships and safe within ORM context.")
   public Post getOriginalPost() {
     return originalPost;
   }
 
+  /** Used by retweets to point to the original tweet. */
+  @SuppressFBWarnings(value = {
+      "EI_EXPOSE_REP2" }, justification = "Setting entity references is required for "
+          + " JPA relationship management.")
   public void setOriginalPost(Post originalPost) {
-    if (originalPost == null){
+    if (originalPost == null) {
       this.type = Type.ORIGINAL;
       return;
     }
