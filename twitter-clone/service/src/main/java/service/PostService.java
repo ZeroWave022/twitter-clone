@@ -108,10 +108,33 @@ public class PostService {
   @Transactional
   public void likePost(Post post, User user) {
     this.postRepository.likePost(post, user);
+    notifyPostUpdated();
   }
 
   /** updates an existing @param post . */
   public Post update(Post post) {
     return postRepository.update(post);
   }
+
+  // FIXME: Do I need readonly?
+  public int getPostCount(User user) {
+    return this.postRepository.getPostCount(user);
+  }
+
+  public int getLikesCount(User user) {
+    return this.postRepository.getLikesCount(user);
+  }
+
+  private Runnable postUpdateListener;
+
+  public void setPostUpdateListener(Runnable listener) {
+    this.postUpdateListener = listener;
+  }
+
+  public void notifyPostUpdated() {
+    if (postUpdateListener != null) {
+      postUpdateListener.run();
+    }
+  }
+
 }

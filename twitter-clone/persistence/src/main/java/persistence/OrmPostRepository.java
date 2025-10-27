@@ -125,4 +125,20 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
     });
   }
 
+  @Override
+  public int getPostCount(User user) {
+    List<Post> posts = findPostsByUser(user);
+    return posts.size();
+  }
+
+  @Override
+  public int getLikesCount(User user) {
+    List<Post> posts = findPostsByUser(user);
+    int totalLikes = 0;
+    for (Post post : posts) {
+      totalLikes += post.getLikedByUsers().size();
+    }
+    return totalLikes;
+  }
+
 }

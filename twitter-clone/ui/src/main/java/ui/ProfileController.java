@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import core.Post;
+import core.User;
+import core.util.NumberFormatter;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,6 +34,10 @@ public class ProfileController {
   @FXML
   Label usernameLabel;
   @FXML
+  Label likeCountLabel;
+  @FXML
+  Label postCountLabel;
+  @FXML
   Button logOutBtn;
   @FXML
   Button backToFeedBtn;
@@ -52,6 +58,20 @@ public class ProfileController {
 
     displayNameLabel.setText(userService.getLoggedInUser().getDisplayName());
     usernameLabel.setText("@" + userService.getLoggedInUser().getUsername());
+
+    // postCountLabel.setText(String.valueOf(postService.getPostCount(userService.getLoggedInUser())));
+    // likeCountLabel
+    // .setText(String.valueOf(postService.getLikesCount(userService.getLoggedInUser())));
+    updateProfileCounters(); // initial counters
+
+    // Listen for post updates
+    postService.setPostUpdateListener(this::updateProfileCounters);
+  }
+
+  public void updateProfileCounters() {
+    User currentUser = userService.getLoggedInUser();
+    postCountLabel.setText(NumberFormatter.formatCount(postService.getPostCount(currentUser)));
+    likeCountLabel.setText(NumberFormatter.formatCount(postService.getLikesCount(currentUser)));
   }
 
   @FXML

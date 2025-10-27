@@ -38,4 +38,8 @@ public interface PostRepository {
 
   /** Likes/unlikes the @param post by the @param user . */
   void likePost(Post post, User user);
+
+  int getPostCount(User user);
+
+  int getLikesCount(User user);
 }
