@@ -1,6 +1,7 @@
 package core;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -47,7 +48,10 @@ public class Post {
   // private Instant createdAt;
 
   private int likes = 0;
+
+  @Column
   private int reTweets = 0;
+
   private int commentsAmount = 0;
   private Type type;
 

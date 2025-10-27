@@ -93,6 +93,7 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
         // Sync liked users properly
         managedPost.setLikedByUsers(post.getLikedByUsers());
         managedPost.setLikes(post.getLikes());
+        managedPost.setReTweets(post.getReTweets());
       }
       return managedPost;
     });
