@@ -6,23 +6,35 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.PostController">
+<HBox alignment="CENTER" stylesheets="@../styles/post.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.PostController"> <!-- added stylesheet -->
    <children>
       <VBox maxWidth="-Infinity" prefHeight="115.0" prefWidth="700.0" style="-fx-border-color: #00000030; -fx-border-width: 1; -fx-border-radius: 8;">
          <children>
-            <Label fx:id="displayNameLabel" text="Display Name">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <Label fx:id="usernameLabel" text="\@username" textFill="#0000007f">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
+            <HBox alignment="TOP_RIGHT" spacing="5.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="displayNameLabel" text="Display Name">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="usernameLabel" text="\@username" textFill="#0000007f">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="deleteBtn" managed="false" onAction="#deletePost" styleClass="delete-btn" text="✕" visible="false"/>
+               </children>
+            </HBox>
+
             <Label fx:id="contentLabel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volupt" wrapText="true" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
@@ -35,20 +47,22 @@
                <children>
                   <Button fx:id="likeBtn" minWidth="50.0" mnemonicParsing="false" onAction="#updateLikes" text="XX" textAlignment="CENTER">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
+                        <ImageView fx:id="likeImageView" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
                            <image>
-                              <Image url="@../icons/like.png" />
+                              <Image url="@../icons/likeOff.png" />
                            </image>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                  </Button>
                   <Button fx:id="retweetBtn" minWidth="50.0" mnemonicParsing="false" onAction="#updateRetweets" text="XX" textAlignment="CENTER">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
+                        <ImageView fx:id="retweetImageView" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
                            <image>
-                              <Image url="@../icons/repost.png" />
+                              <Image url="@../icons/retweetOff.png" />
                            </image>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                  </Button>
                </children>
                <VBox.margin>
                   <Insets bottom="2.0" top="5.0" />

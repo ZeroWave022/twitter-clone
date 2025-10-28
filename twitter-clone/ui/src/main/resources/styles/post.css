@@ -1,0 +1,10 @@
+.delete-btn {
+    -fx-text-fill: grey;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-background-color: transparent;
+}
+
+.delete-btn:hover {
+    -fx-text-fill: #0078AE;
+}

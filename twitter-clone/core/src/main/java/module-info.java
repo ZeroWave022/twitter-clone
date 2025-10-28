@@ -8,4 +8,5 @@ module twitter.core {
   opens core to org.hibernate.orm.core;
 
   exports core;
+  exports core.util;
 }

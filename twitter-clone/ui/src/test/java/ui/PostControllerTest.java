@@ -1,20 +1,20 @@
 package ui;
 
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import core.Post;
-import core.User;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.util.WaitForAsyncUtils;
+
+import core.Post;
+import core.User;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import persistence.OrmPostRepository;
 import persistence.OrmUserRepository;
 import service.PostService;
@@ -73,14 +73,14 @@ class PostControllerTest extends UiTestBase {
     Post updatedPost = postService.getPostById(post.getId(), true).orElseThrow();
     assertEquals(1, updatedPost.getLikes());
     assertTrue(updatedPost.likedByUser(user));
-    FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("blue"));
+    FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("#0078AE"));
 
     // unlike and check
     interact(likeBtn::fire);
     updatedPost = postService.getPostById(post.getId(), true).orElseThrow();
     assertEquals(0, updatedPost.getLikes());
     assertFalse(updatedPost.likedByUser(user));
-    FxAssert.verifyThat(likeBtn, b -> !b.getStyle().contains("blue"));
+    FxAssert.verifyThat(likeBtn, b -> !b.getStyle().contains("#0078AE"));
   }
 
   // Test written with help from OpenAI's GPT-5
@@ -106,7 +106,7 @@ class PostControllerTest extends UiTestBase {
     assertTrue(updatedPost.likedByUser(secondUser),
         "Second user should be registered as liking the post");
     assertTrue(updatedPost.likedByUser(user), "First user's like should still be counted");
-    FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("blue"));
+    FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("#0078AE"));
   }
 
 }
