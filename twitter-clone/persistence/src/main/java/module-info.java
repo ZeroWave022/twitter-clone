@@ -2,6 +2,7 @@ module twitter.persistence {
   requires transitive twitter.core;
 
   requires java.naming;
+  requires jakarta.persistence;
 
   requires com.fasterxml.jackson.core;
   requires com.fasterxml.jackson.databind;
