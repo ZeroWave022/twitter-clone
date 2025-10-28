@@ -37,6 +37,8 @@ public interface PostRepository {
   boolean existsById(Long id);
 
   /** Likes/unlikes the @param post by the @param user . */
+  Post likePost(Post post, User user);
+
   void likePost(Post post, User user);
 
   int getPostCount(User user);

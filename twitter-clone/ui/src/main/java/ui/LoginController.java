@@ -1,6 +1,5 @@
 package ui;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,8 +24,6 @@ public class LoginController {
    * @param userService the user service
    */
   @Autowired
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject "
-      + "the UserRepository service.")
   public LoginController(UserService userService) {
     this.userService = userService;
   }

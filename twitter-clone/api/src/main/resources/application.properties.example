@@ -1,0 +1,3 @@
+spring.application.name=api
+jwtSecret=generated-jwt-token
+jwtExpirationMs=86400000
