@@ -82,7 +82,12 @@ public class Post {
   public Post() {
   }
 
-  /** @return true if the @param user has liked the post */
+  /**
+   * Checks if a user has liked the post.
+   *
+   * @param user the user
+   * @return whether the user has liked the post
+   */
   public boolean likedByUser(User user) {
     return likedByUsers.contains(user);
   }

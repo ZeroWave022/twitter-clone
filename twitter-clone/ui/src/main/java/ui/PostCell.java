@@ -1,6 +1,6 @@
 package ui;
 
-import core.Post;
+import core.payload.response.PostResponse;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -65,7 +65,7 @@ public class PostCell extends ListCell<Post> {
   }
 
   @Override
-  protected void updateItem(Post post, boolean empty) {
+  protected void updateItem(PostResponse post, boolean empty) {
     super.updateItem(post, empty);
 
     if (empty || post == null) {

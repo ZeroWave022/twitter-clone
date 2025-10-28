@@ -1,11 +1,12 @@
 package api.controller;
 
+import api.service.UserService;
 import core.User;
 import core.payload.request.UpdateUserRequest;
+import core.payload.response.UserResponse;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +30,9 @@ import persistence.UserRepository;
 public class UserController {
   private final UserRepository userRepository;
   private PasswordEncoder passwordEncoder;
+
+  @Autowired
+  private UserService userService;
 
   /**
    * Constructs a new UserController.
@@ -50,8 +53,8 @@ public class UserController {
    * @return list of all users
    */
   @GetMapping
-  public List<User> getAllUsers() {
-    return userRepository.findAll();
+  public List<UserResponse> getAllUsers() {
+    return userRepository.findAll().stream().map(userService::toDto).toList();
   }
 
   /**
@@ -61,31 +64,23 @@ public class UserController {
    * @return the user if found, or 404 if not found
    */
   @GetMapping("/{id}")
-  public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
-    return userRepository.findById(id).map(ResponseEntity::ok)
+  public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long id) {
+    return userRepository.findById(id)
+        .map(userService::toDto)
+        .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
   /**
-   * Create a new user.
-   *
-   * @param user the user to create
-   * @return the created user
-   */
-  @PostMapping()
-  public ResponseEntity<User> createUser(@RequestBody User user) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(user));
-  }
-
-  /**
-   * Update an existing user.
+   * Update an existing user. Warning: Updating your username will invalidate the
+   * current JWT, so it will need to be regenerated using `POST /auth/login`.
    *
    * @param id                the ID of the user to update
    * @param updateUserRequest the updated user data
    * @return the updated user if found, or 404 if not found
    */
   @PutMapping("/{id}")
-  public ResponseEntity<User> updateUser(@PathVariable("id") Long id,
+  public ResponseEntity<UserResponse> updateUser(@PathVariable("id") Long id,
       @RequestBody UpdateUserRequest updateUserRequest) {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
         .getAuthentication()
@@ -103,9 +98,9 @@ public class UserController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
-    existingUser.setDisplayName(updateUserRequest.getDisplayName());
-    existingUser.setUsername(updateUserRequest.getUsername());
-    existingUser.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
-    return ResponseEntity.ok(userRepository.update(existingUser));
+    existingUser.setDisplayName(updateUserRequest.displayName());
+    existingUser.setUsername(updateUserRequest.username());
+    existingUser.setPassword(passwordEncoder.encode(updateUserRequest.password()));
+    return ResponseEntity.ok(userService.toDto(userRepository.update(existingUser)));
   }
 }

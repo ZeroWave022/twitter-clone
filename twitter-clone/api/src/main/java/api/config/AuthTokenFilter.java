@@ -13,7 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -29,9 +32,16 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
   private UserDetailsServiceImpl userDetailsService;
 
+  private RequestMatcher ignoredPaths = PathPatternRequestMatcher.pathPattern("/auth/login");
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
+    if (ignoredPaths.matches(request)) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+
     try {
       String jwt = parseJwt(request);
 

@@ -1,34 +1,11 @@
 package core.payload.request;
 
 /**
- * A DTO for updating a user.
+ * DTO for updating a user.
+ *
+ * @param username    new username
+ * @param displayName new display name
+ * @param password    new plain text password
  */
-public class UpdateUserRequest {
-  private String username;
-  private String displayName;
-  private String password;
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
+public record UpdateUserRequest(String username, String displayName, String password) {
 }

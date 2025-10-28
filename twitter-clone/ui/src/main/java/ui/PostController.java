@@ -4,6 +4,7 @@ import core.Post;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.util.Optional;
+import core.payload.response.PostResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -74,6 +75,7 @@ public class PostController {
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "The Post is intentionally"
       + "stored for UI binding within a short-lived controller; mutation is safe and expected.")
   public void setData(Post post) {
+  public void setData(PostResponse post) {
     this.currentPost = post;
 
     boolean isRetweet = post.getOriginalPost() != null || post.getType() == Post.Type.RETWEET;
