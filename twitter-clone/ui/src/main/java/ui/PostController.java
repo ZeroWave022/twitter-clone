@@ -48,6 +48,8 @@ public class PostController {
   private Button likeBtn;
   @FXML
   private Button retweetBtn;
+  @FXML
+  private Button deleteBtn;
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "The Post is used in a "
       + "tightly scoped controller context where mutation is safe and intentional.")
@@ -96,5 +98,10 @@ public class PostController {
   @FXML
   public void updateRetweets() { // do not remove, posts wont show
 
+  }
+
+  @FXML
+  public void deletePost() { // do not remove, posts wont show
+    System.out.println("tryng to delete");
   }
 }
