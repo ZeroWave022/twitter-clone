@@ -14,7 +14,7 @@ import java.util.Set;
  * @param likedByUsers   set of user ids that have liked the post
  */
 public record PostResponse(Long id, String content, int likes, int reTweets, int commentsAmount,
-    UserResponse author, Set<Long> likedByUsers) {
+    UserResponse author, Set<Long> likedByUsers, Long originalPostId) {
   /**
    * Makes sure all fields are truly read only.
    */
