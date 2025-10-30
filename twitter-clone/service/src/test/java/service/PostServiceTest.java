@@ -55,7 +55,8 @@ public class PostServiceTest {
     UserResponse fakeAuthor = new UserResponse(user.getId(), user.getUsername(),
         user.getDisplayName());
     PostResponse fakePost = new PostResponse(post.getId(), post.getContent(), post.getLikes(),
-        post.getReTweets(), post.getCommentsAmount(), fakeAuthor, Set.of());
+        post.getReTweets(), post.getCommentsAmount(), fakeAuthor, Set.of(),
+        null);
     when(apiClient.get(eq("/api/posts/" + postId), eq(PostResponse.class))).thenReturn(fakePost);
     assertEquals(fakePost, postService.getPostById(postId).get());
   }
