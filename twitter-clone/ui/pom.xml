@@ -108,15 +108,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>
-                        --add-opens twitter.ui/ui=ALL-UNNAMED
-                        --add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
-                        --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                        --add-opens javafx.graphics/com.sun.javafx.util=ALL-UNNAMED
-                        --add-opens javafx.base/com.sun.javafx.logging=ALL-UNNAMED
-                    </argLine>
-                </configuration>
             </plugin>
 
             <plugin>
