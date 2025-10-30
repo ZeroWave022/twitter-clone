@@ -1,6 +1,8 @@
 package persistence;
 
 import core.User;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 import persistence.hibernate.HibernateRepository;
@@ -34,7 +36,9 @@ public class OrmUserRepository extends HibernateRepository implements UserReposi
   @Override
   public List<User> findAll() {
     return entityManagerFactory.callInTransaction(entityManager -> {
-      return entityManager.createQuery("FROM User", User.class).getResultList();
+      CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+      query.from(User.class);
+      return entityManager.createQuery(query).getResultList();
     });
   }
 
@@ -49,9 +53,12 @@ public class OrmUserRepository extends HibernateRepository implements UserReposi
   @Override
   public Optional<User> findByUsername(String username) {
     return entityManagerFactory.callInTransaction(entityManager -> {
-      User user = entityManager.createQuery("FROM User WHERE username = :username", User.class)
-          .setParameter("username", username).getSingleResultOrNull();
-      return Optional.ofNullable(user);
+      CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+      Root<User> user = query.from(User.class);
+      query.select(user).where(criteriaBuilder.equal(user.get("username"), username));
+
+      User userResult = entityManager.createQuery(query).getSingleResultOrNull();
+      return Optional.ofNullable(userResult);
     });
   }
   // End createQuery usage

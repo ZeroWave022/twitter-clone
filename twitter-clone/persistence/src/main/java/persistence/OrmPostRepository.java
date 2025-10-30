@@ -2,6 +2,8 @@ package persistence;
 
 import core.Post;
 import core.User;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -37,17 +39,16 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public List<Post> findAll(boolean withRelations) {
-    if (withRelations) {
-      return entityManagerFactory.callInTransaction(entityManager -> {
-        List<Post> posts = entityManager
-            .createQuery("FROM Post p LEFT JOIN FETCH p.likedByUsers", Post.class).getResultList();
-        return posts;
-      });
-    }
+    CriteriaQuery<Post> query = criteriaBuilder.createQuery(Post.class);
+    Root<Post> post = query.from(Post.class);
+    query.select(post);
 
     return entityManagerFactory.callInTransaction(entityManager -> {
-      List<Post> posts = entityManager.createQuery("SELECT p FROM Post p", Post.class)
-          .getResultList();
+      if (withRelations) {
+        post.fetch("likedByUsers", jakarta.persistence.criteria.JoinType.LEFT);
+      }
+
+      List<Post> posts = entityManager.createQuery(query).getResultList();
       return posts;
     });
   }
@@ -59,17 +60,16 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public Optional<Post> findById(Long id, boolean withRelations) {
-    if (withRelations) {
-      return entityManagerFactory.callInTransaction(entityManager -> {
-        var graph = entityManager.createEntityGraph(Post.class);
-        graph.addSubgraph("likedByUsers");
-        return Optional.ofNullable(entityManager.find(graph, id));
-      });
-    }
+    CriteriaQuery<Post> query = criteriaBuilder.createQuery(Post.class);
+    Root<Post> post = query.from(Post.class);
+    query.select(post).where(post.get("id").equalTo(id));
 
     return entityManagerFactory.callInTransaction(entityManager -> {
-      Post post = entityManager.find(Post.class, id);
-      return Optional.ofNullable(post);
+      if (withRelations) {
+        post.fetch("likedByUsers", jakarta.persistence.criteria.JoinType.LEFT);
+      }
+      Post postResult = entityManager.createQuery(query).getSingleResultOrNull();
+      return Optional.ofNullable(postResult);
     });
   }
 
