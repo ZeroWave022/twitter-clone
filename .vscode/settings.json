@@ -3,6 +3,9 @@
   "[java]": {
     "editor.tabSize": 2,
   },
+  "[xml]": {
+    "editor.formatOnSave": false
+  },
   "java.test.config": [
     {
       "name": "coreTesting",
