@@ -18,7 +18,7 @@ import javafx.scene.layout.HBox;
  * Custom ListCell for displaying Post objects in a ListView. and binds data via
  * PostController.
  */
-public class PostCell extends ListCell<Post> {
+public class PostCell extends ListCell<PostResponse> {
 
   // Regular post view/controller
   private HBox regularNode;
@@ -76,8 +76,7 @@ public class PostCell extends ListCell<Post> {
     }
 
     // Decide which template to use
-    boolean isRetweet = post.getOriginalPost() != null
-                        || post.getType() == Post.Type.RETWEET;
+    boolean isRetweet = post.originalPostId() != null;
 
     if (isRetweet) {
       ensureRetweetLoaded();
