@@ -12,6 +12,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.release>17</maven.compiler.release>
+        <mockito.version>5.19.0</mockito.version>
         <skipTests>false</skipTests>
     </properties>
 
@@ -55,13 +56,13 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>5.19.0</version>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
-                <version>5.19.0</version>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -136,7 +137,7 @@
                     <configuration>
                         <skipTests>${skipTests}</skipTests>
                         <argLine>
-                            @{jaCoCoArgLine}
+                            @{jaCoCoArgLine} -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
                             --add-opens twitter.core/core=ALL-UNNAMED
                             --add-opens twitter.persistence/persistence=ALL-UNNAMED
                             --add-opens twitter.ui/ui=ALL-UNNAMED
