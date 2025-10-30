@@ -1,7 +1,6 @@
 package ui;
 
 import core.Post;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
