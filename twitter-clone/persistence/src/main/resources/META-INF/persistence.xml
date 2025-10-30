@@ -11,29 +11,21 @@
 
         <properties>
             <!-- Database connection settings -->
-            <property name="hibernate.dialect"
-                value="org.hibernate.community.dialect.SQLiteDialect" />
-            <property
-                name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC" />
-            <property
-                name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:../twitter-clone.db" />
-            <property
-                name="jakarta.persistence.jdbc.user" value="" />
-            <property
-                name="jakarta.persistence.jdbc.password" value="" />
+            <property name="hibernate.dialect" value="org.hibernate.community.dialect.SQLiteDialect" />
+            <property name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:../twitter-clone.db" />
+            <property name="jakarta.persistence.jdbc.user" value="" />
+            <property name="jakarta.persistence.jdbc.password" value="" />
 
             <!-- Automatically export the schema
             Use "create" if you'd like a clean database at each start.
             For more details, see:
             https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3.2#a12384 -->
-            <property
-                name="jakarta.persistence.schema-generation.database.action" value="update" />
+            <property name="jakarta.persistence.schema-generation.database.action" value="update" />
 
             <!-- Echo all executed SQL to console -->
-            <property
-                name="hibernate.show_sql" value="true" />
-            <property name="hibernate.format_sql"
-                value="true" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.highlight_sql" value="true" />
         </properties>
     </persistence-unit>
