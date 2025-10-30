@@ -53,9 +53,7 @@ public class PostController {
    */
   @GetMapping("/{id}")
   public ResponseEntity<PostResponse> getPost(@PathVariable("id") Long id) {
-    return postRepository.findById(id, true)
-        .map(postService::toDto)
-        .map(ResponseEntity::ok)
+    return postRepository.findById(id, true).map(postService::toDto).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
@@ -66,11 +64,8 @@ public class PostController {
    */
   @GetMapping
   public ResponseEntity<List<PostResponse>> getAllPosts() {
-    return ResponseEntity.ok(
-        postRepository.findAll(true)
-            .stream()
-            .map(postService::toDto)
-            .toList());
+    return ResponseEntity
+        .ok(postRepository.findAll(true).stream().map(postService::toDto).toList());
   }
 
   /**
@@ -90,6 +85,10 @@ public class PostController {
       Post post = new Post();
       post.setAuthor(user);
       post.setContent(createPostRequest.content());
+      if (createPostRequest.originalPost() != null) {
+        post.setOriginalPost(
+            postRepository.findById(createPostRequest.originalPost()).orElse(null));
+      }
       return ResponseEntity.ok(postService.toDto(postRepository.save(post)));
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
@@ -108,10 +107,7 @@ public class PostController {
         .getPrincipal();
 
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
-    return postRepository.findById(id, true)
-        .map(post -> postRepository.likePost(post, user))
-        .map(postService::toDto)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+    return postRepository.findById(id, true).map(post -> postRepository.likePost(post, user))
+        .map(postService::toDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 }
