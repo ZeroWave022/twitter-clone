@@ -54,9 +54,7 @@ public class AuthController {
     }
 
     Authentication authenticaton = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(
-            loginRequest.username(),
-            loginRequest.password()));
+        new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
 
     SecurityContextHolder.getContext().setAuthentication(authenticaton);
     String jwt = jwtUtilsService.generateJwtToken(authenticaton);
@@ -71,13 +69,12 @@ public class AuthController {
    */
   @GetMapping("/me")
   public ResponseEntity<UserResponse> getAuthenticatedUser() {
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-        .getAuthentication()
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
         .getPrincipal();
 
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
 
-    return ResponseEntity.ok(
-        new UserResponse(user.getId(), user.getUsername(), user.getDisplayName()));
+    return ResponseEntity
+        .ok(new UserResponse(user.getId(), user.getUsername(), user.getDisplayName()));
   }
 }
