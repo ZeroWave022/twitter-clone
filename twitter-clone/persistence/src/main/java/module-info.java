@@ -10,7 +10,7 @@ module twitter.persistence {
   requires spring.context;
   requires spring.beans;
 
-  requires transitive org.hibernate.orm.core;
+  requires org.hibernate.orm.core;
 
   requires com.github.spotbugs.annotations;
 
