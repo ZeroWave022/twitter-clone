@@ -23,18 +23,40 @@ All other dependencies are described in the different `pom.xml` files and shall 
 
 ## Getting Started
 
-### Setup
+### Module installation
 
 Make sure you have installed the required dependencies listed above.
 
 The commands listed below assume your current working directory is `twitter-clone`.
 To change your working directory, run `cd twitter-clone` when you are in the project root.
 
+First, you must install all the modules. You will need to skip all tests, because the tests require a REST API running the background.
+
+Use the following command:
+
+```sh
+mvn install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
+```
+
+<details>
+
+<summary>Using PowerShell?</summary>
+
+Then you'll need to wrap the parameters in quotation marks:
+
+```sh
+mvn install "-DskipTests" "-Dcheckstyle.skip" "-Dspotbugs.skip" "-Djacoco.skip" -T 1C
+```
+
+</details>
+
+### REST API setup
+
 The API depends on a secret key to generate authentication tokens, and this secret is not commited to version control.
 
 Generate the `jwtSecret` for the API module:
 
-Copy the file `api/src/main/resources/application.properties.example` to `api/src/main/resources/application.properties`. 
+Copy the file `api/src/main/resources/application.properties.example` to `api/src/main/resources/application.properties`.
 
 The example file contains placeholder secrets.
 
@@ -46,16 +68,10 @@ mvn -q -pl api exec:java -Dexec.mainClass="api.utils.JwtKeyGenerator"
 
 Override the example secret with the generated value.
 
-Install all the modules, skipping all tests, as this slows down the installation and crashes if there is no api server running:
-
-```sh
-mvn install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
-```
-
 ### Running the app
 
 > [!NOTE]
-> The client requires the API to be running on localhost:8080
+> The client requires the REST API to be running on `localhost:8080`
 
 Start the api:
 
@@ -94,7 +110,7 @@ If you would like to see the JaCoCo code coverage and spotbugs reports, use the 
 mvn verify
 ```
 
-You can read the SpotBugs report by opening `twitter-clone/<module>/target/site/spotbugs.html` and you can read the JaCoCo by opening `twitter-clone/<module>/target/site/jacoco/index.html`.
+You can read the SpotBugs report by opening `twitter-clone/<module>/target/site/spotbugs.html` and you can read the JaCoCo report by opening `twitter-clone/<module>/target/site/jacoco/index.html`.
 The `<module>` must be replaced with the module name, without the angle brackets.
 
 ## Other Documentation
