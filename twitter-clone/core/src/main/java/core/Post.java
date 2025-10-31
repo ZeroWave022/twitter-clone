@@ -53,7 +53,7 @@ public class Post {
   private int reTweets = 0;
 
   private int commentsAmount = 0;
-  private Type type;
+  private Type type = Type.ORIGINAL;
 
   @ManyToMany
   @JoinTable(name = "post_likes", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
