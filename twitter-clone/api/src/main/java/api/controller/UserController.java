@@ -65,9 +65,7 @@ public class UserController {
    */
   @GetMapping("/{id}")
   public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long id) {
-    return userRepository.findById(id)
-        .map(userService::toDto)
-        .map(ResponseEntity::ok)
+    return userRepository.findById(id).map(userService::toDto).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
@@ -82,8 +80,7 @@ public class UserController {
   @PutMapping("/{id}")
   public ResponseEntity<UserResponse> updateUser(@PathVariable("id") Long id,
       @RequestBody UpdateUserRequest updateUserRequest) {
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-        .getAuthentication()
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
         .getPrincipal();
 
     String username = userDetails.getUsername();

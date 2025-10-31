@@ -20,7 +20,6 @@ public class FeedController {
   /**
    * Constructs the controller with required services.
    *
-   * @param userService the user service
    * @param postService the post service
    */
   @Autowired
