@@ -110,4 +110,26 @@ public class PostController {
     return postRepository.findById(id, true).map(post -> postRepository.likePost(post, user))
         .map(postService::toDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
+
+
+
+  /**
+   * Toggles whether the authenticated user has liked a post.
+   *
+   * @param id the post's id
+   * @return the updated post DTO
+   */
+  @PostMapping("/{id}/retweets")
+  public ResponseEntity<PostResponse> toggleRetweet(@PathVariable("id") Long id) {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+
+    Post post = postRepository.findById(id, true).orElse(null);
+    if (post == null) {
+      return ResponseEntity.notFound().build();
+    }
+    post.setReTweets(post.getReTweets() + 1);
+    postRepository.toggleRetweet(post);
+    return ResponseEntity.ok(postService.toDto(post));
+  }
 }

@@ -113,4 +113,15 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
       return session.merge(post);
     });
   }
+
+
+  public Post toggleRetweet(Post post) {
+    return sessionFactory.fromTransaction(session -> {
+      Post managedPost = session.find(Post.class, post.getId());
+      if (managedPost != null) {
+        managedPost.setReTweets(post.getReTweets());
+      }
+      return managedPost;
+    });
+  }
 }

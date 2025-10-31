@@ -211,9 +211,7 @@ public class PostController {
     }
 
     postService.createPost(msg, currentPost.id());
-
-    // currentPost.setReTweets(currentPost.reTweets() + 1);
-    // postService.update(currentPost);
+    postService.toggleRetweet(currentPost.id());
 
     if (retweetBtn != null) {
       retweetBtn.setText(currentPost.reTweets() + " 🔄");

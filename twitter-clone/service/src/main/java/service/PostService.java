@@ -92,6 +92,13 @@ public class PostService {
         PostResponse.class);
   }
 
+  /** Likes/unlikes the @param post by the @param user . */
+  @Transactional
+  public PostResponse toggleRetweet(Long postId) {
+    return this.apiClient.post("/api/posts/" + postId + "/retweets", Collections.emptyMap(),
+        PostResponse.class);
+  }
+
   // TODO: add if needed
   // public PostResponse update(Post post) {
   // return postRepository.update(post);
