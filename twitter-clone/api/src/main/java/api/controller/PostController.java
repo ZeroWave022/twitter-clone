@@ -121,8 +121,6 @@ public class PostController {
    */
   @PostMapping("/{id}/retweets")
   public ResponseEntity<PostResponse> toggleRetweet(@PathVariable("id") Long id) {
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-        .getPrincipal();
 
     Post post = postRepository.findById(id, true).orElse(null);
     if (post == null) {
