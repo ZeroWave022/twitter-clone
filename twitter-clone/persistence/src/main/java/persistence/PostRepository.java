@@ -35,7 +35,7 @@ public interface PostRepository {
   /** Likes/unlikes the @param post by the @param user . */
   Post likePost(Post post, User user);
 
-
+  /** Toggle retweet counter for @param post */
   Post toggleRetweet(Post post); 
 
 }
