@@ -8,8 +8,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 
-
-
 // This class is based on the example from this StackOverflow post:
 // https://stackoverflow.com/a/77508842
 
@@ -31,7 +29,7 @@ public class PostCell extends ListCell<PostResponse> {
   /**
    * Constructs a PostCell object.
    */
-  public PostCell() { /* lazy-load in updateItem() to avoid exceptions at startup */ 
+  public PostCell() { /* lazy-load in updateItem() to avoid exceptions at startup */
   }
 
   private void ensureRegularLoaded() {
@@ -81,7 +79,7 @@ public class PostCell extends ListCell<PostResponse> {
     if (isRetweet) {
       ensureRetweetLoaded();
       if (retweetController != null) {
-        retweetController.setData(post);   // same controller class handles retweet layout
+        retweetController.setData(post); // same controller class handles retweet layout
       }
       setGraphic(retweetNode);
     } else {

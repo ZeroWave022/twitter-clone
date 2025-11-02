@@ -36,6 +36,6 @@ public interface PostRepository {
   Post likePost(Post post, User user);
 
   /** Toggle retweet counter for @param post */
-  Post toggleRetweet(Post post); 
+  Post toggleRetweet(Post post);
 
 }

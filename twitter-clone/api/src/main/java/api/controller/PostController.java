@@ -111,8 +111,6 @@ public class PostController {
         .map(postService::toDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
-
-
   /**
    * Toggles whether the authenticated user has liked a post.
    *
