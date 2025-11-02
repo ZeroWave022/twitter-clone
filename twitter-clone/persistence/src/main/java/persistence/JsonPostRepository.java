@@ -132,16 +132,4 @@ public class JsonPostRepository implements PostRepository {
     System.out.println("Method in deprecated class is not implemented.");
     return new ArrayList<>();
   }
-
-  @Override
-  public int getPostCount(User user) {
-    System.out.println("Method in deprecated class is not implemented.");
-    return 0;
-  }
-
-  @Override
-  public int getLikesCount(User user) {
-    System.out.println("Method in deprecated class is not implemented.");
-    return 0;
-  }
 }

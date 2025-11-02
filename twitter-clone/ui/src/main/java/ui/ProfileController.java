@@ -1,32 +1,27 @@
 package ui;
 
+import core.payload.response.PostResponse;
 import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import core.Post;
-import core.User;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.PostService;
 import service.UserService;
 
+/**
+ * Controller for the profile page. Displays ones own posts and counters. It
+ * also handles navigation.
+ */
 @Component
 public class ProfileController {
-  private final PostService postService;
-  private final UserService userService;
-
   @Autowired
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "We need to inject the "
-      + "userService and postService.")
-  public ProfileController(PostService postService, UserService userService) {
-    this.postService = postService;
-    this.userService = userService;
-  }
+  PostService postService;
+  @Autowired
+  UserService userService;
 
   @FXML
   Label displayNameLabel;
@@ -41,8 +36,11 @@ public class ProfileController {
   @FXML
   Button backToFeedBtn;
   @FXML
-  ListView<Post> feedList;
+  ListView<PostResponse> feedList;
 
+  List<PostResponse> postsByUser;
+
+  /** Initializes the feed list view and populates posts. */
   @FXML
   public void initialize() {
     // Disable the higlight on selectio of posts
@@ -53,32 +51,66 @@ public class ProfileController {
     // PostCell class
     feedList.setCellFactory(listView -> new PostCell());
 
-    feedList.getItems().setAll(postService.postsByUser(userService.getLoggedInUser()));
+    postsByUser = postService.postsByUser();
+    feedList.getItems().setAll(postsByUser);
 
-    displayNameLabel.setText(userService.getLoggedInUser().getDisplayName());
-    usernameLabel.setText("@" + userService.getLoggedInUser().getUsername());
+    displayNameLabel.setText(userService.getLoggedInUser().displayName());
+    usernameLabel.setText("@" + userService.getLoggedInUser().username());
 
-    // postCountLabel.setText(String.valueOf(postService.getPostCount(userService.getLoggedInUser())));
-    // likeCountLabel
-    // .setText(String.valueOf(postService.getLikesCount(userService.getLoggedInUser())));
     updateProfileCounters(); // initial counters
 
     // Listen for post updates
     postService.setPostUpdateListener(this::updateProfileCounters);
   }
 
+  /**
+   * Updates the profile counters displayed in the UI, including:
+   * <ul>
+   * <li>Total number of posts for the current user</li>
+   * <li>Total number of likes across all posts</li>
+   * </ul>
+   * This method fetches the latest posts from the {@link PostService} and
+   * recalculates the counters. It should be called whenever posts are added,
+   * liked, or removed to keep the UI in sync with the backend.
+   */
   public void updateProfileCounters() {
-    User currentUser = userService.getLoggedInUser();
-    postCountLabel.setText(String.valueOf(postService.getPostCount(currentUser)));
-    likeCountLabel.setText(String.valueOf(postService.getLikesCount(currentUser))); // NumberFormatter.formatCount(
+    // Fetch latest posts for this user
+    postsByUser = postService.postsByUser();
+
+    // postCountLabel.setText(String.valueOf(NumberFormatter.formatCount(postsByUser.size())));
+    // likeCountLabel.setText(String.valueOf(NumberFormatter.formatCount(likesCount())));
+    System.out.println("calling updateProfileCounters");
+    postCountLabel.setText(String.valueOf(postsByUser.size()));
+    likeCountLabel.setText(String.valueOf(likesCount()));
   }
 
+  /**
+   * Calculates the total number of likes across all posts of the current user.
+   *
+   * @return the sum of likes for all posts in {@link #postsByUser}.
+   */
+  public int likesCount() {
+    System.out.println("Do I get here?");
+    int totalLikes = 0;
+    for (PostResponse post : postsByUser) {
+      totalLikes += post.likedByUsers().size();
+    }
+    System.out.println(totalLikes);
+    return totalLikes;
+  }
+
+  /**
+   * Navigates back to the main feed view.
+   */
   @FXML
   @SuppressWarnings("unused")
   public void backToFeed() throws IOException {
     App.setRoot("feed.fxml");
   }
 
+  /**
+   * Logs out the current user and navigates to the login view.
+   */
   @FXML
   @SuppressWarnings("unused")
   public void logOut() throws IOException {

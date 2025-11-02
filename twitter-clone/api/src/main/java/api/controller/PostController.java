@@ -53,9 +53,7 @@ public class PostController {
    */
   @GetMapping("/{id}")
   public ResponseEntity<PostResponse> getPost(@PathVariable("id") Long id) {
-    return postRepository.findById(id, true)
-        .map(postService::toDto)
-        .map(ResponseEntity::ok)
+    return postRepository.findById(id, true).map(postService::toDto).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
@@ -66,11 +64,8 @@ public class PostController {
    */
   @GetMapping
   public ResponseEntity<List<PostResponse>> getAllPosts() {
-    return ResponseEntity.ok(
-        postRepository.findAll(true)
-            .stream()
-            .map(postService::toDto)
-            .toList());
+    return ResponseEntity
+        .ok(postRepository.findAll(true).stream().map(postService::toDto).toList());
   }
 
   /**
@@ -108,10 +103,24 @@ public class PostController {
         .getPrincipal();
 
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
-    return postRepository.findById(id, true)
-        .map(post -> postRepository.likePost(post, user))
-        .map(postService::toDto)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+    return postRepository.findById(id, true).map(post -> postRepository.likePost(post, user))
+        .map(postService::toDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Retrives all posts by the user.
+   *
+   * @return list of the posts by the user
+   */
+  @GetMapping("/mine")
+  public ResponseEntity<List<PostResponse>> postsByUser() {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+
+    // Long userId =
+    // userRepository.findByUsername(userDetails.getUsername()).get().getId();
+    User user = userRepository.findByUsername(userDetails.getUsername()).get();
+    return ResponseEntity
+        .ok(postRepository.findPostsByUser(user).stream().map(postService::toDto).toList());
   }
 }

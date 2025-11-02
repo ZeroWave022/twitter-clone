@@ -1,11 +1,6 @@
 package ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import core.Post;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import core.payload.response.PostResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,15 +18,11 @@ import service.UserService;
 @Component
 @Scope("prototype") // Tells springboot to create individual PostController class for posts
 public class PostController {
-  private final PostService postService;
-  private final UserService userService;
-
-  /** Controller injects the necessary services. */
   @Autowired
-  public PostController(PostService postService, UserService userService) {
-    this.postService = postService;
-    this.userService = userService;
-  }
+  private PostService postService;
+
+  @Autowired
+  private UserService userService;
 
   @FXML
   private Label displayNameLabel;
@@ -58,7 +49,6 @@ public class PostController {
     likeBtn.setText(post.likes() + " 👍");
     retweetBtn.setText(post.reTweets() + " 🔄");
 
-    System.out.println("Current user is: " + userService.getLoggedInUser().getUsername());
     if (post.likedByUser(userService.getLoggedInUser().id())) {
       likeBtn.setStyle("-fx-text-fill: blue;");
     } else {
@@ -81,6 +71,8 @@ public class PostController {
       } else {
         likeBtn.setStyle("-fx-text-fill: black;");
       }
+
+      postService.notifyPostUpdated();
     }
   }
 
