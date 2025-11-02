@@ -112,7 +112,7 @@ public class PostController {
   }
 
   /**
-   * Toggles whether the authenticated user has liked a post.
+   * Toggles whether the authenticated user has retweeted a post.
    *
    * @param id the post's id
    * @return the updated post DTO
