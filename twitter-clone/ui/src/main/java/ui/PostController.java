@@ -77,6 +77,12 @@ public class PostController {
 
     boolean isRetweet = post.originalPostId() != null;
 
+    if (likeBtn != null) {
+      likeBtn.setText(post.likes() + " 👍");
+      likeBtn.setStyle(post.likedByUser(userService.getLoggedInUser().id()) ? "-fx-text-fill: blue;"
+          : "-fx-text-fill: black;");
+    }
+
     if (!isRetweet) {
       // ===== Regular post (post.fxml) =====
       if (displayNameLabel != null) {
@@ -89,12 +95,6 @@ public class PostController {
         contentLabel.setText(post.content());
       }
 
-      if (likeBtn != null) {
-        likeBtn.setText(post.likes() + " 👍");
-        likeBtn
-            .setStyle(post.likedByUser(userService.getLoggedInUser().id()) ? "-fx-text-fill: blue;"
-                : "-fx-text-fill: black;");
-      }
       if (retweetBtn != null) {
         boolean own = isOwn(post);
         retweetBtn.setText(post.reTweets() + " 🔄");
