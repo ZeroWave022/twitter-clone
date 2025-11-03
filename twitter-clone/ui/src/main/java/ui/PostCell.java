@@ -69,7 +69,6 @@ public class PostCell extends ListCell<PostResponse> {
     if (empty || post == null) {
       setText(null);
       setGraphic(null);
-      setStyle("-fx-background-color: transparent;");
       return;
     }
 
