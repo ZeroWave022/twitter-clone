@@ -1,20 +1,20 @@
 package ui;
 
-import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.testfx.api.FxAssert;
-import org.testfx.util.WaitForAsyncUtils;
 
 import core.Post;
 import core.User;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.testfx.api.FxAssert;
+import org.testfx.util.WaitForAsyncUtils;
 import persistence.OrmPostRepository;
 import persistence.OrmUserRepository;
 import service.PostService;

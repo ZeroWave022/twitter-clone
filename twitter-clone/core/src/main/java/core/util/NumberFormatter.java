@@ -2,9 +2,9 @@ package core.util;
 
 /**
  * Utility class for formatting large numbers into a readable string with
- * suffixes: - "k" for thousands - "M" for millions - "B" for billions
- *
- * Numbers are floored and decimals are shown only for smaller ranges: - <10k,
+ * suffixes: - "k" for thousands - "M" for millions - "B" for billions.
+ * 
+ * <p>Numbers are floored and decimals are shown only for smaller ranges: - <10k,
  * <10M, <10B → one decimal - ≥10k, ≥10M, ≥10B → no decimal
  */
 public abstract class NumberFormatter {
@@ -51,7 +51,7 @@ public abstract class NumberFormatter {
    * Floors a double value to one decimal and returns as string. Removes the
    * decimal if the value is a whole number. Example 1.0k -> 1k
    * 
-   * Epsilon is introduced as a margain of error since a conversion from double to
+   * <p>Epsilon is introduced as a margain of error since a conversion from double to
    * long is inherently flawed/lossy
    *
    * @param value the value to format
