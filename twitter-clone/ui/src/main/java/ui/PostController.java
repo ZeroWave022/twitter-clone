@@ -1,15 +1,15 @@
 package ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import core.Post;
+import core.util.NumberFormatter;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import service.PostService;
 import service.UserService;
 import ui.util.AppIcons;
@@ -64,9 +64,9 @@ public class PostController {
     displayNameLabel.setText(post.getAuthor().getDisplayName());
     usernameLabel.setText("@" + post.getAuthor().getUsername());
     contentLabel.setText(post.getContent());
-    likeBtn.setText(String.valueOf(post.getLikes()));
+    likeBtn.setText(NumberFormatter.formatCount(post.getLikes()));
     likeImageView.setImage(AppIcons.LIKE_OFF);
-    retweetBtn.setText(String.valueOf(post.getReTweets()));
+    retweetBtn.setText(NumberFormatter.formatCount(post.getReTweets()));
 
     if (post.likedByUser(userService.getLoggedInUser())) {
       likeBtn.setStyle("-fx-text-fill: #0078AE;");
@@ -83,7 +83,7 @@ public class PostController {
     if (currentPost != null) {
       postService.likePost(currentPost, userService.getLoggedInUser());
       postService.update(currentPost);
-      likeBtn.setText(String.valueOf(currentPost.getLikes()));
+      likeBtn.setText(NumberFormatter.formatCount(currentPost.getLikes()));
       if (currentPost.likedByUser(userService.getLoggedInUser())) {
         likeBtn.setStyle("-fx-text-fill: #0078AE;");
         likeImageView.setImage(AppIcons.LIKE_ON);
