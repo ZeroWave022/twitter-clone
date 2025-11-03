@@ -113,7 +113,7 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
   }
 
   @Override
-  public Post toggleRetweet(Post post) {
+  public Post updateRetweetCount(Post post) {
     return entityManagerFactory.callInTransaction(session -> {
       Post managedPost = session.find(Post.class, post.getId());
       if (managedPost != null) {

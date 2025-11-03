@@ -89,8 +89,8 @@ public class PostController {
       if (createPostRequest.originalPost() != null) {
         Post originalPost = postRepository.findById(createPostRequest.originalPost()).orElse(null);
         post.setOriginalPost(originalPost);
-        originalPost.setReTweets(originalPost.getReTweets()+1);
-        postRepository.toggleRetweet(originalPost);
+        originalPost.setReTweets(originalPost.getReTweets() + 1);
+        postRepository.updateRetweetCount(originalPost);
       }
       return ResponseEntity.ok(postService.toDto(postRepository.save(post)));
     } catch (Exception e) {
