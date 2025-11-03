@@ -25,7 +25,7 @@ import service.UserService;
  * labels.
  */
 @Component
-@Scope("prototype")
+@Scope("prototype") // Tells springboot to create individual PostController class for posts
 public class PostController {
   private final PostService postService;
   private final UserService userService;
