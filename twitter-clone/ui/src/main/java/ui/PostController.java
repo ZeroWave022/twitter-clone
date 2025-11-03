@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -45,9 +46,9 @@ public class PostController {
   @FXML
   private ImageView retweetImageView;
   @FXML
-  private Button likeBtn;
+  private Text likeBtnText;
   @FXML
-  private Button retweetBtn;
+  private Text retweetBtnText;
   @FXML
   private Button deleteBtn;
 
@@ -64,17 +65,17 @@ public class PostController {
     displayNameLabel.setText(post.getAuthor().getDisplayName());
     usernameLabel.setText("@" + post.getAuthor().getUsername());
     contentLabel.setText(post.getContent());
-    likeBtn.setText(NumberFormatter.formatCount(post.getLikes()));
+    likeBtnText.setText(NumberFormatter.formatCount(post.getLikes()));
     likeImageView.setImage(AppIcons.LIKE_OFF);
-    retweetBtn.setText(NumberFormatter.formatCount(post.getReTweets()));
+    retweetBtnText.setText(NumberFormatter.formatCount(post.getReTweets()));
 
     if (post.likedByUser(userService.getLoggedInUser())) {
-      likeBtn.setStyle("-fx-text-fill: #0078AE;");
+      likeBtnText.setStyle("-fx-text-fill: #0078AE;");
       likeImageView.setImage(AppIcons.LIKE_ON);
     }
     // updateLikes();
     // if (post.reTweetedByUser(userService.getLoggedInUser()))
-    // retweetBtn.setStyle("-fx-text-fill: cyan;");
+    // retweetBtnText.setStyle("-fx-text-fill: cyan;");
   }
 
   /** Updates the likes UI elements when the like button is pressed. */
@@ -83,12 +84,12 @@ public class PostController {
     if (currentPost != null) {
       postService.likePost(currentPost, userService.getLoggedInUser());
       postService.update(currentPost);
-      likeBtn.setText(NumberFormatter.formatCount(currentPost.getLikes()));
+      likeBtnText.setText(NumberFormatter.formatCount(currentPost.getLikes()));
       if (currentPost.likedByUser(userService.getLoggedInUser())) {
-        likeBtn.setStyle("-fx-text-fill: #0078AE;");
+        likeBtnText.setStyle("-fx-text-fill: #0078AE;");
         likeImageView.setImage(AppIcons.LIKE_ON);
       } else {
-        likeBtn.setStyle("-fx-text-fill: black;");
+        likeBtnText.setStyle("-fx-text-fill: black;");
         likeImageView.setImage(AppIcons.LIKE_OFF);
       }
     }
