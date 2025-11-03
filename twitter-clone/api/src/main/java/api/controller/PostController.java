@@ -85,9 +85,12 @@ public class PostController {
       Post post = new Post();
       post.setAuthor(user);
       post.setContent(createPostRequest.content());
+
       if (createPostRequest.originalPost() != null) {
-        post.setOriginalPost(
-            postRepository.findById(createPostRequest.originalPost()).orElse(null));
+        Post originalPost = postRepository.findById(createPostRequest.originalPost()).orElse(null);
+        post.setOriginalPost(originalPost);
+        originalPost.setReTweets(originalPost.getReTweets()+1);
+        postRepository.toggleRetweet(originalPost);
       }
       return ResponseEntity.ok(postService.toDto(postRepository.save(post)));
     } catch (Exception e) {
@@ -109,23 +112,5 @@ public class PostController {
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
     return postRepository.findById(id, true).map(post -> postRepository.likePost(post, user))
         .map(postService::toDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-  }
-
-  /**
-   * Toggles whether the authenticated user has retweeted a post.
-   *
-   * @param id the post's id
-   * @return the updated post DTO
-   */
-  @PostMapping("/{id}/retweets")
-  public ResponseEntity<PostResponse> toggleRetweet(@PathVariable("id") Long id) {
-
-    Post post = postRepository.findById(id, true).orElse(null);
-    if (post == null) {
-      return ResponseEntity.notFound().build();
-    }
-    post.setReTweets(post.getReTweets() + 1);
-    postRepository.toggleRetweet(post);
-    return ResponseEntity.ok(postService.toDto(post));
   }
 }
