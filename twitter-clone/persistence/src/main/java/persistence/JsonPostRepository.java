@@ -128,7 +128,7 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public Post toggleRetweet(Post post) {
+  public Post updateRetweetCount(Post post) {
     throw new UnsupportedOperationException("Unimplemented method 'toggleRetweet'");
   }
 
