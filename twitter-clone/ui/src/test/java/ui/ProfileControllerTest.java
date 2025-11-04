@@ -45,19 +45,7 @@ class ProfileControllerTest extends UiTestBase {
     post1 = postService.createPost("Test post 1");
     post2 = postService.createPost("Test post 2");
 
-    // Setup the stage properly so lookups can work
-    FxToolkit.setupStage(stage -> {
-      try {
-        new App().start(stage); // or App.launch()
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    });
-
-    // Wait for the scene graph to render
     WaitForAsyncUtils.waitForFxEvents();
-
-    // Now safe to lookup nodes
     typeIntoTextInput("#usernameField", "username");
     typeIntoTextInput("#passwordField", "password123");
     Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
