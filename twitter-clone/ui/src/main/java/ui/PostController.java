@@ -90,8 +90,6 @@ public class PostController {
 
     boolean isRetweet = post.originalPostId() != null;
 
-    likeImageView.setImage(AppIcons.LIKE_OFF);
-
     if (likeBtnText != null) {
       likeBtnText.setText(NumberFormatter.formatCount(post.likes()));
       if (post.likedByUser(userService.getLoggedInUser().id())) {
@@ -99,6 +97,7 @@ public class PostController {
         likeImageView.setImage(AppIcons.LIKE_ON);
       } else {
         likeBtnText.setStyle("-fx-text-fill: black;");
+        likeImageView.setImage(AppIcons.LIKE_OFF);
       }
     }
 
