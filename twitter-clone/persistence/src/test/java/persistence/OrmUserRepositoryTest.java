@@ -1,6 +1,7 @@
 package persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.User;
@@ -13,9 +14,15 @@ import org.junit.jupiter.api.Test;
 /** Integration test for {@link OrmUserRepository}. */
 class OrmUserRepositoryTest {
   private OrmUserRepository userRepository = new OrmUserRepository();
+  private User user;
 
   @BeforeEach
   void setup() throws IOException {
+
+    // Initialize test user
+    String username = "username";
+    User user = new User(null, username, "display name", "password123");
+    this.user = user;
     userRepository.dropDatabase();
   }
 
@@ -27,7 +34,6 @@ class OrmUserRepositoryTest {
 
   @Test
   void test_addUser() {
-    User user = new User(null, "username", "display name", "password123");
     userRepository.save(user);
     assertTrue(user.getId() != null);
 
@@ -37,7 +43,6 @@ class OrmUserRepositoryTest {
 
   @Test
   void test_modifyUser() {
-    User user = new User(null, "username", "display name", "password123");
     userRepository.save(user);
     assertTrue(user.getId() != null);
 
@@ -49,5 +54,31 @@ class OrmUserRepositoryTest {
 
     Optional<User> modifiedUser = userRepository.findById(user.getId());
     assertEquals("new display name", modifiedUser.get().getDisplayName());
+  }
+
+  @Test
+  void test_findByUsername() {
+    assertTrue(userRepository.findByUsername(user.getUsername()).isEmpty());
+
+    userRepository.save(user);
+    assertEquals(userRepository.findByUsername(user.getUsername()).get(), user);
+  }
+
+  @Test
+  void test_deleteById() {
+    userRepository.save(user);
+    assertTrue(userRepository.findById(user.getId()).isPresent());
+
+    userRepository.deleteById(user.getId());
+    assertTrue(userRepository.findById(user.getId()).isEmpty());
+  }
+
+  @Test
+  void test_existsById() {
+    userRepository.save(user);
+    assertTrue(userRepository.existsById(user.getId()));
+    
+    userRepository.deleteById(user.getId());
+    assertFalse(userRepository.existsById(user.getId()));
   }
 }
