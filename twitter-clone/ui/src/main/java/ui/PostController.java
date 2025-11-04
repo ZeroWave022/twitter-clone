@@ -279,7 +279,7 @@ public class PostController {
   }
 
   @FXML
-  public void deletePost() { // do not remove, posts wont show
-    System.out.println("tryng to delete");
+  public void deletePost() {
+    throw new UnsupportedOperationException("Not implemented yet");
   }
 }
