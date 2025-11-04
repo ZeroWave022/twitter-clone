@@ -5,10 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.concurrent.TimeUnit;
+
 import core.payload.response.PostResponse;
 import core.payload.response.UserResponse;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -128,6 +135,51 @@ class PostControllerTest extends UiTestBase {
     PostResponse fresh = postService.getPostById(post.id()).orElseThrow();
     assertEquals(fresh.reTweets() + " 🔄", retweetBtn.getText(),
         "Retweet caption should show current count");
+  }
+
+
+  @Test
+  @DisplayName("Retweet via UI: second user retweets and original count increments")
+  void test_clickRetweetButtonAndConfirmDialog_scopedLookups() {
+    // Log in as second user via the UI
+    typeIntoTextInput("#usernameField", "seconduser");
+    typeIntoTextInput("#passwordField", "pass456");
+    Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
+    interact(logInBtn::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    // Click the retweet button on the first feed item (use clickOn so the dialog
+    // opens properly)
+    Button rtBtn = lookup("#retweetBtn").nth(0).queryAs(Button.class);
+    assertNotNull(rtBtn, "Retweet button should be present");
+    clickOn(rtBtn);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    // Wait for the dialog to appear and grab its DialogPane
+    // WaitForAsyncUtils.waitFor(5, TimeUnit.SECONDS,
+    //     () -> lookup(".dialog-pane").tryQuery().isPresent());
+    // FxAssert.verifyThat(".dialog-pane", isVisible());
+    DialogPane pane = lookup(".dialog-pane").queryAs(DialogPane.class);
+    assertNotNull(pane, "DialogPane should be present");
+
+    // Look up the TextArea *inside* the dialog and type a message (enables OK)
+    TextArea ta = from(pane).lookup(".text-area").queryAs(TextArea.class);
+    assertNotNull(ta, "TextArea should exist in the dialog");
+    clickOn(ta); // give it focus
+    write("Nice post!"); // typing enables the OK button due to your binding
+    WaitForAsyncUtils.waitForFxEvents();
+
+    // Find the "Retweet" button inside the dialog by label and click it
+    Button ok = from(pane)
+        .lookup((Node n) -> n instanceof Button && "Retweet".equals(((Button) n).getText()))
+        .queryAs(Button.class);
+    assertNotNull(ok, "OK button labeled 'Retweet' should be present");
+    clickOn(ok);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    // Verify the model: original post retweet count incremented
+    PostResponse updatedOriginal = postService.getPostById(post.id()).orElseThrow();
+    assertEquals(1, updatedOriginal.reTweets(), "Original post should have one retweet");
   }
 
 }
