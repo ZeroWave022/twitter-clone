@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testfx.api.FxAssert;
-import org.testfx.api.FxToolkit;
 import org.testfx.util.WaitForAsyncUtils;
 import persistence.OrmPostRepository;
 import service.PostService;
@@ -101,6 +100,7 @@ class ProfileControllerTest extends UiTestBase {
   @Test
   @DisplayName("Profile feed list displays all user's posts in correct order")
   void testProfileFeedList() {
+    @SuppressWarnings("unchecked")
     ListView<PostResponse> feedList = lookup("#feedList").queryAs(ListView.class);
     assertNotNull(feedList);
     assertEquals(2, feedList.getItems().size());
