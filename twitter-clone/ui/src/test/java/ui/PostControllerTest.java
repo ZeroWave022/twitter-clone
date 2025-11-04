@@ -108,4 +108,26 @@ class PostControllerTest extends UiTestBase {
     assertTrue(updatedPost.likedByUser(user.id()), "First user's like should still be counted");
     FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("blue"));
   }
+
+  @Test
+  @DisplayName("Retweet button is visible for non-authors")
+  void test_retweetButtonVisibleForOtherUser() {
+
+    typeIntoTextInput("#usernameField", "seconduser");
+    typeIntoTextInput("#passwordField", "pass456");
+    Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
+    interact(logInBtn::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    Button retweetBtn = lookup("#retweetBtn").nth(0).queryAs(Button.class);
+    assertNotNull(retweetBtn, "Retweet button should be present for other users");
+    assertTrue(retweetBtn.isVisible(), "Retweet button should be visible for non-authors");
+    assertTrue(retweetBtn.isManaged(),
+        "Retweet button should participate in layout for non-authors");
+
+    PostResponse fresh = postService.getPostById(post.id()).orElseThrow();
+    assertEquals(fresh.reTweets() + " 🔄", retweetBtn.getText(),
+        "Retweet caption should show current count");
+  }
+
 }
