@@ -36,6 +36,7 @@ class ProfileControllerTest extends UiTestBase {
 
   @BeforeEach
   void setup() throws Exception {
+    super.setup();
     OrmPostRepository repo = new OrmPostRepository();
     repo.dropDatabase();
 
@@ -134,6 +135,7 @@ class ProfileControllerTest extends UiTestBase {
 
     interact(logOutBtn::fire);
     WaitForAsyncUtils.waitForFxEvents();
-    FxAssert.verifyThat(".label", node -> ((Label) node).getText().contains("LOG IN"));
+    Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
+    assertNotNull(logInBtn);
   }
 }
