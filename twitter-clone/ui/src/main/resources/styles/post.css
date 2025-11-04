@@ -1,0 +1,9 @@
+.delete-btn {
+    -fx-border-color: transparent;
+}
+
+.delete-btn:hover {
+    -fx-text-fill: #ad0000;
+    -fx-border-radius: 5;
+    -fx-border-color: #ad0000;
+}

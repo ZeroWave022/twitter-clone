@@ -2,6 +2,8 @@ package persistence;
 
 import core.Post;
 import core.User;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -15,18 +17,18 @@ import persistence.hibernate.HibernateRepository;
 public class OrmPostRepository extends HibernateRepository implements PostRepository {
   @Override
   public void deleteById(Long id) {
-    sessionFactory.inTransaction(session -> {
-      Post post = session.find(Post.class, id);
+    entityManagerFactory.runInTransaction(entityManager -> {
+      Post post = entityManager.find(Post.class, id);
       if (post != null) {
-        session.remove(post);
+        entityManager.remove(post);
       }
     });
   }
 
   @Override
   public boolean existsById(Long id) {
-    return sessionFactory.fromTransaction(session -> {
-      return session.find(Post.class, id) != null;
+    return entityManagerFactory.callInTransaction(entityManager -> {
+      return entityManager.find(Post.class, id) != null;
     });
   }
 
@@ -37,17 +39,16 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public List<Post> findAll(boolean withRelations) {
-    if (withRelations) {
-      return sessionFactory.fromTransaction(session -> {
-        List<Post> posts = session
-            .createSelectionQuery("FROM Post p LEFT JOIN FETCH p.likedByUsers", Post.class)
-            .getResultList();
-        return posts;
-      });
-    }
+    CriteriaQuery<Post> query = criteriaBuilder.createQuery(Post.class);
+    Root<Post> post = query.from(Post.class);
+    query.select(post);
 
-    return sessionFactory.fromTransaction(session -> {
-      List<Post> posts = session.createQuery("SELECT p FROM Post p", Post.class).getResultList();
+    return entityManagerFactory.callInTransaction(entityManager -> {
+      if (withRelations) {
+        post.fetch("likedByUsers", jakarta.persistence.criteria.JoinType.LEFT);
+      }
+
+      List<Post> posts = entityManager.createQuery(query).getResultList();
       return posts;
     });
   }
@@ -59,40 +60,38 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public Optional<Post> findById(Long id, boolean withRelations) {
-    if (withRelations) {
-      return sessionFactory.fromTransaction(session -> {
-        Post post = session
-            .createQuery("SELECT p FROM Post p LEFT JOIN FETCH p.likedByUsers WHERE p.id = :id",
-                Post.class)
-            .setParameter("id", id).getSingleResult();
-        return Optional.ofNullable(post);
-      });
-    }
+    CriteriaQuery<Post> query = criteriaBuilder.createQuery(Post.class);
+    Root<Post> post = query.from(Post.class);
+    query.select(post).where(post.get("id").equalTo(id));
 
-    return sessionFactory.fromTransaction(session -> {
-      Post post = session.find(Post.class, id);
-      return Optional.ofNullable(post);
+    return entityManagerFactory.callInTransaction(entityManager -> {
+      if (withRelations) {
+        post.fetch("likedByUsers", jakarta.persistence.criteria.JoinType.LEFT);
+      }
+      Post postResult = entityManager.createQuery(query).getSingleResultOrNull();
+      return Optional.ofNullable(postResult);
     });
   }
 
   @Override
   public Post save(Post post) {
-    sessionFactory.inTransaction(session -> {
-      session.persist(post);
+    entityManagerFactory.runInTransaction(entityManager -> {
+      entityManager.persist(post);
     });
     return post;
   }
 
   @Override
   public Post update(Post post) {
-    return sessionFactory.fromTransaction(session -> {
-      Post managedPost = session.find(Post.class, post.getId());
+    return entityManagerFactory.callInTransaction(entityManager -> {
+      Post managedPost = entityManager.find(Post.class, post.getId());
       if (managedPost != null) {
         managedPost.setContent(post.getContent());
 
         // Sync liked users properly
         managedPost.setLikedByUsers(post.getLikedByUsers());
         managedPost.setLikes(post.getLikes());
+        managedPost.setReTweets(post.getReTweets());
       }
       return managedPost;
     });
@@ -100,7 +99,7 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public Post likePost(Post post, User user) {
-    return sessionFactory.fromTransaction(session -> {
+    return entityManagerFactory.callInTransaction(entityManager -> {
       HashSet<User> likedByUsers = new HashSet<>(post.getLikedByUsers());
       if (likedByUsers.contains(user)) {
         likedByUsers.remove(user);
@@ -109,7 +108,18 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
       }
       post.setLikedByUsers(likedByUsers);
       post.setLikes(likedByUsers.size());
-      return session.merge(post);
+      return entityManager.merge(post);
+    });
+  }
+
+  @Override
+  public Post updateRetweetCount(Post post) {
+    return entityManagerFactory.callInTransaction(session -> {
+      Post managedPost = session.find(Post.class, post.getId());
+      if (managedPost != null) {
+        managedPost.setReTweets(post.getReTweets());
+      }
+      return managedPost;
     });
   }
 

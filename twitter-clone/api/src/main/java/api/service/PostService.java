@@ -22,13 +22,12 @@ public class PostService {
    * @return the post as a DTO
    */
   public PostResponse toDto(Post post) {
-    return new PostResponse(
-        post.getId(),
-        post.getContent(),
-        post.getLikes(),
-        post.getReTweets(),
-        post.getCommentsAmount(),
-        userService.toDto(post.getAuthor()),
-        post.getLikedByUsers().stream().map(User::getId).collect(Collectors.toSet()));
+    Long originalId = null;
+    if (post.getOriginalPost() != null) {
+      originalId = post.getOriginalPost().getId();
+    }
+    return new PostResponse(post.getId(), post.getContent(), post.getLikes(), post.getReTweets(),
+        post.getCommentsAmount(), userService.toDto(post.getAuthor()),
+        post.getLikedByUsers().stream().map(User::getId).collect(Collectors.toSet()), originalId);
   }
 }

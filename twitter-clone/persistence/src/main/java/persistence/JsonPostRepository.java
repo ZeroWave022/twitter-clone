@@ -128,6 +128,11 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
+  public Post updateRetweetCount(Post post) {
+    throw new UnsupportedOperationException("Unimplemented method 'toggleRetweet'");
+  }
+
+  @Override
   public List<Post> findPostsByUser(User user) {
     System.out.println("Method in deprecated class is not implemented.");
     return new ArrayList<>();

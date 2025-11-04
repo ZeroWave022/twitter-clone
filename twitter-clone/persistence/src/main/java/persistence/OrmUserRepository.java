@@ -1,6 +1,8 @@
 package persistence;
 
 import core.User;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 import persistence.hibernate.HibernateRepository;
@@ -13,61 +15,66 @@ import persistence.hibernate.HibernateRepository;
 public class OrmUserRepository extends HibernateRepository implements UserRepository {
   @Override
   public void deleteById(Long id) {
-    sessionFactory.inTransaction(session -> {
-      User user = session.find(User.class, id);
+    entityManagerFactory.runInTransaction(entityManager -> {
+      User user = entityManager.find(User.class, id);
       if (user != null) {
-        session.remove(user);
+        entityManager.remove(user);
       }
     });
   }
 
   @Override
   public boolean existsById(Long id) {
-    return sessionFactory.fromTransaction(session -> {
-      return session.find(User.class, id) != null;
+    return entityManagerFactory.callInTransaction(entityManager -> {
+      return entityManager.find(User.class, id) != null;
     });
   }
 
-  // createSelectionQuery usage inspired by Hibernate Getting Started guide
+  // createQuery usage inspired by Hibernate Getting Started guide
   // See: http://docs.jboss.org/hibernate/orm/7.1/quickstart/html_single/
-  // Start createSelectionQuery usage
+  // Start createQuery usage
   @Override
   public List<User> findAll() {
-    return sessionFactory.fromTransaction(session -> {
-      return session.createSelectionQuery("from User", User.class).getResultList();
+    return entityManagerFactory.callInTransaction(entityManager -> {
+      CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+      query.from(User.class);
+      return entityManager.createQuery(query).getResultList();
     });
   }
 
   @Override
   public Optional<User> findById(Long id) {
-    return sessionFactory.fromTransaction(session -> {
-      User user = session.find(User.class, id);
+    return entityManagerFactory.callInTransaction(entityManager -> {
+      User user = entityManager.find(User.class, id);
       return Optional.ofNullable(user);
     });
   }
 
   @Override
   public Optional<User> findByUsername(String username) {
-    return sessionFactory.fromTransaction(session -> {
-      User user = session.createSelectionQuery("where username = :username", User.class)
-          .setParameter("username", username).getSingleResultOrNull();
-      return Optional.ofNullable(user);
+    return entityManagerFactory.callInTransaction(entityManager -> {
+      CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+      Root<User> user = query.from(User.class);
+      query.select(user).where(criteriaBuilder.equal(user.get("username"), username));
+
+      User userResult = entityManager.createQuery(query).getSingleResultOrNull();
+      return Optional.ofNullable(userResult);
     });
   }
-  // End createSelectionQuery usage
+  // End createQuery usage
 
   @Override
   public User save(User user) {
-    sessionFactory.inTransaction(session -> {
-      session.persist(user);
+    entityManagerFactory.runInTransaction(entityManager -> {
+      entityManager.persist(user);
     });
     return user;
   }
 
   @Override
   public User update(User user) {
-    sessionFactory.inTransaction(session -> {
-      session.merge(user);
+    entityManagerFactory.runInTransaction(entityManager -> {
+      entityManager.merge(user);
     });
     return user;
   }

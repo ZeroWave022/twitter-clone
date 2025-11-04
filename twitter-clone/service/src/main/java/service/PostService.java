@@ -63,13 +63,13 @@ public class PostService {
    * @return the saved post
    */
   @Transactional
-  public PostResponse createPost(String content) {
+  public PostResponse createPost(String content, Long originalId) {
     if (content == null) {
       throw new IllegalArgumentException("Post cannot be null");
     }
 
-    PostResponse post = this.apiClient.post("/api/posts", new CreatePostRequest(content),
-        PostResponse.class);
+    PostResponse post = this.apiClient.post("/api/posts",
+        new CreatePostRequest(content, originalId), PostResponse.class);
 
     return post;
   }
@@ -105,6 +105,7 @@ public class PostService {
     return this.apiClient.post("/api/posts/" + postId + "/likes", Collections.emptyMap(),
         PostResponse.class);
   }
+
 
   // TODO: add if needed
   // public PostResponse update(Post post) {
