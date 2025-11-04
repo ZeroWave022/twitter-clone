@@ -1,6 +1,7 @@
 package core;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -24,6 +25,13 @@ public class Post {
 
   public static final int MAX_CONTENT_LENGTH = 280;
 
+  /**
+   * Indicates whether the post is an original post or a retweet.
+   */
+  public enum Type {
+    ORIGINAL, RETWEET
+  }
+
   @Id
   @GeneratedValue
   private Long id;
@@ -32,12 +40,20 @@ public class Post {
   @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
   private User author;
 
+  @ManyToOne
+  @JoinColumn(name = "original_post_id", nullable = true)
+  private Post originalPost = null;
+
   private String content;
   // private Instant createdAt;
 
   private int likes = 0;
+
+  @Column
   private int reTweets = 0;
+
   private int commentsAmount = 0;
+  private Type type = Type.ORIGINAL;
 
   @ManyToMany
   @JoinTable(name = "post_likes", joinColumns = @JoinColumn(name = "post_id"),
@@ -79,6 +95,34 @@ public class Post {
 
   public String getContent() {
     return content;
+  }
+
+  public void setType(Type type) {
+    this.type = type;
+  }
+
+  public Type getType() {
+    return type;
+  }
+
+  @SuppressFBWarnings(value = { "EI_EXPOSE_REP" },
+      justification = "Returning entity references is required"
+          + " for JPA relationships and safe within ORM context.")
+  public Post getOriginalPost() {
+    return originalPost;
+  }
+
+  /** Used by retweets to point to the original tweet. */
+  @SuppressFBWarnings(value = { "EI_EXPOSE_REP2" },
+      justification = "Setting entity references is required for "
+          + " JPA relationship management.")
+  public void setOriginalPost(Post originalPost) {
+    if (originalPost == null) {
+      this.type = Type.ORIGINAL;
+      return;
+    }
+    this.originalPost = originalPost;
+    this.type = Type.RETWEET;
   }
 
   public int getLikes() {

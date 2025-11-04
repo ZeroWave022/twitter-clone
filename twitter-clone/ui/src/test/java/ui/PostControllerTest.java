@@ -40,7 +40,7 @@ class PostControllerTest extends UiTestBase {
 
     userService.logIn("username", "password123");
     user = userService.getLoggedInUser();
-    post = postService.createPost("UI Test content");
+    post = postService.createPost("UI Test content", null);
   }
 
   @AfterEach

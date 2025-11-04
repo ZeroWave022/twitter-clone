@@ -91,6 +91,7 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
         // Sync liked users properly
         managedPost.setLikedByUsers(post.getLikedByUsers());
         managedPost.setLikes(post.getLikes());
+        managedPost.setReTweets(post.getReTweets());
       }
       return managedPost;
     });
@@ -108,6 +109,17 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
       post.setLikedByUsers(likedByUsers);
       post.setLikes(likedByUsers.size());
       return entityManager.merge(post);
+    });
+  }
+
+  @Override
+  public Post updateRetweetCount(Post post) {
+    return entityManagerFactory.callInTransaction(session -> {
+      Post managedPost = session.find(Post.class, post.getId());
+      if (managedPost != null) {
+        managedPost.setReTweets(post.getReTweets());
+      }
+      return managedPost;
     });
   }
 }

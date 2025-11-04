@@ -126,4 +126,10 @@ public class JsonPostRepository implements PostRepository {
   public Post likePost(Post post, User user) {
     throw new UnsupportedOperationException("Unimplemented method 'likePost'");
   }
+
+  @Override
+  public Post updateRetweetCount(Post post) {
+    throw new UnsupportedOperationException("Unimplemented method 'toggleRetweet'");
+  }
+
 }

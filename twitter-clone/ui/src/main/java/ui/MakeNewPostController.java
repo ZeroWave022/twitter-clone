@@ -95,7 +95,7 @@ public class MakeNewPostController implements Initializable {
       return;
     }
 
-    postService.createPost(content);
+    postService.createPost(content, null);
 
     switchToFeed();
   }

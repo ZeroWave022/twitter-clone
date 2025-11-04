@@ -5,5 +5,5 @@ package core.payload.request;
  *
  * @param content the text in the post
  */
-public record CreatePostRequest(String content) {
+public record CreatePostRequest(String content, Long originalPost) {
 }
