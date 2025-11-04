@@ -3,7 +3,6 @@ package persistence;
 import com.fasterxml.jackson.core.type.TypeReference;
 import core.Post;
 import core.User;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -124,7 +123,13 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public void likePost(Post post, User user) {
-    System.out.println("Method in deprecated class is not implemented.");
+  public Post likePost(Post post, User user) {
+    throw new UnsupportedOperationException("Unimplemented method 'likePost'");
   }
+
+  @Override
+  public Post updateRetweetCount(Post post) {
+    throw new UnsupportedOperationException("Unimplemented method 'toggleRetweet'");
+  }
+
 }

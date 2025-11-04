@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import core.Post;
-import core.User;
+import core.payload.response.PostResponse;
+import core.payload.response.UserResponse;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
@@ -14,37 +14,34 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.testfx.api.FxAssert;
 import org.testfx.util.WaitForAsyncUtils;
 import persistence.OrmPostRepository;
-import persistence.OrmUserRepository;
 import service.PostService;
 import service.UserService;
 
 /** Integration test for {@link PostController}. */
+@SpringBootTest(classes = ui.config.AppConfig.class)
 class PostControllerTest extends UiTestBase {
-
+  @Autowired
   private PostService postService;
+
   @SuppressWarnings("unused")
+  @Autowired
   private UserService userService;
-  private User user;
-  private Post post;
+  private UserResponse user;
+  private PostResponse post;
 
   @BeforeEach
   void setupData() {
     OrmPostRepository postRepository = new OrmPostRepository();
-    OrmUserRepository userRepository = new OrmUserRepository();
     postRepository.dropDatabase();
 
-    user = new User(null, "username", "Display Name", "password123");
-    UserService userService = new UserService(userRepository);
-    userService.createUser(user);
-
-    post = new Post(user, "UI test post", null);
-    postService = new PostService(postRepository);
-    postService.createPost(post);
-
-    userService = new UserService(userRepository);
+    userService.logIn("username", "password123");
+    user = userService.getLoggedInUser();
+    post = postService.createPost("UI Test content", null);
   }
 
   @AfterEach
@@ -69,31 +66,29 @@ class PostControllerTest extends UiTestBase {
     // like and check
     Button likeBtn = lookup("#likeBtn").nth(0).queryAs(Button.class);
     assertNotNull(likeBtn, "Like button should be loaded");
-    assertEquals(0, post.getLikes());
+    assertEquals(0, post.likes());
     interact(likeBtn::fire);
-    Post updatedPost = postService.getPostById(post.getId(), true).orElseThrow();
-    assertEquals(1, updatedPost.getLikes());
-    assertTrue(updatedPost.likedByUser(user));
+    PostResponse updatedPost = postService.getPostById(post.id()).orElseThrow();
+    assertEquals(1, updatedPost.likes());
+    assertTrue(updatedPost.likedByUser(user.id()));
     Text likeBtnText = lookup("#likeBtnText").queryAs(Text.class);
-    FxAssert.verifyThat(likeBtnText, b -> b.getStyle().contains("#0078AE"));
+    FxAssert.verifyThat(likeBtnText, b -> b.getStyle().contains("#0078ae"));
 
     // unlike and check
     interact(likeBtn::fire);
-    updatedPost = postService.getPostById(post.getId(), true).orElseThrow();
-    assertEquals(0, updatedPost.getLikes());
-    assertFalse(updatedPost.likedByUser(user));
-    FxAssert.verifyThat(likeBtnText, b -> !b.getStyle().contains("#0078AE"));
+    updatedPost = postService.getPostById(post.id()).orElseThrow();
+    assertEquals(0, updatedPost.likes());
+    assertFalse(updatedPost.likedByUser(user.id()));
+    FxAssert.verifyThat(likeBtnText, b -> !b.getStyle().contains("#0078ae"));
   }
 
   // Test written with help from OpenAI's GPT-5
   @Test
   @DisplayName("Second user likes a post already liked by first user")
   void test_secondUserLikesAlreadyLikedPost() {
-    postService.likePost(post, user);
-    postService.update(post);
-    assertEquals(1, post.getLikes(), "Post should already have 1 like from first user");
-    User secondUser = new User(null, "seconduser", "Second User", "pass456");
-    new OrmUserRepository().save(secondUser);
+    post = postService.likePost(post.id());
+    assertEquals(1, post.likes(), "Post should already have 1 like from first user");
+
     typeIntoTextInput("#usernameField", "seconduser");
     typeIntoTextInput("#passwordField", "pass456");
     Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
@@ -103,13 +98,17 @@ class PostControllerTest extends UiTestBase {
     // like and check
     Button likeBtn = lookup("#likeBtn").nth(0).queryAs(Button.class);
     interact(likeBtn::fire);
-    Post updatedPost = postService.getPostById(post.getId(), true).orElseThrow();
-    assertEquals(2, updatedPost.getLikes(), "Post should now have 2 likes");
-    assertTrue(updatedPost.likedByUser(secondUser),
-        "Second user should be registered as liking the post");
-    assertTrue(updatedPost.likedByUser(user), "First user's like should still be counted");
-    Text likeBtnText = lookup("#likeBtnText").queryAs(Text.class);
-    FxAssert.verifyThat(likeBtnText, b -> b.getStyle().contains("#0078AE"));
-  }
 
+    PostResponse updatedPost = postService.getPostById(post.id()).orElseThrow();
+    assertEquals(2, updatedPost.likes(), "Post should now have 2 likes");
+
+    userService.logIn("seconduser", "pass456");
+    UserResponse secondUser = userService.getLoggedInUser();
+    assertTrue(updatedPost.likedByUser(secondUser.id()),
+        "Second user should be registered as liking the post");
+
+    assertTrue(updatedPost.likedByUser(user.id()), "First user's like should still be counted");
+    Text likeBtnText = lookup("#likeBtnText").queryAs(Text.class);
+    FxAssert.verifyThat(likeBtnText, b -> b.getStyle().contains("#0078ae"));
+  }
 }

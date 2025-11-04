@@ -9,4 +9,6 @@ module twitter.core {
 
   exports core;
   exports core.util;
+  exports core.payload.request;
+  exports core.payload.response;
 }

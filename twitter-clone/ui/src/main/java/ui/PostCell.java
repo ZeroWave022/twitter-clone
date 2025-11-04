@@ -1,6 +1,6 @@
 package ui;
 
-import core.Post;
+import core.payload.response.PostResponse;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -16,35 +16,80 @@ import javafx.scene.layout.HBox;
  * Custom ListCell for displaying Post objects in a ListView. and binds data via
  * PostController.
  */
-public class PostCell extends ListCell<Post> {
-  private HBox postItem;
-  private PostController postController;
+public class PostCell extends ListCell<PostResponse> {
 
-  /** Constructs a PostCell and loads its FXML view and controller. */
-  public PostCell() {
+  // Regular post view/controller
+  private HBox regularNode;
+  private PostController regularController;
+
+  // Retweet view/controller
+  private HBox retweetNode;
+  private PostController retweetController;
+
+  /**
+   * Constructs a PostCell object.
+   */
+  public PostCell() { /* lazy-load in updateItem() to avoid exceptions at startup */
+  }
+
+  private void ensureRegularLoaded() {
+    if (regularNode != null) {
+      return;
+    }
     try {
       FXMLLoader loader = new FXMLLoader(App.class.getResource("post.fxml"));
       loader.setControllerFactory(App.getSpringContext()::getBean);
-      postItem = loader.load();
-      postController = loader.getController();
+      regularNode = loader.load();
+      regularController = loader.getController();
     } catch (Exception e) {
       e.printStackTrace();
-      Alert alert = new Alert(AlertType.ERROR, "Could not load post view.", ButtonType.OK);
-      alert.show();
+      new Alert(AlertType.ERROR, "Could not load post.fxml", ButtonType.OK).show();
+    }
+  }
+
+  private void ensureRetweetLoaded() {
+    if (retweetNode != null) {
+      return;
+    }
+    try {
+      FXMLLoader loader = new FXMLLoader(App.class.getResource("retweetPost.fxml"));
+      loader.setControllerFactory(App.getSpringContext()::getBean);
+      retweetNode = loader.load();
+      retweetController = loader.getController();
+    } catch (Exception e) {
+      e.printStackTrace();
+      new Alert(AlertType.ERROR, "Could not load retweetPost.fxml", ButtonType.OK).show();
     }
   }
 
   @Override
-  protected void updateItem(Post post, boolean empty) {
+  protected void updateItem(PostResponse post, boolean empty) {
     super.updateItem(post, empty);
+
     if (empty || post == null) {
       setText(null);
       setGraphic(null);
-    } else {
-      postController.setData(post);
-      setGraphic(postItem);
+      return;
     }
-    // Removes the default alternating background color for filled cells
+
+    // Decide which template to use
+    boolean isRetweet = post.originalPostId() != null;
+
+    if (isRetweet) {
+      ensureRetweetLoaded();
+      if (retweetController != null) {
+        retweetController.setData(post); // same controller class handles retweet layout
+      }
+      setGraphic(retweetNode);
+    } else {
+      ensureRegularLoaded();
+      if (regularController != null) {
+        regularController.setData(post);
+      }
+      setGraphic(regularNode);
+    }
+
+    // Remove default alternating color
     setStyle("-fx-background-color: transparent;");
   }
 }

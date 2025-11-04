@@ -1,2 +1,2 @@
 The black icons are RGB 0 0 0, HEX #000000, while
-the blue icons are RGB 0 120 174, HEX #0078AE
+the blue icons are RGB 0 120 174, HEX #0078ae
