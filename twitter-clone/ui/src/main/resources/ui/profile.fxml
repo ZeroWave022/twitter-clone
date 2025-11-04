@@ -34,15 +34,15 @@
                 </VBox>
             </HBox>
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-underline: true;" text="Your Posts" />
-            <ListView fx:id="feedList" prefHeight="400" prefWidth="700" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-radius: 6;" />
+            <ListView fx:id="feedList" prefHeight="400.0" prefWidth="936.0" style="-fx-background-color: white; -fx-border-color: white; -fx-border-radius: 6;" />
         </VBox>
     </center>
     <top>
         <StackPane prefHeight="80.0" style="-fx-border-width: 0 0 4 0; -fx-border-color: #123456;" BorderPane.alignment="CENTER">
             <children>
-                <Text fill="BLUE" text="PROFILE" StackPane.alignment="CENTER">
+                <Text text="PROFILE" StackPane.alignment="CENTER">
                     <font>
-                        <Font size="24.0" />
+                        <Font size="23.0" />
                     </font>
                 </Text>
                 <Button fx:id="backToFeedBtn" onAction="#backToFeed" prefHeight="36" prefWidth="100" style="-fx-font-weight: bold; -fx-background-radius: 8;" text="Back" StackPane.alignment="CENTER_LEFT">
