@@ -1,6 +1,7 @@
 package persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.User;
@@ -18,10 +19,19 @@ class JsonUserRepositoryTest {
   @TempDir
   private Path dataDir;
   private JsonUserRepository userRepository;
+  private User user;
+  private Long id;
+  private String username;
 
   @BeforeEach
   void setup() throws IOException {
     this.userRepository = new JsonUserRepository(dataDir.toAbsolutePath().toString());
+    String username = "username";
+    Long id = 123L;
+    User user = new User(id, username, "display name", "password123");
+    this.username = username;
+    this.id = id;
+    this.user = user;
   }
 
   @AfterEach
@@ -46,8 +56,6 @@ class JsonUserRepositoryTest {
 
   @Test
   void test_addUser() {
-    User user = new User(null, "username", "display name", "password123");
-
     User savedUser = this.userRepository.save(user);
     assertTrue(savedUser.getId() != null);
 
@@ -58,5 +66,39 @@ class JsonUserRepositoryTest {
         this.dataDir.toAbsolutePath().toString());
     List<User> loadedUsers = loadedRepository.findAll();
     assertEquals(1, loadedUsers.size());
+  }
+
+  @Test
+  void test_findById() {
+    // returns empty when not found
+    assertTrue(userRepository.findById(id).isEmpty());
+    userRepository.save(user);
+
+    // return user when found
+    assertEquals(userRepository.findById(id).get().getId(), user.getId());
+  }
+
+  @Test
+  void test_existsById() {
+    assertFalse(userRepository.existsById(id));
+    userRepository.save(user);
+    assertTrue(userRepository.existsById(id));
+  }
+
+  @Test
+  void test_findByUsername() {
+    assertTrue(userRepository.findByUsername(username).isEmpty());
+    userRepository.save(user);
+    assertEquals(userRepository.findByUsername(username).get(), user);
+
+  }
+
+  @Test
+  void test_deleteById() {
+    userRepository.save(user);
+    assertTrue(userRepository.findById(id).isPresent());
+
+    userRepository.deleteById(id);
+    assertTrue(userRepository.findById(id).isEmpty());
   }
 }
