@@ -133,6 +133,8 @@ class PostControllerTest extends UiTestBase {
         "Retweet caption should show current count");
   }
 
+
+  // This test was created by openAI chatGPT-5
   @Test
   @DisplayName("Retweet via UI: second user retweets and original count increments")
   void test_clickRetweetButtonAndConfirmDialog_scopedLookups() {
@@ -167,6 +169,8 @@ class PostControllerTest extends UiTestBase {
     assertEquals(1, updatedOriginal.reTweets(), "Original post should have one retweet");
   }
 
+
+  // This test was created by openAI chatGPT-5
   @Test
   @DisplayName("Retweet dialog prevents messages longer than 280 characters")
   void test_retweetDialogDisablesOkWhenOverLimit() {
