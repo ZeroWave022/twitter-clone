@@ -1,5 +1,9 @@
 # Usage of AI tools in group 8's project (Twitter clone)
 
+> [!WARNING]
+> This file is outdated.
+> Read the updated AI tools documentation in the [AI tools markdown file for release 3](../release3/ai-tools.md).
+
 We, as members of group 8, believe that AI has changed the software development field drastically in a very short time.
 However, we also believe that software developers must understand the AI tools they use, and always confirm the output - whether that is text or code.
 
