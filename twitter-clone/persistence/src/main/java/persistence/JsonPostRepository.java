@@ -136,4 +136,9 @@ public class JsonPostRepository implements PostRepository {
   public List<Post> findByUser(User user) {
     throw new UnsupportedOperationException("Unimplemented method 'findPostsByUser'");
   }
+
+  @Override
+  public List<Post> findByUser(User user, boolean withRelations) {
+    throw new UnsupportedOperationException("Unimplemented method 'findPostsByUser'");
+  }
 }

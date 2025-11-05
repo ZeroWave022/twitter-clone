@@ -21,8 +21,11 @@ public interface PostRepository {
   /** Returns all posts with their respective likes. */
   List<Post> findAll(boolean withRelations);
 
-  /** Returns all posts by the @param user . */
+  /** Returns all posts by the @param user. */
   List<Post> findByUser(User user);
+
+  /** Returns all posts by the @param user along with respective likes. */
+  List<Post> findByUser(User user, boolean withRelations);
 
   /** Saves a new post. */
   Post save(Post post);
@@ -41,5 +44,4 @@ public interface PostRepository {
 
   /** Updates retweet counter for @param post */
   Post updateRetweetCount(Post post);
-
 }

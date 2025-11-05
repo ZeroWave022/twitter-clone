@@ -127,14 +127,22 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
 
   @Override
   public List<Post> findByUser(User user) {
+    return this.findByUser(user, false);
+  }
+
+  @Override
+  public List<Post> findByUser(User user, boolean withRelations) {
     return entityManagerFactory.callInTransaction(entityManager -> {
       CriteriaBuilder cb = entityManager.getCriteriaBuilder();
       CriteriaQuery<Post> query = cb.createQuery(Post.class);
       Root<Post> post = query.from(Post.class);
 
+      if (withRelations) {
+        post.fetch("likedByUsers", jakarta.persistence.criteria.JoinType.LEFT);
+      }
+
       query.select(post).where(cb.equal(post.get("author"), user));
       return entityManager.createQuery(query).getResultList();
     });
   }
-
 }
