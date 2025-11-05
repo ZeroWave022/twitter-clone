@@ -128,6 +128,6 @@ public class PostController {
     // userRepository.findByUsername(userDetails.getUsername()).get().getId();
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
     return ResponseEntity
-        .ok(postRepository.findPostsByUser(user).stream().map(postService::toDto).toList());
+        .ok(postRepository.findByUser(user).stream().map(postService::toDto).toList());
   }
 }

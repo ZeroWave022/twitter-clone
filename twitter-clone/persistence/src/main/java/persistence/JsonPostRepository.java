@@ -133,7 +133,7 @@ public class JsonPostRepository implements PostRepository {
   }
 
   @Override
-  public List<Post> findPostsByUser(User user) {
+  public List<Post> findByUser(User user) {
     throw new UnsupportedOperationException("Unimplemented method 'findPostsByUser'");
   }
 }
