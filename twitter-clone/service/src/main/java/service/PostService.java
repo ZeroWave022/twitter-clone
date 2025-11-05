@@ -88,14 +88,21 @@ public class PostService {
     throw new UnsupportedOperationException();
   }
 
-  /** Returns a list of all posts by the user. */
+  /** Returns a list of all posts by the authenticated user. */
   @Transactional(readOnly = true)
   public List<PostResponse> postsByUser() {
-    return this.apiClient.get("/api/posts/mine",
-        new ParameterizedTypeReference<List<PostResponse>>() {
-        });
-
-    // return this.postRepository.findPostsByUser();
+    try {
+      return this.apiClient.get("/api/posts/mine",
+          new ParameterizedTypeReference<List<PostResponse>>() {
+          });
+    } catch (WebClientResponseException.Forbidden e) {
+      // Return empty list if 403 forbidden (no authorization)
+      System.err.println("Forbidden: " + e.getMessage());
+      return Collections.emptyList();
+    } catch (WebClientResponseException e) {
+      System.err.println("Error fetching posts by user: " + e.getMessage());
+      return Collections.emptyList();
+    }
   }
 
   /** Likes/unlikes the @param post by the @param user . */
@@ -105,7 +112,6 @@ public class PostService {
     return this.apiClient.post("/api/posts/" + postId + "/likes", Collections.emptyMap(),
         PostResponse.class);
   }
-
 
   // TODO: add if needed
   // public PostResponse update(Post post) {

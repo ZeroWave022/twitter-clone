@@ -53,6 +53,8 @@ public class ApiClientService {
    * @return the response body deserialized into the type {@code T}
    */
   public <T> T get(String path, ParameterizedTypeReference<T> responseType) {
+    // System.out.println("DEBUG: Calling " + path + " with token "
+    // + (jwtToken != null ? jwtToken.substring(0, 20) + "..." : "null"));
     return this.webClient.get().uri(path).headers(headers -> {
       if (this.jwtToken != null) {
         headers.setBearerAuth(this.jwtToken);
