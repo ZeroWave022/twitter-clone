@@ -1,14 +1,16 @@
 package ui;
 
-import core.payload.response.PostResponse;
 import java.io.IOException;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import core.payload.response.PostResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.PostService;
 import service.UserService;
 
@@ -79,7 +81,6 @@ public class ProfileController {
 
     // postCountLabel.setText(String.valueOf(NumberFormatter.formatCount(postsByUser.size())));
     // likeCountLabel.setText(String.valueOf(NumberFormatter.formatCount(likesCount())));
-    System.out.println("calling updateProfileCounters");
     postCountLabel.setText(String.valueOf(postsByUser.size()));
     likeCountLabel.setText(String.valueOf(likesCount()));
   }
@@ -90,12 +91,10 @@ public class ProfileController {
    * @return the sum of likes for all posts in {@link #postsByUser}.
    */
   public int likesCount() {
-    System.out.println("Do I get here?");
     int totalLikes = 0;
     for (PostResponse post : postsByUser) {
       totalLikes += post.likedByUsers().size();
     }
-    System.out.println(totalLikes);
     return totalLikes;
   }
 
