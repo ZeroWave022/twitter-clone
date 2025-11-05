@@ -34,6 +34,7 @@ class ProfileControllerTest extends UiTestBase {
   private PostResponse post2;
 
   @BeforeEach
+  @Override
   void setup() throws Exception {
     super.setup();
     OrmPostRepository repo = new OrmPostRepository();
@@ -41,8 +42,8 @@ class ProfileControllerTest extends UiTestBase {
 
     userService.logIn("username", "password123");
     user = userService.getLoggedInUser();
-    post1 = postService.createPost("Test post 1");
-    post2 = postService.createPost("Test post 2");
+    post1 = postService.createPost("Test post 1", null);
+    post2 = postService.createPost("Test post 2", null);
 
     WaitForAsyncUtils.waitForFxEvents();
     typeIntoTextInput("#usernameField", "username");
@@ -57,6 +58,7 @@ class ProfileControllerTest extends UiTestBase {
   }
 
   @AfterEach
+  @Override
   void cleanup() {
     new OrmPostRepository().dropDatabase();
   }
