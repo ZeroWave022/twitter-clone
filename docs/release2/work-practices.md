@@ -1,4 +1,4 @@
-# Work practicies
+# Work practices
 
 We in Group 8 have discussed and chosen guidelines for our work practices.
 We have scheduled fixed weekly meetings to work physically on the project and discuss progress together.
