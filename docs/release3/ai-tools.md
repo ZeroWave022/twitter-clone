@@ -18,7 +18,7 @@ This helps us save time on documentation while ensuring consistency and complete
 Of course, in this case as well, team members review and adjust the generated text to ensure accuracy and clarity.
 
 Furthermore, over time, some members of the group have seen benefit of generating some simple methods using tools like OpenAI's GPT models, or GitHub Copilot.
-We have seen the value and potential efficiency increase of using LLMs to automate or speed up repetetive or boring tasks.
+We have seen the value and potential efficiency increase of using LLMs to automate or speed up repetitive or boring tasks.
 At the same time, we have understood and experienced that this could potentially lead to errors if the output is not verified properly.
 Thankfully, there are multiple steps in our workflow that help us avoid these issues.
 Two important things that come into mind are the following:
