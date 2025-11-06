@@ -63,7 +63,6 @@ public class ProfileController {
     usernameLabel.setText("@" + userService.getLoggedInUser().username());
 
     updateProfileCounters(); // initial counters
-    System.out.println("Initial counters established");
 
     // Listen for post updates
     postService.setPostUpdateListener(this::updateProfileCounters);
@@ -102,7 +101,7 @@ public class ProfileController {
   public int likesCount() {
     int totalLikes = 0;
     // fetch latest
-    postsByUser = postService.postsByUser();
+    // postsByUser = postService.postsByUser();
     for (PostResponse post : postsByUser) {
       totalLikes += post.likedByUsers().size();
     }
