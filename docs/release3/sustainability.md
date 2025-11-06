@@ -1,7 +1,7 @@
 # Sustainability aspects
 
 In this reflection, we will use the SusAF framework to identity and analyze some of the individual, social, environmental, economic and technical sustainability aspects of Twitter-Clone.
-In addition to this reflection, a table of various sustainanility impacts and a SusAD diagram visualizing them are provided.
+In addition to this reflection, a [table of various sustainanility impacts](./sustainability-table.md) and a [SusAD diagram](./sustainability-susad-diagram.png) visualizing them are provided.
 
 At the individual level the analysis shows that Twitter-clone can have both positive and negative impacts on sustainability.
 Our app creates a space for increased self-expression and communication.
@@ -33,4 +33,4 @@ If technologies become outdated, even well-designed solutions can become hard to
 Twitter-Clone affects sustainability on multiple levels and that the sustainability dimensions are closely connected to each other.
 Decisions about design, functionality and architecture are connected and can make these effects stronger or weaker.
 Being aware of these aspects is therefore crucial for developing digital services that are sustainable both in the short and long term.
-Using the SusAF framework, together with visual tools like the SusAD diagram and the table of sustainability impacts, gives a clearer overall picture and helps guide informed decisions in development projects like this.
+Using the SusAF framework, together with visual tools like the [SusAD diagram](./sustainability-susad-diagram.png) and the [table of sustainability impacts](./sustainability-table.md), gives a clearer overall picture and helps guide informed decisions in development projects like this.
