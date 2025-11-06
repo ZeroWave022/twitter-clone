@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.FeedController">
@@ -25,14 +26,27 @@
                </font>
             </Label>
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Label text="Username">
-               <font>
-                  <Font size="15.0" />
-               </font>
+            <Button fx:id="profileBtn" mnemonicParsing="false" onAction="#switchToProfile" styleClass="profile-button" BorderPane.alignment="CENTER_RIGHT">
                <HBox.margin>
                   <Insets right="50.0" />
                </HBox.margin>
-            </Label>
+               <graphic>
+                  <VBox>
+                     <children>
+                        <Label fx:id="displayNameLabel" text="Display Name">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="usernameLabel" text="\@username" textFill="#0000007f">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
          </children>
       </HBox>
    </top>

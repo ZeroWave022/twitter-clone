@@ -21,6 +21,9 @@ public class PostService {
   @Autowired
   private ApiClientService apiClient;
 
+  // Listener that runs when a post is updated
+  private Runnable postUpdateListener;
+
   /**
    * Retrieves a post by its ID.
    *
@@ -85,16 +88,52 @@ public class PostService {
     throw new UnsupportedOperationException();
   }
 
+  /** Returns a list of all posts by the authenticated user. */
+  @Transactional(readOnly = true)
+  public List<PostResponse> postsByUser() {
+    try {
+      return this.apiClient.get("/api/posts/mine",
+          new ParameterizedTypeReference<List<PostResponse>>() {
+          });
+    } catch (WebClientResponseException e) {
+      System.err.println("Error fetching posts by user: " + e.getMessage());
+      return Collections.emptyList();
+    }
+  }
+
   /** Likes/unlikes the @param post by the @param user . */
   @Transactional
   public PostResponse likePost(Long postId) {
-    return this.apiClient.post("/api/posts/" + postId + "/likes", Collections.emptyMap(),
-        PostResponse.class);
-  }
+    PostResponse response = this.apiClient.post("/api/posts/" + postId + "/likes",
+        Collections.emptyMap(), PostResponse.class);
 
+    notifyPostUpdated(); // Only notify **after** the like/unlike is processed
+    return response;
+  }
 
   // TODO: add if needed
   // public PostResponse update(Post post) {
   // return postRepository.update(post);
   // }
+
+  /**
+   * Registers a listener that will be called whenever a post is updated. Meant to
+   * call {@link ProfileController#updateProfileCounters()} to refresh post and
+   * like counts.
+   *
+   * @param listener a {@link Runnable} to be executed when posts are updated
+   */
+  public void setPostUpdateListener(Runnable listener) {
+    this.postUpdateListener = listener;
+  }
+
+  /**
+   * Notifies the registered listener that a post has been updated.
+   */
+  public void notifyPostUpdated() {
+    if (postUpdateListener != null) {
+      postUpdateListener.run();
+    }
+  }
+
 }
