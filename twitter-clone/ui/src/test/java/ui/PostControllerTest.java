@@ -7,12 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.payload.response.PostResponse;
 import core.payload.response.UserResponse;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.ListView;
-import javafx.scene.text.Text;
-import javafx.scene.control.TextArea;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testfx.api.FxAssert;
 import org.testfx.util.WaitForAsyncUtils;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
 import persistence.OrmPostRepository;
 import service.PostService;
 import service.UserService;
@@ -132,7 +132,9 @@ class PostControllerTest extends UiTestBase {
         "Retweet button should participate in layout for non-authors");
 
     PostResponse fresh = postService.getPostById(post.id()).orElseThrow();
-    assertEquals(fresh.reTweets() + " 🔄", retweetBtn.getText(),
+
+    Text retweetBtnText = lookup("#retweetBtnText").queryAs(Text.class);
+    assertEquals(fresh.reTweets(), Integer.valueOf(retweetBtnText.getText()),
         "Retweet caption should show current count");
   }
 
