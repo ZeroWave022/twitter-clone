@@ -95,10 +95,6 @@ public class PostService {
       return this.apiClient.get("/api/posts/mine",
           new ParameterizedTypeReference<List<PostResponse>>() {
           });
-    } catch (WebClientResponseException.Forbidden e) {
-      // Return empty list if 403 forbidden (no authorization)
-      System.err.println("Forbidden: " + e.getMessage());
-      return Collections.emptyList();
     } catch (WebClientResponseException e) {
       System.err.println("Error fetching posts by user: " + e.getMessage());
       return Collections.emptyList();
@@ -108,9 +104,11 @@ public class PostService {
   /** Likes/unlikes the @param post by the @param user . */
   @Transactional
   public PostResponse likePost(Long postId) {
-    notifyPostUpdated();
-    return this.apiClient.post("/api/posts/" + postId + "/likes", Collections.emptyMap(),
-        PostResponse.class);
+    PostResponse response = this.apiClient.post("/api/posts/" + postId + "/likes",
+        Collections.emptyMap(), PostResponse.class);
+
+    notifyPostUpdated(); // Only notify **after** the like/unlike is processed
+    return response;
   }
 
   // TODO: add if needed

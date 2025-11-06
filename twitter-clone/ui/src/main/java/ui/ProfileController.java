@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import core.payload.response.PostResponse;
+import core.util.NumberFormatter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -34,12 +36,15 @@ public class ProfileController {
   @FXML
   Label postCountLabel;
   @FXML
+  @SuppressWarnings("unused")
   Button logOutBtn;
   @FXML
+  @SuppressWarnings("unused")
   Button backToFeedBtn;
   @FXML
   ListView<PostResponse> feedList;
 
+  private boolean updatingCounters = false;
   List<PostResponse> postsByUser;
 
   /** Initializes the feed list view and populates posts. */
@@ -60,6 +65,7 @@ public class ProfileController {
     usernameLabel.setText("@" + userService.getLoggedInUser().username());
 
     updateProfileCounters(); // initial counters
+    System.out.println("Initial counters established");
 
     // Listen for post updates
     postService.setPostUpdateListener(this::updateProfileCounters);
@@ -68,21 +74,25 @@ public class ProfileController {
   /**
    * Updates the profile counters displayed in the UI, including:
    * <ul>
-   * <li>Total number of posts for the current user</li>
+   * <li>Total number of posts for the current user, including retweets</li>
    * <li>Total number of likes across all posts</li>
    * </ul>
-   * This method fetches the latest posts from the {@link PostService} and
-   * recalculates the counters. It should be called whenever posts are added,
-   * liked, or removed to keep the UI in sync with the backend.
+   * Debounces rapid calls to prevent duplicate updates.This method fetches the
+   * latest posts from the {@link PostService} and recalculates the counters. It
+   * should be called whenever posts are added, liked, or removed to keep the UI
+   * in sync with the backend.
    */
   public void updateProfileCounters() {
-    // Fetch latest posts for this user
-    postsByUser = postService.postsByUser();
+    if (updatingCounters)
+      return;
+    updatingCounters = true;
 
-    // postCountLabel.setText(String.valueOf(NumberFormatter.formatCount(postsByUser.size())));
-    // likeCountLabel.setText(String.valueOf(NumberFormatter.formatCount(likesCount())));
-    postCountLabel.setText(String.valueOf(postsByUser.size()));
-    likeCountLabel.setText(String.valueOf(likesCount()));
+    Platform.runLater(() -> {
+      postsByUser = postService.postsByUser();
+      postCountLabel.setText(NumberFormatter.formatCount(postsByUser.size()));
+      likeCountLabel.setText(NumberFormatter.formatCount(likesCount()));
+      updatingCounters = false;
+    });
   }
 
   /**
@@ -92,6 +102,8 @@ public class ProfileController {
    */
   public int likesCount() {
     int totalLikes = 0;
+    // fetch latest
+    postsByUser = postService.postsByUser();
     for (PostResponse post : postsByUser) {
       totalLikes += post.likedByUsers().size();
     }
