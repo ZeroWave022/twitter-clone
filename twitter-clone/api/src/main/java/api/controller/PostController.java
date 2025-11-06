@@ -1,7 +1,12 @@
 package api.controller;
 
+import api.service.PostService;
+import core.Post;
+import core.User;
 import java.util.List;
-
+import core.payload.request.CreatePostRequest;
+import core.payload.response.PostResponse;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,13 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import api.service.PostService;
-import core.Post;
-import core.User;
-import core.payload.request.CreatePostRequest;
-import core.payload.response.PostResponse;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import persistence.PostRepository;
 import persistence.UserRepository;
 

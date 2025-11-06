@@ -67,12 +67,12 @@ class ProfileControllerTest extends UiTestBase {
   @DisplayName("Profile page displays correct username, display name, post count, and likes count")
   void testProfileCounters() {
     Label displayNameLabel = lookup("#displayNameLabel").queryAs(Label.class);
-    Label usernameLabel = lookup("#usernameLabel").queryAs(Label.class);
-    Label postCountLabel = lookup("#postCountLabel").queryAs(Label.class);
-    Label likeCountLabel = lookup("#likeCountLabel").queryAs(Label.class);
     assertNotNull(displayNameLabel);
+    Label usernameLabel = lookup("#usernameLabel").queryAs(Label.class);
     assertNotNull(usernameLabel);
+    Label postCountLabel = lookup("#postCountLabel").queryAs(Label.class);
     assertNotNull(postCountLabel);
+    Label likeCountLabel = lookup("#likeCountLabel").queryAs(Label.class);
     assertNotNull(likeCountLabel);
 
     assertEquals(user.displayName(), displayNameLabel.getText());
