@@ -159,8 +159,7 @@ class PostControllerTest extends UiTestBase {
 
     TextArea ta = from(pane).lookup(".text-area").queryAs(TextArea.class);
     assertNotNull(ta, "TextArea should exist in the dialog");
-    clickOn(ta); 
-    write("Nice post!"); 
+    typeIntoTextInput(".text-area","Nice post!");
     WaitForAsyncUtils.waitForFxEvents();
 
     Button ok = from(pane)
@@ -201,8 +200,7 @@ class PostControllerTest extends UiTestBase {
     assertNotNull(ta, "TextArea should exist in the dialog");
 
     String overLimitMsg = "x".repeat(281);
-    clickOn(ta);
-    interact(() -> ta.setText(overLimitMsg));
+    typeIntoTextInput(".text-area", overLimitMsg);
     WaitForAsyncUtils.waitForFxEvents();
 
     Button ok = from(pane)
