@@ -77,7 +77,7 @@ class OrmUserRepositoryTest {
   void test_existsById() {
     userRepository.save(user);
     assertTrue(userRepository.existsById(user.getId()));
-    
+
     userRepository.deleteById(user.getId());
     assertFalse(userRepository.existsById(user.getId()));
   }
