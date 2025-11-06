@@ -1,24 +1,28 @@
 package ui;
 
 import java.io.IOException;
-import core.util.NumberFormatter;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import core.payload.response.PostResponse;
+import core.payload.response.UserResponse;
+import core.util.NumberFormatter;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.scene.control.TextArea;
-import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import javafx.scene.text.Text;
 import service.PostService;
 import service.UserService;
 import ui.util.AppIcons;
@@ -47,12 +51,14 @@ public class PostController {
   @FXML
   private ImageView likeImageView;
   @FXML
+  @SuppressWarnings("unused")
   private ImageView retweetImageView;
   @FXML
   private Text likeBtnText;
   @FXML
   private Text retweetBtnText;
   @FXML
+  @SuppressWarnings("unused")
   private Button deleteBtn;
 
   // -------- retweetPost.fxml (outer retweet header) --------
@@ -71,7 +77,7 @@ public class PostController {
   private PostResponse currentPost;
 
   private boolean isOwn(PostResponse p) {
-    var me = userService.getLoggedInUser();
+    UserResponse me = userService.getLoggedInUser();
     if (me == null || p == null || p.author() == null) {
       return false;
     }
@@ -224,11 +230,11 @@ public class PostController {
     Label counter = new Label();
     counter.textProperty().bind(javafx.beans.binding.Bindings.format("%d / %d",
         javafx.beans.binding.Bindings.length(messageArea.textProperty()), MAX_MESSAGE_LEN));
-    var overLimit = javafx.beans.binding.Bindings.greaterThan(
+    BooleanBinding overLimit = javafx.beans.binding.Bindings.greaterThan(
         javafx.beans.binding.Bindings.length(messageArea.textProperty()), MAX_MESSAGE_LEN);
     counter.textFillProperty().bind(javafx.beans.binding.Bindings.when(overLimit)
         .then(javafx.scene.paint.Color.RED).otherwise(javafx.scene.paint.Color.GRAY));
-    var isEmpty = javafx.beans.binding.Bindings.createBooleanBinding(
+    BooleanBinding isEmpty = javafx.beans.binding.Bindings.createBooleanBinding(
         () -> messageArea.getText().trim().isEmpty(), messageArea.textProperty());
 
     HBox counterBox = new HBox(counter);
@@ -251,7 +257,7 @@ public class PostController {
   }
 
   private void onConfirmRetweetSafe(String msg) {
-    var user = userService.getLoggedInUser();
+    UserResponse user = userService.getLoggedInUser();
 
     if (user.id().equals(currentPost.author().id())) {
       return;
