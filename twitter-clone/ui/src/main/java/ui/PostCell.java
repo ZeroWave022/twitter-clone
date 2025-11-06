@@ -66,6 +66,9 @@ public class PostCell extends ListCell<PostResponse> {
   protected void updateItem(PostResponse post, boolean empty) {
     super.updateItem(post, empty);
 
+    // Remove default alternating color
+    setStyle("-fx-background-color: transparent;");
+
     if (empty || post == null) {
       setText(null);
       setGraphic(null);
@@ -88,8 +91,5 @@ public class PostCell extends ListCell<PostResponse> {
       }
       setGraphic(regularNode);
     }
-
-    // Remove default alternating color
-    setStyle("-fx-background-color: transparent;");
   }
 }

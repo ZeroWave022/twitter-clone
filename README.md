@@ -128,7 +128,7 @@ The `<module>` must be replaced with the module name, without the angle brackets
 - [Code quality](./docs/release2/code-quality.md)
 - [Persistence](./docs/release2/persistence.md)
 - [Teamwork](./docs/release2/teamwork.md)
-- [Work-practicies](./docs/release2/work-practicies.md)
+- [Work practices](./docs/release2/work-practices.md)
 - [Workflow](./docs/release2/workflow.md)
 
 - [Package diagram](./docs/release2/package-diagram.puml)

@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 import javafx.scene.control.TextArea;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,14 +74,15 @@ class PostControllerTest extends UiTestBase {
     PostResponse updatedPost = postService.getPostById(post.id()).orElseThrow();
     assertEquals(1, updatedPost.likes());
     assertTrue(updatedPost.likedByUser(user.id()));
-    FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("blue"));
+    Text likeBtnText = lookup("#likeBtnText").queryAs(Text.class);
+    FxAssert.verifyThat(likeBtnText, b -> b.getStyle().contains("#0078ae"));
 
     // unlike and check
     interact(likeBtn::fire);
     updatedPost = postService.getPostById(post.id()).orElseThrow();
     assertEquals(0, updatedPost.likes());
     assertFalse(updatedPost.likedByUser(user.id()));
-    FxAssert.verifyThat(likeBtn, b -> !b.getStyle().contains("blue"));
+    FxAssert.verifyThat(likeBtnText, b -> !b.getStyle().contains("#0078ae"));
   }
 
   // Test written with help from OpenAI's GPT-5
@@ -109,7 +111,8 @@ class PostControllerTest extends UiTestBase {
         "Second user should be registered as liking the post");
 
     assertTrue(updatedPost.likedByUser(user.id()), "First user's like should still be counted");
-    FxAssert.verifyThat(likeBtn, b -> b.getStyle().contains("blue"));
+    Text likeBtnText = lookup("#likeBtnText").queryAs(Text.class);
+    FxAssert.verifyThat(likeBtnText, b -> b.getStyle().contains("#0078ae"));
   }
 
   @Test
