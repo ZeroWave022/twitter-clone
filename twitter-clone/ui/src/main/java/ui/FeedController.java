@@ -1,13 +1,15 @@
 package ui;
 
-import core.payload.response.PostResponse;
 import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import core.payload.response.PostResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.PostService;
 import service.UserService;
 
@@ -26,6 +28,7 @@ public class FeedController {
   private ListView<PostResponse> feedList;
 
   @FXML
+  @SuppressWarnings("unused")
   private Button profileBtn;
 
   @FXML
@@ -48,6 +51,8 @@ public class FeedController {
     displayNameLabel.setText(userService.getLoggedInUser().displayName());
     usernameLabel.setText("@" + userService.getLoggedInUser().username());
     feedList.getItems().setAll(postService.getAllPosts());
+
+    postService.setPostUpdateListener(this::updateFeed);
   }
 
   @FXML
@@ -66,5 +71,9 @@ public class FeedController {
   @SuppressWarnings("unused")
   private void switchToProfile() throws IOException {
     App.setRoot("profile.fxml");
+  }
+
+  private void updateFeed() {
+    feedList.getItems().setAll(postService.getAllPosts());
   }
 }
