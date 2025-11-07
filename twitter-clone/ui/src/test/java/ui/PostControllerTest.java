@@ -165,7 +165,7 @@ class PostControllerTest extends UiTestBase {
         .lookup((Node n) -> n instanceof Button && "Retweet".equals(((Button) n).getText()))
         .queryAs(Button.class);
     assertNotNull(ok, "OK button labeled 'Retweet' should be present");
-    clickOn(ok);
+    interact(ok::fire);
     WaitForAsyncUtils.waitForFxEvents();
 
     PostResponse updatedOriginal = postService.getPostById(post.id()).orElseThrow();
@@ -211,7 +211,7 @@ class PostControllerTest extends UiTestBase {
         .lookup((Node n) -> n instanceof Button && "Cancel".equals(((Button) n).getText()))
         .queryAs(Button.class);
     assertNotNull(cancel, "Cancel button should be present");
-    clickOn(cancel);
+    interact(cancel::fire);
     WaitForAsyncUtils.waitForFxEvents();
 
     PostResponse updatedOriginal = postService.getPostById(post.id()).orElseThrow();
