@@ -150,6 +150,8 @@
                 <version>1.7.1</version>
                 <configuration>
                     <name>Twitter Clone</name>
+                    <!-- Icon retrieved from https://lucide.dev/ -->
+                    <icon>${project.basedir}/src/main/resources/icons/bird.png</icon>
                     <appVersion>0.0.1</appVersion>
                     <vendor>it1901</vendor>
                     <input>${project.build.directory}</input>
