@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.PostController">
+<HBox alignment="CENTER" stylesheets="@../styles/post.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.PostController">
    <children>
       <VBox maxWidth="-Infinity" prefHeight="115.0" prefWidth="700.0" style="-fx-border-color: #00000030; -fx-border-width: 1; -fx-border-radius: 8;">
          <children>
-            <Label fx:id="displayNameLabelRetweet" text="Display Name">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <Label fx:id="usernameLabelRetweet" text="\@username" textFill="#0000007f">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="displayNameLabelRetweet" text="Display Name">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="usernameLabelRetweet" text="\@username" textFill="#0000007f">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Region prefHeight="200.0" prefWidth="200.0" />
+                  <Button fx:id="deleteBtn" onAction="#deletePostAction" style="-fx-background-color: transparent;" styleClass="delete-btn" text="✕" textFill="#616161" visible="false">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
             <Label fx:id="contentLabel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volupt" wrapText="true" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
@@ -37,16 +53,33 @@
                <children>
                   <VBox maxWidth="-Infinity" prefHeight="115.0" prefWidth="700.0" style="-fx-border-color: #00000030; -fx-border-width: 1; -fx-border-radius: 8;">
                      <children>
-                        <Label fx:id="displayNameLabel" text="Display Name">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="usernameLabel" text="\@username" textFill="#0000007f">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
+                        <HBox spacing="5.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="displayNameLabel" text="Display Name">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="usernameLabel" text="\@username" textFill="#0000007f">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="deleteOriginalBtn" onAction="#deletePostAction" style="-fx-background-color: transparent;" styleClass="delete-btn" text="✕" textFill="#616161" visible="false">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="3.0" top="3.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
                         <Label fx:id="contentLabel1" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volupt" wrapText="true" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="14.0" />
