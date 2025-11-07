@@ -136,4 +136,24 @@ public class PostService {
     }
   }
 
+  /**
+   * Deletes a post by its ID.
+   *
+   * @param postId the ID of the post to delete
+   */
+  @Transactional
+  public void deletePost(Long postId) {
+    if (postId == null) {
+      throw new IllegalArgumentException("Post ID cannot be null");
+    }
+
+    try {
+      apiClient.delete("/api/posts/" + postId);
+      notifyPostUpdated(); // notify listeners after deletion
+    } catch (WebClientResponseException.NotFound e) {
+      System.err.println("Post with ID " + postId + " not found: " + e.getMessage());
+    } catch (WebClientResponseException e) {
+      System.err.println("Error deleting post with ID " + postId + ": " + e.getMessage());
+    }
+  }
 }

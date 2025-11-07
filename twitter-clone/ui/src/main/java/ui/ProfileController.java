@@ -1,5 +1,11 @@
 package ui;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import core.payload.response.PostResponse;
 import core.util.NumberFormatter;
 import javafx.application.Platform;
@@ -7,10 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import java.io.IOException;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.PostService;
 import service.UserService;
 
