@@ -144,11 +144,11 @@ public class PostService {
   @Transactional
   public void deletePost(Long postId) {
     if (postId == null) {
-      throw new IllegalArgumentException("Post ID cannot be null");
+      return;
     }
 
     try {
-      apiClient.delete("/api/posts/" + postId);
+      apiClient.delete("/api/posts/" + postId, PostResponse.class);
       notifyPostUpdated(); // notify listeners after deletion
     } catch (WebClientResponseException.NotFound e) {
       System.err.println("Post with ID " + postId + " not found: " + e.getMessage());

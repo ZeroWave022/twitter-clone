@@ -1,7 +1,12 @@
 package api.controller;
 
+import api.service.PostService;
+import core.Post;
+import core.User;
+import core.payload.request.CreatePostRequest;
+import core.payload.response.PostResponse;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import api.service.PostService;
-import core.Post;
-import core.User;
-import core.payload.request.CreatePostRequest;
-import core.payload.response.PostResponse;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import persistence.PostRepository;
 import persistence.UserRepository;
 
@@ -98,6 +96,7 @@ public class PostController {
       }
       return ResponseEntity.ok(postService.toDto(postRepository.save(post)));
     } catch (Exception e) {
+      e.printStackTrace();
       return ResponseEntity.badRequest().build();
     }
   }
@@ -139,8 +138,8 @@ public class PostController {
    * @return 200 OK if deleted, 404 if post not found, 403 if not owner
    */
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-    return postRepository.findById(id).<ResponseEntity<Void>>map(post -> {
+  public ResponseEntity<Object> deletePost(@PathVariable("id") Long id) {
+    return postRepository.findById(id).map(post -> {
       // Get the current authenticated user
       UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
           .getPrincipal();

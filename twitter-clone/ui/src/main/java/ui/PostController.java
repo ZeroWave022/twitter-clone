@@ -1,15 +1,11 @@
 package ui;
 
-import java.io.IOException;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
+import core.Post;
 import core.payload.response.PostResponse;
 import core.payload.response.UserResponse;
 import core.util.NumberFormatter;
+import java.io.IOException;
+import java.util.Optional;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -23,6 +19,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import service.PostService;
 import service.UserService;
 import ui.util.AppIcons;
@@ -75,6 +74,8 @@ public class PostController {
   @FXML
   private Button deleteOriginalBtn; // delete for original post
 
+  static final int MAX_MESSAGE_LEN = 280;
+
   private PostResponse currentPost;
   private PostResponse originalPost;
 
@@ -90,22 +91,17 @@ public class PostController {
   public void setData(PostResponse post) {
     this.currentPost = post;
 
-    boolean isRetweet = post.originalPostId() != null;
-    originalPost = isRetweet ? postService.getPostById(post.originalPostId()).orElse(null) : null;
+    boolean isRetweet = post.type() == Post.Type.RETWEET;
+    originalPost = isRetweet && post.originalPostId() != null
+        ? postService.getPostById(post.originalPostId()).orElse(null)
+        : null;
 
     boolean ownPost = isOwn(post);
-    boolean ownOriginal = originalPost != null && isOwn(originalPost);
 
     // ===== Outer delete button =====
     if (deleteBtn != null) {
       deleteBtn.setVisible(ownPost);
       deleteBtn.setManaged(ownPost);
-    }
-
-    // ===== Inner original delete button =====
-    if (deleteOriginalBtn != null) {
-      deleteOriginalBtn.setVisible(ownOriginal);
-      deleteOriginalBtn.setManaged(ownOriginal);
     }
 
     if (likeBtnText != null) {
@@ -121,91 +117,47 @@ public class PostController {
 
     if (!isRetweet) {
       // ===== Regular post (post.fxml) =====
-      if (displayNameLabel != null) {
-        displayNameLabel.setText(post.author().displayName());
-      }
-      if (usernameLabel != null) {
-        usernameLabel.setText("@" + post.author().username());
-      }
-      if (contentLabel != null) {
-        contentLabel.setText(post.content());
-      }
+      displayNameLabel.setText(post.author().displayName());
+      usernameLabel.setText("@" + post.author().username());
+      contentLabel.setText(post.content());
 
-      if (retweetBtn != null) {
-        boolean own = isOwn(post);
-        retweetBtnText.setText(NumberFormatter.formatCount(post.reTweets()));
-        retweetBtn.setVisible(!own);
-        retweetBtn.setManaged(!own);
-      }
+      boolean own = isOwn(post);
+      retweetBtnText.setText(NumberFormatter.formatCount(post.reTweets()));
+      retweetBtn.setVisible(!own);
+      retweetBtn.setManaged(!own);
+
       return;
     }
 
+    boolean ownOriginal = originalPost != null && isOwn(originalPost);
+    // ===== Inner original delete button =====
+    if (deleteOriginalBtn != null) {
+      deleteOriginalBtn.setVisible(ownOriginal);
+      deleteOriginalBtn.setManaged(ownOriginal);
+    }
+
     // Outer header: retweeter info
-    if (displayNameLabelRetweet != null) {
-      displayNameLabelRetweet.setText(post.author().displayName());
-    }
-    if (usernameLabelRetweet != null) {
-      usernameLabelRetweet.setText("@" + post.author().username());
-    }
+    System.out.println("Retweet by: " + post.author().username());
+    System.out.println("Content: " + post.content());
+    displayNameLabelRetweet.setText(post.author().displayName());
+    usernameLabelRetweet.setText("@" + post.author().username());
 
     // Outer message (retweeter's optional comment) goes into contentLabel
-    if (contentLabel != null) {
-      String comment = post.content() == null ? "" : post.content();
-      boolean show = !comment.isBlank();
-      contentLabel.setText(comment);
-      contentLabel.setVisible(show);
-      contentLabel.setManaged(show); // collapse space when there is no comment
-    }
+    String comment = post.content() == null ? "" : post.content();
+    boolean show = !comment.isBlank();
+    contentLabel.setText(comment);
+    contentLabel.setVisible(show);
+    contentLabel.setManaged(show); // collapse space when there is no comment
 
-    // ===== Retweet layout (retweetPost.fxml) =====
-    Long originalId = post.originalPostId();
-    PostResponse original = postService.getPostById(originalId).orElse(null);
-
-    // Inner card: original post info (names reuse the same ids as post.fxml)
-    // if (original != null) {
-    // if (displayNameLabel != null) {
-    // displayNameLabel.setText(original.author().displayName());
-    // }
-    // if (usernameLabel != null) {
-    // usernameLabel.setText("@" + original.author().username());
-    // }
-
-    // if (contentLabel1 != null) {
-    // contentLabel1.setText(original.content());
-    // } else if (contentLabel != null) {
-    // // Fallback if your inner card uses contentLabel instead of contentLabel1
-    // contentLabel.setText(original.content());
-    // contentLabel.setVisible(true);
-    // contentLabel.setManaged(true);
-    // }
-    // } else {
-    // // Defensive fallback (shouldn't happen): show retweet as a normal post
-    // if (displayNameLabel != null) {
-    // displayNameLabel.setText(post.author().displayName());
-    // }
-    // if (usernameLabel != null) {
-    // usernameLabel.setText("@" + post.author().username());
-    // }
-    // if (contentLabel1 != null) {
-    // contentLabel1.setText(post.content());
-    // }
-    // if (contentLabel != null) {
-    // contentLabel.setText(post.content());
-    // contentLabel.setVisible(true);
-    // contentLabel.setManaged(true);
-    // }
-    // }
     // Inner original post content
-    if (originalPost != null) {
-      if (displayNameLabel != null)
-        displayNameLabel.setText(originalPost.author().displayName());
-      if (usernameLabel != null)
-        usernameLabel.setText("@" + originalPost.author().username());
-      if (contentLabel1 != null)
-        contentLabel1.setText(originalPost.content());
+    if (originalPost == null) {
+      displayNameLabel.setVisible(false);
+      usernameLabel.setVisible(false);
+      contentLabel1.setText("Original post deleted");
     } else {
-      if (contentLabel1 != null)
-        contentLabel1.setText("Original post deleted");
+      displayNameLabel.setText(originalPost.author().displayName());
+      usernameLabel.setText("@" + originalPost.author().username());
+      contentLabel1.setText(originalPost.content());
     }
   }
 
@@ -214,13 +166,11 @@ public class PostController {
    */
   @FXML
   public void updateLikes() {
-    if (currentPost == null || likeBtnText == null) {
+    if (currentPost == null) {
       return;
     }
 
     currentPost = postService.likePost(currentPost.id());
-    // postService.update(currentPost);
-
     likeBtnText.setText(NumberFormatter.formatCount(currentPost.likes()));
 
     if (currentPost.likedByUser(userService.getLoggedInUser().id())) {
@@ -242,8 +192,6 @@ public class PostController {
       return;
     }
 
-    final int MAX_MESSAGE_LEN = 280; // ⬅️ adjust as needed
-
     Dialog<String> dialog = new Dialog<>();
     dialog.setTitle("Retweet");
     dialog.setHeaderText("Add an optional message and confirm your retweet");
@@ -263,8 +211,6 @@ public class PostController {
         javafx.beans.binding.Bindings.length(messageArea.textProperty()), MAX_MESSAGE_LEN);
     counter.textFillProperty().bind(javafx.beans.binding.Bindings.when(overLimit)
         .then(javafx.scene.paint.Color.RED).otherwise(javafx.scene.paint.Color.GRAY));
-    BooleanBinding isEmpty = javafx.beans.binding.Bindings.createBooleanBinding(
-        () -> messageArea.getText().trim().isEmpty(), messageArea.textProperty());
 
     HBox counterBox = new HBox(counter);
     counterBox.setAlignment(javafx.geometry.Pos.BASELINE_RIGHT);
@@ -273,6 +219,9 @@ public class PostController {
     VBox content = new VBox(8, messageArea, counterBox);
     content.setPrefWidth(420);
     dialog.getDialogPane().setContent(content);
+
+    BooleanBinding isEmpty = javafx.beans.binding.Bindings.createBooleanBinding(
+        () -> messageArea.getText().trim().isEmpty(), messageArea.textProperty());
 
     Node okButton = dialog.getDialogPane().lookupButton(retweetBtnType);
     okButton.disableProperty().bind(overLimit.or(isEmpty));
@@ -311,11 +260,15 @@ public class PostController {
   }
 
   /**
-   * Deletes the current post.
-   * <p>
-   * Currently not implemented.
+   * Handles the deletion of a post based on the user's confirmation.
+   * 
+   * <p>This method is triggered by a delete action event and determines which post
+   * (current or original) to delete based on the source of the event. It displays
+   * a confirmation dialog to the user, and if confirmed, deletes the selected
+   * post using the {@code postService}.
+   * </p>
    *
-   * @throws UnsupportedOperationException always, until implemented
+   * @param event the action event triggered by the delete button
    */
   @FXML
   public void deletePostAction(javafx.event.ActionEvent event) {
@@ -328,8 +281,9 @@ public class PostController {
       postToDelete = originalPost;
     }
 
-    if (postToDelete == null)
+    if (postToDelete == null) {
       return;
+    }
 
     Dialog<ButtonType> dialog = new Dialog<>();
     dialog.setTitle("Delete Post");
