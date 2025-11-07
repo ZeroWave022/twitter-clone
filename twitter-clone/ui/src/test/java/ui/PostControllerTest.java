@@ -138,7 +138,6 @@ class PostControllerTest extends UiTestBase {
         "Retweet caption should show current count");
   }
 
-
   // This test was created by openAI chatGPT-5
   @Test
   @DisplayName("Retweet via UI: second user retweets and original count increments")
@@ -159,7 +158,7 @@ class PostControllerTest extends UiTestBase {
 
     TextArea ta = from(pane).lookup(".text-area").queryAs(TextArea.class);
     assertNotNull(ta, "TextArea should exist in the dialog");
-    typeIntoTextInput(".text-area","Nice post!");
+    typeIntoTextInput(".text-area", "Nice post!");
     WaitForAsyncUtils.waitForFxEvents();
 
     Button ok = from(pane)
@@ -172,7 +171,6 @@ class PostControllerTest extends UiTestBase {
     PostResponse updatedOriginal = postService.getPostById(post.id()).orElseThrow();
     assertEquals(1, updatedOriginal.reTweets(), "Original post should have one retweet");
   }
-
 
   // This test was created by openAI chatGPT-5
   @Test
