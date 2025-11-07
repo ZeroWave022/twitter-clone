@@ -19,6 +19,5 @@ public final class AppIcons {
 
   public static final Image LIKE_ON = load("/icons/likeOn.png");
   public static final Image LIKE_OFF = load("/icons/likeOff.png");
-  public static final Image RETWEET_ON = load("/icons/retweetOn.png");
   public static final Image RETWEET_OFF = load("/icons/retweetOff.png");
 }
