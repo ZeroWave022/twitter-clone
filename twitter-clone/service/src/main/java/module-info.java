@@ -1,5 +1,5 @@
 open module twitter.service {
-  requires twitter.core;
+  requires transitive twitter.core;
   requires twitter.persistence;
 
   requires spring.context;

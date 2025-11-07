@@ -1,5 +1,5 @@
 module twitter.persistence {
-  requires twitter.core;
+  requires transitive twitter.core;
 
   requires java.naming;
   requires jakarta.persistence;
