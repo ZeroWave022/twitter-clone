@@ -112,8 +112,7 @@ class MakeNewPostControllerTest extends UiTestBase {
     openComposeView();
 
     String content = "Hello from MakeNewPostController test!";
-    clickOn(postText());
-    write(content);
+    typeIntoTextInput("#postText", content);
     WaitForAsyncUtils.waitForFxEvents();
 
     assertFalse(publishBtn().isDisabled(), "Publish should be enabled for valid content");
@@ -135,17 +134,16 @@ class MakeNewPostControllerTest extends UiTestBase {
   void over_limit_disables_publish_and_styles_counter() {
     openComposeView();
 
-    TextArea area = postText();
 
-    clickOn(area);
-    interact(area::clear);
     WaitForAsyncUtils.waitForFxEvents();
 
     Button publish = publishBtn();
     String tooLong = "x".repeat(Post.MAX_CONTENT_LENGTH + 1);
-    interact(() -> area.setText(tooLong));
+    typeIntoTextInput("#postText", tooLong);
+    // interact(() -> area.setText(tooLong));
     WaitForAsyncUtils.waitForFxEvents();
 
+    TextArea area = postText();
     Label counter = charCount();
     assertTrue(publish.isDisabled(), "Publish must be disabled when content exceeds limit");
     assertTrue(counter.getStyle().contains("#d32f2f"),
@@ -165,13 +163,13 @@ class MakeNewPostControllerTest extends UiTestBase {
   void blank_content_disables_publish() {
     openComposeView();
 
-    TextArea area = postText();
     Button publish = publishBtn();
 
-    interact(() -> area.setText("valid"));
+    typeIntoTextInput("#postText", "valid");
     WaitForAsyncUtils.waitForFxEvents();
     assertFalse(publish.isDisabled(), "Publish should be enabled for valid content");
 
+    TextArea area = postText();
     interact(area::clear);
     WaitForAsyncUtils.waitForFxEvents();
     assertTrue(publish.isDisabled(), "Publish should be disabled when content is blank");
