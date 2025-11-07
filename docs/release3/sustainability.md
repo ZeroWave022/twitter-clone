@@ -9,7 +9,7 @@ Such a space can be valuable for many users, especially in a digital everyday li
 At the same time, a continuously updating feed can lead to addiction and frequent checking of the app.
 This illustrates an important dilemma: features that make the platform attractive can also strongly affect user behaviour.
 Additionally, the app can influence how people obtain information.
-When users choose a social media platform as a source of information, they are affected by which perspectives they are expoed to and which they do not see.
+When users choose a social media platform as a source of information, they are affected by which perspectives they are exposed to and which they do not see.
 
 At the social level, we see immediate impacts through increased interaction between people via likes and reposts.
 These functions can make engagement easier and strengthen digital communities.
