@@ -44,6 +44,7 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
     CriteriaQuery<Post> query = criteriaBuilder.createQuery(Post.class);
     Root<Post> post = query.from(Post.class);
     query.select(post);
+    query.orderBy(criteriaBuilder.desc(post.get("id")));
 
     return entityManagerFactory.callInTransaction(entityManager -> {
       if (withRelations) {
