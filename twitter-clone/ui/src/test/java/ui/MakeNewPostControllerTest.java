@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.Post;
-import core.payload.response.PostResponse;
-import core.payload.response.UserResponse;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -100,7 +98,7 @@ class MakeNewPostControllerTest extends UiTestBase {
   @DisplayName("Publishing a valid post creates it and returns to feed")
   void publish_valid_post_creates_and_returns_to_feed() {
     ListView<?> feedBefore = lookup("#feedList").queryAs(ListView.class);
-    int beforeCount = feedBefore.getItems().size();
+    final int beforeCount = feedBefore.getItems().size();
 
     openComposeView();
 
@@ -132,7 +130,6 @@ class MakeNewPostControllerTest extends UiTestBase {
     Button publish = publishBtn();
     String tooLong = "x".repeat(Post.MAX_CONTENT_LENGTH + 1);
     typeIntoTextInput("#postText", tooLong);
-    // interact(() -> area.setText(tooLong));
     WaitForAsyncUtils.waitForFxEvents();
 
     TextArea area = postText();
