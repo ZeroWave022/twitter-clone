@@ -19,7 +19,7 @@ Social media has a significant influence on public debate, politics, norms and c
 In addition, even a small application can contribute to echo chambers and polarization, meaning that even a seemingly simple project can affect larger social dynamics.
 
 From an environmental perspective, social media platforms generally have high energy consumption, especially when scaled.
-While our project is small, Twitter-Clone-like solutions at a larger scale can be very resource intensive, requiring servers that use significant energy.
+While our project is small, Twitter-Clone-like solutions at a larger scale can be very resource intensive, requiring servers that use significant amounts of energy.
 At the same time, we understand that efficient architecture improves resource usage, showing that environmental sustainability in digital development depends on design choices affecting the resource usage of the entire system.
 
 Good architecture allows cost-effective scaling, which is important for economic sustainability in development projects.
