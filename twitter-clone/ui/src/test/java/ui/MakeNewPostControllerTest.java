@@ -20,19 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testfx.util.WaitForAsyncUtils;
 import persistence.OrmPostRepository;
-import service.PostService;
 import service.UserService;
 
 @SpringBootTest(classes = ui.config.AppConfig.class)
 class MakeNewPostControllerTest extends UiTestBase {
 
   @Autowired
-  private PostService postService;
-  @Autowired
   private UserService userService;
 
-  private UserResponse user;
-  private PostResponse seedPost;
 
   @BeforeEach
   void setupData() {
@@ -40,8 +35,6 @@ class MakeNewPostControllerTest extends UiTestBase {
 
     // Seed backend state
     userService.logIn("username", "password123");
-    user = userService.getLoggedInUser();
-    seedPost = postService.createPost("Seed content", null);
 
     // Now log in through the UI so the app navigates to the feed correctly
     typeIntoTextInput("#usernameField", "username");
@@ -133,7 +126,6 @@ class MakeNewPostControllerTest extends UiTestBase {
   @DisplayName("Over-limit content keeps publish disabled and styles error")
   void over_limit_disables_publish_and_styles_counter() {
     openComposeView();
-
 
     WaitForAsyncUtils.waitForFxEvents();
 
