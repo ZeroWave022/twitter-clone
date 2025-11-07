@@ -11,7 +11,7 @@ This illustrates an important dilemma: features that make the platform attractiv
 Additionally, the app can influence how people obtain information.
 When users choose a social media platform as a source of information, they are affected by which perspectives they are expoed to and which they do not see.
 
-At the social level, we see immediate impacts through increased interaction between peopl via likes and reposts.
+At the social level, we see immediate impacts through increased interaction between people via likes and reposts.
 These functions can make engagement easier and strengthen digital communities.
 The app can alsogive a voice to individuals otherwise absent from public debate, which is especially positive for social inclusion.
 At the same time, there are structural risks that go far beyond the size of this project.
