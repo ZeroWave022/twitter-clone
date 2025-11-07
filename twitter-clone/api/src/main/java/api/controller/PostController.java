@@ -3,10 +3,10 @@ package api.controller;
 import api.service.PostService;
 import core.Post;
 import core.User;
+import java.util.List;
 import core.payload.request.CreatePostRequest;
 import core.payload.response.PostResponse;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -112,5 +112,19 @@ public class PostController {
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
     return postRepository.findById(id, true).map(post -> postRepository.likePost(post, user))
         .map(postService::toDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Retrives all posts by the user.
+   *
+   * @return list of the posts by the user
+   */
+  @GetMapping("/mine")
+  public ResponseEntity<List<PostResponse>> postsByUser() {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+    User user = userRepository.findByUsername(userDetails.getUsername()).get();
+    return ResponseEntity
+        .ok(postRepository.findByUser(user, true).stream().map(postService::toDto).toList());
   }
 }

@@ -52,6 +52,13 @@ public class UserService {
     return true;
   }
 
+  /** Logs the user out of the application. */
+  public void logOut() {
+    this.loggedInUser = null;
+    this.apiClient.setJwtToken(null);
+  }
+
+  /** Updates the @param loggedInUser . */
   private void updateLoggedInUser() {
     UserResponse user = this.apiClient.get("/auth/me", UserResponse.class);
 
