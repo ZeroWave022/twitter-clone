@@ -13,7 +13,7 @@ When users choose a social media platform as a source of information, they are a
 
 At the social level, we see immediate impacts through increased interaction between people via likes and reposts.
 These functions can make engagement easier and strengthen digital communities.
-The app can alsogive a voice to individuals otherwise absent from public debate, which is especially positive for social inclusion.
+The app can also give a voice to individuals otherwise absent from public debate, which is especially positive for social inclusion.
 At the same time, there are structural risks that go far beyond the size of this project.
 Social media has a significant influence on public debate, politics, norms and culture.
 In addition, even a small application can contribute to echo chambers and polarization, meaning that even a seemingly simple project can affect larger social dynamics.
