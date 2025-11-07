@@ -10,7 +10,6 @@ import core.payload.response.UserResponse;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testfx.api.FxAssert;
 import org.testfx.util.WaitForAsyncUtils;
-import persistence.OrmPostRepository;
 import service.PostService;
 import service.UserService;
 
@@ -35,18 +33,13 @@ class PostControllerTest extends UiTestBase {
   private PostResponse post;
 
   @BeforeEach
-  void setupData() {
-    OrmPostRepository postRepository = new OrmPostRepository();
-    postRepository.dropDatabase();
+  @Override
+  void setup() throws Exception {
+    super.setup();
 
     userService.logIn("username", "password123");
     user = userService.getLoggedInUser();
     post = postService.createPost("UI Test content", null);
-  }
-
-  @AfterEach
-  void cleanupData() {
-    new OrmPostRepository().dropDatabase();
   }
 
   @Test
