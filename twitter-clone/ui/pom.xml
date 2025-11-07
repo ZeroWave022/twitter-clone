@@ -157,7 +157,7 @@
                     <mainJar>ui-0.0.1-SNAPSHOT.jar</mainJar>
                     <!-- Entire JDK is used as runtime image -->
                     <runtimeImage>${java.home}</runtimeImage>
-                    <destination>dist</destination>
+                    <destination>${project.build.directory}/dist</destination>
                     <removeDestination>true</removeDestination>
                 </configuration>
             </plugin>
