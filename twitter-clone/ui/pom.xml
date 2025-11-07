@@ -150,6 +150,7 @@
                 <version>1.7.1</version>
                 <configuration>
                     <name>Twitter Clone</name>
+                    <description>Twitter Clone app (group 8, IT1901)</description>
                     <!-- Icon retrieved from https://lucide.dev/ -->
                     <icon>${project.basedir}/src/main/resources/icons/bird.png</icon>
                     <appVersion>0.0.1</appVersion>
@@ -161,6 +162,14 @@
                     <runtimeImage>${java.home}</runtimeImage>
                     <destination>${project.build.directory}/dist</destination>
                     <removeDestination>true</removeDestination>
+                    <linuxAppCategory>Network;InstantMessaging;</linuxAppCategory>
+                    <linuxAppRelease>${project.version}</linuxAppRelease>
+                    <linuxMenuGroup>Network;InstantMessaging;</linuxMenuGroup>
+                    <linuxPackageName>twitterclone</linuxPackageName>
+                    <linuxShortcut>true</linuxShortcut>
+                    <macAppCategory>social-networking</macAppCategory>
+                    <macPackageIdentifier>twitterclone</macPackageIdentifier>
+                    <winMenu>true</winMenu>
                 </configuration>
             </plugin>
             <plugin>
