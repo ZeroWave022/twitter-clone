@@ -12,13 +12,13 @@
     },
     {
       "type": "java",
-      "name": "Launch modules-template - multi-module, multi-package ",
+      "name": "Launch twitter-clone",
       "request": "launch",
-      "mainClass": "calc.ui/ui.App",
-      "projectName": "modules-ui",
+      "mainClass": "twitter.ui/ui.App",
+      "projectName": "twitter-clone",
       "vmArgs": [
         "--add-opens",
-        "calc.ui/ui=ALL-UNNAMED",
+        "twitter.ui/ui=ALL-UNNAMED",
         "--add-exports",
         "javafx.graphics/com.sun.javafx.application=ALL-UNNAMED",
         "--add-opens",
@@ -27,4 +27,3 @@
     }
   ]
 }
-
