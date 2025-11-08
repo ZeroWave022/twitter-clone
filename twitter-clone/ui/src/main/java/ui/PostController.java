@@ -262,7 +262,8 @@ public class PostController {
   /**
    * Handles the deletion of a post based on the user's confirmation.
    * 
-   * <p>This method is triggered by a delete action event and determines which post
+   * <p>
+   * This method is triggered by a delete action event and determines which post
    * (current or original) to delete based on the source of the event. It displays
    * a confirmation dialog to the user, and if confirmed, deletes the selected
    * post using the {@code postService}.
