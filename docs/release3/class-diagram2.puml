@@ -18,19 +18,32 @@ class User {
   + void setDisplayName(String)
   + String getPassword()
   + void setPassword(String)
+  + boolean equals(Object)
+  + int hashCode()
 }
 
 class Post {
   - Long id
   - User author
+  - Post originalPost
   - String content
   - int likes
   - int reTweets
   - int commentsAmount
+  - Type type
+  - Set<User> likedByUsers
   + Post()
   + Post(User, String, Long)
+  + boolean likedByUser(User)
   + String getContent()
   + void setContent(String)
+  + void setType(Type)
+  + Type getType()
+  + Post getOriginalPost()
+  + void setOriginalPost(Post)
+  + Set<User> getLikedByUsers()
+  + void setContent(String)
+  + void setLikedByUsers(likedByUsers)
   + int getLikes()
   + void setLikes(int)
   + int getReTweets()

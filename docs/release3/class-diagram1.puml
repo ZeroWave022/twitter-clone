@@ -62,12 +62,12 @@ class PostController {
   - PostResponse currentPost
   - PostResponse originalPost
 
-  - boolean isOwn(PostResponse post)
-  + void setData(PostResponse post)
+  - boolean isOwn(PostResponse)
+  + void setData(PostResponse)
   + void updateLikes()
   + void updateRetweets()
-  - void onConfirmRetweetSafe(String msg)
-  + void deletePostAction(ActionEvent event)
+  - void onConfirmRetweetSafe(String)
+  + void deletePostAction(ActionEvent)
 }
 class ProfileController {
   ~ PostService postService
