@@ -227,8 +227,10 @@ class PostControllerTest extends UiTestBase {
     Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
     interact(logInBtn::fire);
     WaitForAsyncUtils.waitForFxEvents();
+
     Button deleteBtn = lookup("#deleteOriginalBtn").nth(0).queryAs(Button.class);
-    clickOn(deleteBtn);
+    Platform.runLater(() -> interact(deleteBtn::fire));
+    WaitForAsyncUtils.waitForFxEvents();
 
     DialogPane pane = lookup(".dialog-pane").queryAs(DialogPane.class);
     assertNotNull(pane, "DialogPane should be present");
