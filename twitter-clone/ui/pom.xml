@@ -122,6 +122,56 @@
                     <mainClass>twitter.ui/ui.App</mainClass>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>4.0.0-M3</version>
+                <configuration>
+                    <mainClass>ui.App</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Because our JavaFX app needs Spring Boot,
+             we cannot use jlink, because Spring Boot is an automatic module.
+             Therefore, we package the app using sprint-boot-maven-plugin,
+             and then we create an executable here.
+             The mainClass must be set to Spring Boot's entrypoint,
+             not our class. -->
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.7.1</version>
+                <configuration>
+                    <name>Twitter Clone</name>
+                    <description>Twitter Clone app (group 8, IT1901)</description>
+                    <!-- Icon retrieved from https://lucide.dev/ -->
+                    <icon>${project.basedir}/src/main/resources/icons/bird.png</icon>
+                    <appVersion>0.0.1</appVersion>
+                    <vendor>it1901</vendor>
+                    <input>${project.build.directory}</input>
+                    <mainClass>org.springframework.boot.loader.launch.PropertiesLauncher</mainClass>
+                    <mainJar>ui-${project.version}.jar</mainJar>
+                    <!-- Entire JDK is used as runtime image -->
+                    <runtimeImage>${java.home}</runtimeImage>
+                    <destination>${project.build.directory}/dist</destination>
+                    <removeDestination>true</removeDestination>
+                    <linuxAppCategory>Network;InstantMessaging;</linuxAppCategory>
+                    <linuxAppRelease>${project.version}</linuxAppRelease>
+                    <linuxMenuGroup>Network;InstantMessaging;</linuxMenuGroup>
+                    <linuxPackageName>twitterclone</linuxPackageName>
+                    <linuxShortcut>true</linuxShortcut>
+                    <macAppCategory>social-networking</macAppCategory>
+                    <macPackageIdentifier>twitterclone</macPackageIdentifier>
+                    <winMenu>true</winMenu>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>

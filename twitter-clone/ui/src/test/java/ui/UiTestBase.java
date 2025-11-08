@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import persistence.OrmPostRepository;
 
 // Taken from individual mandatory deliverable in IT1901
 /**
@@ -36,6 +37,9 @@ public class UiTestBase extends ApplicationTest {
   void setup() throws Exception {
     System.setProperty("app.data.directory", tempDir.toAbsolutePath().toString());
     ApplicationTest.launch(App.class);
+
+    // Clean the database before each test
+    new OrmPostRepository().dropDatabase();
   }
 
   @Override

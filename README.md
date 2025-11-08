@@ -113,6 +113,28 @@ mvn verify
 You can read the SpotBugs report by opening `twitter-clone/<module>/target/site/spotbugs.html` and you can read the JaCoCo report by opening `twitter-clone/<module>/target/site/jacoco/index.html`.
 The `<module>` must be replaced with the module name, without the angle brackets.
 
+### Building the app
+
+First, please make sure to install all modules as explained in [Module installation](#module-installation).
+
+You can build and create a shippable executable of the app for your platform by using the following command:
+
+```sh
+cd ui
+mvn jpackage:jpackage
+```
+
+<details>
+
+<summary>Using or building for Windows?</summary>
+
+You must install the [WiX Toolset](https://github.com/wixtoolset/wix3) when building for Windows.
+
+Because we use Java 17, we must use the latest version of WiX 3.x.
+This WiX version is deprecated, and should be upgraded as soon as the project can move beyond Java 17.
+
+</details>
+
 ## Other Documentation
 
 ### Release 1

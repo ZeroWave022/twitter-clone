@@ -8,7 +8,6 @@ import core.payload.response.UserResponse;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testfx.api.FxAssert;
 import org.testfx.util.WaitForAsyncUtils;
-import persistence.OrmPostRepository;
 import service.PostService;
 import service.UserService;
 
@@ -37,8 +35,6 @@ class ProfileControllerTest extends UiTestBase {
   @Override
   void setup() throws Exception {
     super.setup();
-    OrmPostRepository repo = new OrmPostRepository();
-    repo.dropDatabase();
 
     userService.logIn("username", "password123");
     user = userService.getLoggedInUser();
@@ -55,12 +51,6 @@ class ProfileControllerTest extends UiTestBase {
     Button profileBtn = lookup("#profileBtn").queryAs(Button.class);
     interact(profileBtn::fire);
     WaitForAsyncUtils.waitForFxEvents();
-  }
-
-  @AfterEach
-  @Override
-  void cleanup() {
-    new OrmPostRepository().dropDatabase();
   }
 
   @Test
