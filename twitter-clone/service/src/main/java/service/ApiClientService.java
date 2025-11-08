@@ -20,6 +20,15 @@ public class ApiClientService {
   }
 
   /**
+   * Constructs an ApiClientService with custom baseurl.
+   *
+   * @param baseurl the baseurl
+   */
+  public ApiClientService(String baseurl) {
+    this.webClient = WebClient.builder().baseUrl(baseurl).build();
+  }
+
+  /**
    * Sets the jwt token used for authentication.
    *
    * @param jwtToken the jwt token
