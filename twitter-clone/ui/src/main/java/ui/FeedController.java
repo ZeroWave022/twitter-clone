@@ -26,6 +26,7 @@ public class FeedController {
   private ListView<PostResponse> feedList;
 
   @FXML
+  @SuppressWarnings("unused")
   private Button profileBtn;
 
   @FXML
@@ -48,6 +49,8 @@ public class FeedController {
     displayNameLabel.setText(userService.getLoggedInUser().displayName());
     usernameLabel.setText("@" + userService.getLoggedInUser().username());
     feedList.getItems().setAll(postService.getAllPosts());
+
+    postService.setPostUpdateListener(this::updateFeed);
   }
 
   @FXML
@@ -66,5 +69,9 @@ public class FeedController {
   @SuppressWarnings("unused")
   private void switchToProfile() throws IOException {
     App.setRoot("profile.fxml");
+  }
+
+  private void updateFeed() {
+    feedList.getItems().setAll(postService.getAllPosts());
   }
 }

@@ -35,7 +35,7 @@ First, you must install all the modules. You will need to skip all tests, becaus
 Use the following command:
 
 ```sh
-mvn install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
+mvn clean install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
 ```
 
 <details>
@@ -45,7 +45,7 @@ mvn install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
 Then you'll need to wrap the parameters in quotation marks:
 
 ```sh
-mvn install "-DskipTests" "-Dcheckstyle.skip" "-Dspotbugs.skip" "-Djacoco.skip" -T 1C
+mvn clean install "-DskipTests" "-Dcheckstyle.skip" "-Dspotbugs.skip" "-Djacoco.skip" -T 1C
 ```
 
 </details>

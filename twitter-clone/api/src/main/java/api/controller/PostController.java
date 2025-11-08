@@ -3,14 +3,16 @@ package api.controller;
 import api.service.PostService;
 import core.Post;
 import core.User;
-import java.util.List;
 import core.payload.request.CreatePostRequest;
 import core.payload.response.PostResponse;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -94,6 +96,7 @@ public class PostController {
       }
       return ResponseEntity.ok(postService.toDto(postRepository.save(post)));
     } catch (Exception e) {
+      e.printStackTrace();
       return ResponseEntity.badRequest().build();
     }
   }
@@ -126,5 +129,32 @@ public class PostController {
     User user = userRepository.findByUsername(userDetails.getUsername()).get();
     return ResponseEntity
         .ok(postRepository.findByUser(user, true).stream().map(postService::toDto).toList());
+  }
+
+  /**
+   * Deletes a post if the authenticated user is the author.
+   *
+   * @param id the ID of the post to delete
+   * @return 200 OK if deleted, 404 if post not found, 403 if not owner
+   */
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> deletePost(@PathVariable("id") Long id) {
+    return postRepository.findById(id).map(post -> {
+      // Get the current authenticated user
+      UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+          .getPrincipal();
+      User user = userRepository.findByUsername(userDetails.getUsername()).get();
+
+      if (user == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+      }
+
+      if (!post.getAuthor().getId().equals(user.getId())) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+      }
+
+      postRepository.deleteById(post.getId());
+      return ResponseEntity.ok().build();
+    }).orElse(ResponseEntity.notFound().build());
   }
 }

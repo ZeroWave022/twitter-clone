@@ -26,7 +26,6 @@ class MakeNewPostControllerTest extends UiTestBase {
   @Autowired
   private UserService userService;
 
-
   @BeforeEach
   void setupData() {
     new OrmPostRepository().dropDatabase();
@@ -107,8 +106,7 @@ class MakeNewPostControllerTest extends UiTestBase {
     WaitForAsyncUtils.waitForFxEvents();
 
     assertFalse(publishBtn().isDisabled(), "Publish should be enabled for valid content");
-    Button publishBtn = publishBtn();
-    interact(publishBtn::fire);
+    interact(publishBtn()::fire);
     WaitForAsyncUtils.waitForFxEvents();
 
     ListView<?> feedAfter = lookup("#feedList").queryAs(ListView.class);
