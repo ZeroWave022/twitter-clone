@@ -7,8 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.payload.response.PostResponse;
 import core.payload.response.UserResponse;
+import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -111,4 +115,109 @@ class PostControllerTest extends UiTestBase {
     Text likeBtnText = lookup("#likeBtnText").queryAs(Text.class);
     FxAssert.verifyThat(likeBtnText, b -> b.getStyle().contains("#0078ae"));
   }
+
+  @Test
+  @DisplayName("Retweet button is visible for non-authors")
+  void test_retweetButtonVisibleForOtherUser() {
+
+    typeIntoTextInput("#usernameField", "seconduser");
+    typeIntoTextInput("#passwordField", "pass456");
+    Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
+    interact(logInBtn::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    Button retweetBtn = lookup("#retweetBtn").nth(0).queryAs(Button.class);
+    assertNotNull(retweetBtn, "Retweet button should be present for other users");
+    assertTrue(retweetBtn.isVisible(), "Retweet button should be visible for non-authors");
+    assertTrue(retweetBtn.isManaged(),
+        "Retweet button should participate in layout for non-authors");
+
+    PostResponse fresh = postService.getPostById(post.id()).orElseThrow();
+
+    Text retweetBtnText = lookup("#retweetBtnText").queryAs(Text.class);
+    assertEquals(fresh.reTweets(), Integer.valueOf(retweetBtnText.getText()),
+        "Retweet caption should show current count");
+  }
+
+  // This test was created by openAI chatGPT-5
+  @Test
+  @DisplayName("Retweet via UI: second user retweets and original count increments")
+  void test_clickRetweetButtonAndConfirmDialog_scopedLookups() {
+    typeIntoTextInput("#usernameField", "seconduser");
+    typeIntoTextInput("#passwordField", "pass456");
+    Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
+    interact(logInBtn::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    Button rtBtn = lookup("#retweetBtn").nth(0).queryAs(Button.class);
+    assertNotNull(rtBtn, "Retweet button should be present");
+    Platform.runLater(rtBtn::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    DialogPane pane = lookup(".dialog-pane").queryAs(DialogPane.class);
+    assertNotNull(pane, "DialogPane should be present");
+
+    TextArea ta = from(pane).lookup(".text-area").queryAs(TextArea.class);
+    assertNotNull(ta, "TextArea should exist in the dialog");
+    typeIntoTextInput(".text-area", "Nice post!");
+    WaitForAsyncUtils.waitForFxEvents();
+
+    Button ok = from(pane)
+        .lookup((Node n) -> n instanceof Button && "Retweet".equals(((Button) n).getText()))
+        .queryAs(Button.class);
+    assertNotNull(ok, "OK button labeled 'Retweet' should be present");
+    interact(ok::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    PostResponse updatedOriginal = postService.getPostById(post.id()).orElseThrow();
+    assertEquals(1, updatedOriginal.reTweets(), "Original post should have one retweet");
+  }
+
+  // This test was created by openAI chatGPT-5
+  @Test
+  @DisplayName("Retweet dialog prevents messages longer than 280 characters")
+  void test_retweetDialogDisablesOkWhenOverLimit() {
+    typeIntoTextInput("#usernameField", "seconduser");
+    typeIntoTextInput("#passwordField", "pass456");
+    Button logInBtn = lookup("#logInBtn").queryAs(Button.class);
+    interact(logInBtn::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    PostResponse original = postService.getPostById(post.id()).orElseThrow();
+    assertEquals(0, original.reTweets(), "Original post should start with 0 retweets");
+
+    Button rtBtn = lookup("#retweetBtn").nth(0).queryAs(Button.class);
+    assertNotNull(rtBtn, "Retweet button should be present");
+    Platform.runLater(rtBtn::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    DialogPane pane = lookup(".dialog-pane").queryAs(DialogPane.class);
+    assertNotNull(pane, "DialogPane should be present");
+
+    javafx.scene.control.TextArea ta = from(pane).lookup(".text-area")
+        .queryAs(javafx.scene.control.TextArea.class);
+    assertNotNull(ta, "TextArea should exist in the dialog");
+
+    String overLimitMsg = "x".repeat(281);
+    typeIntoTextInput(".text-area", overLimitMsg);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    Button ok = from(pane)
+        .lookup((Node n) -> n instanceof Button && "Retweet".equals(((Button) n).getText()))
+        .queryAs(Button.class);
+    assertNotNull(ok, "OK button labeled 'Retweet' should be present");
+    assertTrue(ok.isDisabled(), "OK should be disabled when message exceeds 280 characters");
+
+    Button cancel = from(pane)
+        .lookup((Node n) -> n instanceof Button && "Cancel".equals(((Button) n).getText()))
+        .queryAs(Button.class);
+    assertNotNull(cancel, "Cancel button should be present");
+    interact(cancel::fire);
+    WaitForAsyncUtils.waitForFxEvents();
+
+    PostResponse updatedOriginal = postService.getPostById(post.id()).orElseThrow();
+    assertEquals(0, updatedOriginal.reTweets(),
+        "No retweet should be created when message exceeds 280 characters");
+  }
+
 }
