@@ -140,7 +140,6 @@ class PostControllerTest extends UiTestBase {
     interact(yesBtn::fire);
 
     Label originalPostContentDeletedLabel = lookup("#contentLabel1").nth(0).queryAs(Label.class);
-    System.out.println(originalPostContentDeletedLabel.getText());
     assertTrue(originalPostContentDeletedLabel.getText().contains("deleted"),
         "Original post content should be marked as deleted");
   }

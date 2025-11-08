@@ -137,8 +137,6 @@ public class PostController {
     }
 
     // Outer header: retweeter info
-    System.out.println("Retweet by: " + post.author().username());
-    System.out.println("Content: " + post.content());
     displayNameLabelRetweet.setText(post.author().displayName());
     usernameLabelRetweet.setText("@" + post.author().username());
 
