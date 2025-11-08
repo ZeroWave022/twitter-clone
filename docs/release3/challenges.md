@@ -1,6 +1,8 @@
 
+# Challenges during development
 
-### Merge Conflicts
+
+## Merge Conflicts
 
 One of the challenges we encountered was having multiple team members working on overlapping parts of the project at the same time.
 For example, while one person was implementing retweets, others were working on the REST API and UI features.
@@ -17,7 +19,7 @@ This experience highlighted the importance of **frequent, smaller merges** and o
 
 ---
 
-### Consistent Code Style and Structure
+## Consistent Code Style and Structure
 
 Because different team members used different IDEs and personal configuration settings, our codebase initially suffered from inconsistent formatting and styling.
 Each IDE had its own default formatter and linter rules, which meant that code written by one team member often triggered formatting warnings for others.
