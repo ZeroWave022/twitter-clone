@@ -30,10 +30,10 @@ Used to obtain a JWT token.
 
 **Request Body:**
 
-```json
+```javascript
 {
-  "username": "<username>",
-  "password": "<password>"
+  "username": "username",
+  "password": "password"
 }
 ```
 
@@ -42,9 +42,9 @@ Used to obtain a JWT token.
 
 **Response:**
 
-```json
+```javascript
 {
-  "jwtToken": "<jwt-token>"
+  "jwtToken": "jwt token"
 }
 ```
 
@@ -54,11 +54,11 @@ Retrieves information about the currently authenticated user.
 
 **Response:**
 
-```json
+```javascript
 {
-  "id": <id>,
-  "username": "<username>",
-  "displayName": "<display-name>"
+  "id": 1,
+  "username": "username",
+  "displayName": "display name"
 }
 ```
 
@@ -78,14 +78,14 @@ Retrieves a list of all users.
 
 **Response:**
 
-```json
+```javascript
 [
   {
-    "id": <id>,
-    "username": "<username>",
-    "displayName": "<display-name>"
+    "id": 1,
+    "username": "username",
+    "displayName": "display name"
   },
-  ...
+  /* more users */
 ]
 ```
 
@@ -101,11 +101,11 @@ Retrieves information about a specific user.
 
 **Response:**
 
-```json
+```javascript
 {
-  "id": <id>,
-  "username": "<username>",
-  "displayName": "<display-name>"
+  "id": 1,
+  "username": "username",
+  "displayName": "display name"
 }
 ```
 
@@ -121,21 +121,21 @@ Performs a full update of a user.
 
 **Request Body:**
 
-```json
+```javascript
 {
-  "username": "<username>",
-  "displayName": "<display-name>",
-  "password": "<password>"
+  "username": "username",
+  "displayName": "display name",
+  "password": "password"
 }
 ```
 
 **Response:**
 
-```json
+```javascript
 {
-  "id": <id>,
-  "username": "<username>",
-  "displayName": "<display-name>"
+  "id": 1,
+  "username": "username",
+  "displayName": "display name"
 }
 ```
 
@@ -157,24 +157,24 @@ Retrieves all posts.
 
 **Response:**
 
-```json
+```javascript
 [
   {
-    "id": <id>,
-    "content": "<content>",
-    "likes": <likes>,
-    "reTweets": <re-tweets>,
-    "commentsAmount": <comments-amount>,
+    "id": 1,
+    "content": "content",
+    "likes": 10,
+    "reTweets": 3,
+    "commentsAmount": 0,
     "author": {
-      "id": <id>,
-      "username": "<username>",
-      "displayName": "<display-name>"
+      "id": 2,
+      "username": "username",
+      "displayName": "display name"
     },
-    "likedByUsers": [<user-id>, ...],
-    "originalPostId": <original-post-id>,
-    "type": <ORIGINAL|RETWEET>
+    "likedByUsers": [1, 3],
+    "originalPostId": null, // or number
+    "type": "ORIGINAL" // or RETWEET
   },
-  ...
+  /* more posts */
 ]
 ```
 
@@ -190,21 +190,21 @@ Retrieves a specific post.
 
 **Response:**
 
-```json
+```javascript
 {
-  "id": <id>,
-  "content": "<content>",
-  "likes": <likes>,
-  "reTweets": <re-tweets>,
-  "commentsAmount": <comments-amount>,
+  "id": 1,
+  "content": "content",
+  "likes": 10,
+  "reTweets": 3,
+  "commentsAmount": 0,
   "author": {
-    "id": <id>,
-    "username": "<username>",
-    "displayName": "<display-name>"
+    "id": 2,
+    "username": "username",
+    "displayName": "display name"
   },
-  "likedByUsers": [<user-id>, ...],
-  "originalPostId": <original-post-id>,
-  "type": <ORIGINAL|RETWEET>
+  "likedByUsers": [1, 3],
+  "originalPostId": null, // or number
+  "type": "ORIGINAL" // or RETWEET
 }
 ```
 
@@ -215,30 +215,30 @@ If `originalPostId` is provided, a retweet is created.
 
 **Request Body:**
 
-```json
+```javascript
 {
-  "content": "<content>",
-  "originalPostId": <original-post-id>
+  "content": "content",
+  "originalPostId": 1 // or null for normal post
 }
 ```
 
 **Response:**
 
-```json
+```javascript
 {
-  "id": <id>,
-  "content": "<content>",
-  "likes": <likes>,
-  "reTweets": <re-tweets>,
-  "commentsAmount": <comments-amount>,
+  "id": 1,
+  "content": "content",
+  "likes": 10,
+  "reTweets": 3,
+  "commentsAmount": 0,
   "author": {
-    "id": <id>,
-    "username": "<username>",
-    "displayName": "<display-name>"
+    "id": 2,
+    "username": "username",
+    "displayName": "display name"
   },
-  "likedByUsers": [<user-id>, ...],
-  "originalPostId": <original-post-id>,
-  "type": <ORIGINAL|RETWEET>
+  "likedByUsers": [1, 3],
+  "originalPostId": null, // or number
+  "type": "ORIGINAL" // or RETWEET
 }
 ```
 
@@ -254,21 +254,21 @@ Toggles whether the authenticated user has liked the post.
 
 **Response:**
 
-```json
+```javascript
 {
-  "id": <id>,
-  "content": "<content>",
-  "likes": <likes>,
-  "reTweets": <re-tweets>,
-  "commentsAmount": <comments-amount>,
+  "id": 1,
+  "content": "content",
+  "likes": 10,
+  "reTweets": 3,
+  "commentsAmount": 0,
   "author": {
-    "id": <id>,
-    "username": "<username>",
-    "displayName": "<display-name>"
+    "id": 2,
+    "username": "username",
+    "displayName": "display name"
   },
-  "likedByUsers": [<user-id>, ...],
-  "originalPostId": <original-post-id>,
-  "type": <ORIGINAL|RETWEET>
+  "likedByUsers": [1, 3],
+  "originalPostId": null, // or number
+  "type": "ORIGINAL" // or RETWEET
 }
 ```
 
@@ -278,23 +278,23 @@ Retrieves posts created by the authenticated user.
 
 **Response:**
 
-```json
+```javascript
 [
   {
-    "id": <id>,
-    "content": "<content>",
-    "likes": <likes>,
-    "reTweets": <re-tweets>,
-    "commentsAmount": <comments-amount>,
+    "id": 1,
+    "content": "content",
+    "likes": 10,
+    "reTweets": 3,
+    "commentsAmount": 0,
     "author": {
-      "id": <id>,
-      "username": "<username>",
-      "displayName": "<display-name>"
+      "id": 2,
+      "username": "username",
+      "displayName": "display name"
     },
-    "likedByUsers": [<user-id>, ...],
-    "originalPostId": <original-post-id>,
-    "type": <ORIGINAL|RETWEET>
+    "likedByUsers": [1, 3],
+    "originalPostId": null, // or number
+    "type": "ORIGINAL" // or RETWEET
   },
-  ...
+  /* more posts */
 ]
 ```
