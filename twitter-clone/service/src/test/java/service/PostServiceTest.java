@@ -3,7 +3,6 @@ package service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -12,20 +11,16 @@ import core.User;
 import core.payload.request.CreatePostRequest;
 import core.payload.response.PostResponse;
 import core.payload.response.UserResponse;
-
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -159,7 +154,7 @@ public class PostServiceTest {
   }
 
   @Test
-  void PostUpdateListenerNotification() {
+  void postUpdateListenerNotification() {
     AtomicBoolean listenerCalled = new AtomicBoolean(false);
     postService.setPostUpdateListener(() -> listenerCalled.set(true));
 
