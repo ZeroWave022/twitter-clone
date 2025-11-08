@@ -4,20 +4,21 @@ This document provides a complete overview of the REST API, including available 
 
 ## General
 
-The REST API uses **JWT-based authentication** for protected endpoints. 
+The REST API uses **JWT-based authentication** for protected endpoints.
 Requests with a missing or invalid token will return a `403 Forbidden` response.
 
 **Note:**
 The only unprotected endpoint is `POST /auth/login`.
 
 The token must be included in the `Authorization` header using the following format:
+
 ```
 Authorization: Bearer <jwt-token>
 ```
 
 ## Authentication endpoints
 
-The auth resource has two endpoints: 
+The auth resource has two endpoints:
 
 | Method | Endpoint    | Description                                   |
 | ------ | ----------- | --------------------------------------------- |
@@ -30,10 +31,10 @@ Used to obtain a JWT token.
 
 **Request Body:**
 
-```javascript
+```jsonc
 {
   "username": "username",
-  "password": "password"
+  "password": "password",
 }
 ```
 
@@ -42,9 +43,9 @@ Used to obtain a JWT token.
 
 **Response:**
 
-```javascript
+```jsonc
 {
-  "jwtToken": "jwt token"
+  "jwtToken": "jwt token",
 }
 ```
 
@@ -54,11 +55,11 @@ Retrieves information about the currently authenticated user.
 
 **Response:**
 
-```javascript
+```jsonc
 {
   "id": 1,
   "username": "username",
-  "displayName": "display name"
+  "displayName": "display name",
 }
 ```
 
@@ -78,12 +79,12 @@ Retrieves a list of all users.
 
 **Response:**
 
-```javascript
+```jsonc
 [
   {
     "id": 1,
     "username": "username",
-    "displayName": "display name"
+    "displayName": "display name",
   },
   /* more users */
 ]
@@ -101,11 +102,11 @@ Retrieves information about a specific user.
 
 **Response:**
 
-```javascript
+```jsonc
 {
   "id": 1,
   "username": "username",
-  "displayName": "display name"
+  "displayName": "display name",
 }
 ```
 
@@ -121,21 +122,21 @@ Performs a full update of a user.
 
 **Request Body:**
 
-```javascript
+```jsonc
 {
   "username": "username",
   "displayName": "display name",
-  "password": "password"
+  "password": "password",
 }
 ```
 
 **Response:**
 
-```javascript
+```jsonc
 {
   "id": 1,
   "username": "username",
-  "displayName": "display name"
+  "displayName": "display name",
 }
 ```
 
@@ -157,7 +158,7 @@ Retrieves all posts.
 
 **Response:**
 
-```javascript
+```jsonc
 [
   {
     "id": 1,
@@ -168,11 +169,11 @@ Retrieves all posts.
     "author": {
       "id": 2,
       "username": "username",
-      "displayName": "display name"
+      "displayName": "display name",
     },
     "likedByUsers": [1, 3],
     "originalPostId": null, // or number
-    "type": "ORIGINAL" // or RETWEET
+    "type": "ORIGINAL", // or RETWEET
   },
   /* more posts */
 ]
@@ -190,7 +191,7 @@ Retrieves a specific post.
 
 **Response:**
 
-```javascript
+```jsonc
 {
   "id": 1,
   "content": "content",
@@ -200,11 +201,11 @@ Retrieves a specific post.
   "author": {
     "id": 2,
     "username": "username",
-    "displayName": "display name"
+    "displayName": "display name",
   },
   "likedByUsers": [1, 3],
   "originalPostId": null, // or number
-  "type": "ORIGINAL" // or RETWEET
+  "type": "ORIGINAL", // or RETWEET
 }
 ```
 
@@ -215,16 +216,16 @@ If `originalPostId` is provided, a retweet is created.
 
 **Request Body:**
 
-```javascript
+```jsonc
 {
   "content": "content",
-  "originalPostId": 1 // or null for normal post
+  "originalPostId": 1, // or null for normal post
 }
 ```
 
 **Response:**
 
-```javascript
+```jsonc
 {
   "id": 1,
   "content": "content",
@@ -234,11 +235,11 @@ If `originalPostId` is provided, a retweet is created.
   "author": {
     "id": 2,
     "username": "username",
-    "displayName": "display name"
+    "displayName": "display name",
   },
   "likedByUsers": [1, 3],
   "originalPostId": null, // or number
-  "type": "ORIGINAL" // or RETWEET
+  "type": "ORIGINAL", // or RETWEET
 }
 ```
 
@@ -254,7 +255,7 @@ Toggles whether the authenticated user has liked the post.
 
 **Response:**
 
-```javascript
+```jsonc
 {
   "id": 1,
   "content": "content",
@@ -264,11 +265,11 @@ Toggles whether the authenticated user has liked the post.
   "author": {
     "id": 2,
     "username": "username",
-    "displayName": "display name"
+    "displayName": "display name",
   },
   "likedByUsers": [1, 3],
   "originalPostId": null, // or number
-  "type": "ORIGINAL" // or RETWEET
+  "type": "ORIGINAL", // or RETWEET
 }
 ```
 
@@ -278,7 +279,7 @@ Retrieves posts created by the authenticated user.
 
 **Response:**
 
-```javascript
+```jsonc
 [
   {
     "id": 1,
@@ -289,11 +290,11 @@ Retrieves posts created by the authenticated user.
     "author": {
       "id": 2,
       "username": "username",
-      "displayName": "display name"
+      "displayName": "display name",
     },
     "likedByUsers": [1, 3],
     "originalPostId": null, // or number
-    "type": "ORIGINAL" // or RETWEET
+    "type": "ORIGINAL", // or RETWEET
   },
   /* more posts */
 ]
