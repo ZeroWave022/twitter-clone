@@ -107,7 +107,8 @@ class MakeNewPostControllerTest extends UiTestBase {
     WaitForAsyncUtils.waitForFxEvents();
 
     assertFalse(publishBtn().isDisabled(), "Publish should be enabled for valid content");
-    clickOn(publishBtn());
+    Button publishBtn = publishBtn();
+    interact(publishBtn::fire);
     WaitForAsyncUtils.waitForFxEvents();
 
     ListView<?> feedAfter = lookup("#feedList").queryAs(ListView.class);

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.payload.response.PostResponse;
 import core.payload.response.UserResponse;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
@@ -150,7 +151,7 @@ class PostControllerTest extends UiTestBase {
 
     Button rtBtn = lookup("#retweetBtn").nth(0).queryAs(Button.class);
     assertNotNull(rtBtn, "Retweet button should be present");
-    clickOn(rtBtn);
+    Platform.runLater(rtBtn::fire);
     WaitForAsyncUtils.waitForFxEvents();
 
     DialogPane pane = lookup(".dialog-pane").queryAs(DialogPane.class);
@@ -187,7 +188,7 @@ class PostControllerTest extends UiTestBase {
 
     Button rtBtn = lookup("#retweetBtn").nth(0).queryAs(Button.class);
     assertNotNull(rtBtn, "Retweet button should be present");
-    clickOn(rtBtn);
+    Platform.runLater(rtBtn::fire);
     WaitForAsyncUtils.waitForFxEvents();
 
     DialogPane pane = lookup(".dialog-pane").queryAs(DialogPane.class);
