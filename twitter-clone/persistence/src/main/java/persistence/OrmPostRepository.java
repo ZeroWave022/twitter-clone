@@ -33,12 +33,7 @@ public class OrmPostRepository extends HibernateRepository implements PostReposi
           entityManager.merge(originalPost);
         }
       } else {
-        // entityManager
-        // .createQuery("UPDATE Post p SET p.originalPost = NULL WHERE p.originalPost =
-        // :post")
-        // .setParameter("post", post).executeUpdate();
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<Post> update = cb.createCriteriaUpdate(Post.class);
+        CriteriaUpdate<Post> update = criteriaBuilder.createCriteriaUpdate(Post.class);
         Root<Post> root = update.from(Post.class);
         JpaExpression<Post> nullPost = criteriaBuilder.nullLiteral(Post.class);
 
