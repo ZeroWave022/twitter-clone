@@ -4,7 +4,7 @@
 
 One of the challenges we encountered was having multiple team members working on overlapping parts of the project at the same time.
 For example, while one person was implementing retweets, others were working on the REST API and UI features.
-Many of these tasks affected the **PostController** class, which led to a series of merge conflicts that took longer than expected to resolve.
+Many of these tasks affected the `PostController` class, which led to a series of merge conflicts that took longer than expected to resolve.
 
 
 In order to address the issue, we attempted to merge the branches in an order that we believed would result in the fewest merge conflicts.
