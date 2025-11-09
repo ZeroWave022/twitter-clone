@@ -1,4 +1,7 @@
-@startuml classDiagram
+@startuml classDiagram1
+title JavaFX UI Controllers and Services Class Diagram
+header IT1901: Group 8 - Twitter Clone - Release 3
+
 skinparam linetype ortho
 skinparam padding 1
 skinparam nodesep 40
@@ -103,6 +106,7 @@ class PostCell {
 class UserService {
   - ApiClientService apiClient
   - UserResponse loggedInUser
+
   + UserResponse getLoggedInUser()
   + boolean login(String, String)
   + void logOut()
@@ -111,6 +115,7 @@ class UserService {
 class PostService {
   - ApiClientService apiClient
   - Runnable postUpdateListener
+
   + Optional<PostResponse> getPostById(Long)
   + Optional<PostResponse> getPostById(Long, boolean)
   + PostResponse createPost(String, Long)
@@ -134,7 +139,6 @@ class ApiClientService {
   + <T> T delete(String, Class<T>)
   + void delete(String path)
 }
-
 
 class CreatePostRequest <<DTO>> {
   + String content
