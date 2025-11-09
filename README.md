@@ -76,7 +76,7 @@ Override the example secret with the generated value.
 Start the api:
 
 ```sh
-cd api 
+cd api
 mvn spring-boot:run
 ```
 
@@ -156,6 +156,28 @@ This WiX version is deprecated, and should be upgraded as soon as the project ca
 - [Package diagram](./docs/release2/package-diagram.puml)
 - [Class diagram](./docs/release2/class-diagram.puml)
 
-| Package diagram | Class diagram |
-|---------------|----------------|
-| ![Package diagram](./docs/images/package-diagram.png) | ![Class diagram](./docs/images/class-diagram.png) |
+### Diagrams
+
+<details>
+
+<summary>UI and services class diagram</summary>
+
+![UI and services class diagram](./docs/images/release3/ui-class-diagram.png)
+
+</details>
+
+<details>
+
+<summary>Core class diagram</summary>
+
+![Core class diagram](./docs/images/release3/core-class-diagram.png)
+
+</details>
+
+<details>
+
+<summary>Package diagram</summary>
+
+![Package diagram](./docs/images/release3/package-diagram.png)
+
+</details>

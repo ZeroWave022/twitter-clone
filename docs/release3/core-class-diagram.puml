@@ -1,0 +1,112 @@
+@startuml coreClassDiagram
+title Core Module Class Diagram
+header IT1901: Group 8 - Twitter Clone - Release 3
+
+skinparam linetype ortho
+skinparam nodesep 120
+
+class User {
+  - Long id
+  - String username
+  - String displayName
+  - String password
+  - List<Post> posts
+
+  + User()
+  + User(Long, String, String, String)
+  + Long getId()
+  + void setId(Long)
+  + String getUsername()
+  + void setUsername(String)
+  + String getDisplayName()
+  + void setDisplayName(String)
+  + String getPassword()
+  + void setPassword(String)
+  + boolean equals(Object)
+  + int hashCode()
+}
+
+class Post {
+  - Long id
+  - User author
+  - Post originalPost
+  - String content
+  - int likes
+  - int reTweets
+  - int commentsAmount
+  - Type type
+  - Set<User> likedByUsers
+
+  + Post()
+  + Post(User, String, Long)
+  + boolean likedByUser(User)
+  + String getContent()
+  + void setContent(String)
+  + void setType(Type)
+  + Type getType()
+  + Post getOriginalPost()
+  + void setOriginalPost(Post)
+  + Set<User> getLikedByUsers()
+  + void setContent(String)
+  + void setLikedByUsers(likedByUsers)
+  + int getLikes()
+  + void setLikes(int)
+  + int getReTweets()
+  + void setReTweets(int)
+  + int getCommentsAmount()
+  + void setCommentsAmount(int)
+  + Long getId()
+  + void setId(Long)
+  + User getAuthor()
+  + void setAuthor(User)
+  + int getMaxContentLenght()
+}
+
+class request.CreatePostRequest {
+  + String content
+  + Long originalPost
+}
+
+class request.LoginRequest {
+  + String username
+  + String password
+}
+
+class request.UpdateUserRequest {
+  + String username
+  + String displayName
+  + String password
+}
+
+class response.LoginResponse {
+  + String jwtToken
+}
+
+class response.PostResponse {
+  + Long id
+  + String content
+  + int likes
+  + int reTweets
+  + int commentsAmount
+  + UserResponse author
+  + Set<Long> likedByUsers
+  + Long originalPostId
+
+  + boolean likedByUser(Long)
+}
+
+class response.UserResponse {
+  + Long id
+  + String username
+  + String displayName
+}
+
+class util.NumberFormatter {
+  + String formatCount(long)
+  - String formatDecimal(double)
+}
+
+User "1" o-left-- "*" Post : posts
+Post "*" --> "1" User : author
+
+@enduml
