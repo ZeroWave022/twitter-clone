@@ -1,6 +1,9 @@
-@startuml classDiagram
+@startuml classDiagram2
+title Core Module Class Diagram
+header IT1901: Group 8 - Twitter Clone - Release 3
+
 skinparam linetype ortho
-skinparam nodesep 130
+skinparam nodesep 120
 
 class User {
   - Long id
@@ -8,6 +11,7 @@ class User {
   - String displayName
   - String password
   - List<Post> posts
+
   + User()
   + User(Long, String, String, String)
   + Long getId()
@@ -32,6 +36,7 @@ class Post {
   - int commentsAmount
   - Type type
   - Set<User> likedByUsers
+
   + Post()
   + Post(User, String, Long)
   + boolean likedByUser(User)
@@ -55,6 +60,50 @@ class Post {
   + User getAuthor()
   + void setAuthor(User)
   + int getMaxContentLenght()
+}
+
+class request.CreatePostRequest {
+  + String content
+  + Long originalPost
+}
+
+class request.LoginRequest {
+  + String username
+  + String password
+}
+
+class request.UpdateUserRequest {
+  + String username
+  + String displayName
+  + String password
+}
+
+class response.LoginResponse {
+  + String jwtToken
+}
+
+class response.PostResponse {
+  + Long id
+  + String content
+  + int likes
+  + int reTweets
+  + int commentsAmount
+  + UserResponse author
+  + Set<Long> likedByUsers
+  + Long originalPostId
+
+  + boolean likedByUser(Long)
+}
+
+class response.UserResponse {
+  + Long id
+  + String username
+  + String displayName
+}
+
+class util.NumberFormatter {
+  + String formatCount(long)
+  - String formatDecimal(double)
 }
 
 User "1" o-left-- "*" Post : posts
