@@ -83,9 +83,9 @@ Client_Services <--> API_Layer : \nHTTP \nrequests/responses
 
 ' The newlines and spaces are here to position the labels
 Persistence <-- API_Layer : \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSaving data                             \n(service -> repository)                            .
-Persistence --> Core : \n\nDepends on
+Persistence --> Core : \n\n\nDepends on
 API_Layer --> Core : \n\n\n\n\n\n\n\n\n\n\nBuilds response DTOs
-API_Layer --> Core : \n\n\n\n\n\n\n\n\n\n\n\n\n\n\nReads domain model
+API_Layer --> Core : \n\n\n\n\n\n\n\n\n\nReads domain model
 Persistence --> SQLite_DB : \n\n\n\n\n\n\n\nReads/writes
 
 legend right
