@@ -79,7 +79,7 @@ public class PostServiceTest {
     UserResponse fakeAuthor = new UserResponse(user.getId(), user.getUsername(),
         user.getDisplayName());
     PostResponse expectedResponse = new PostResponse(postId, content, 0, 0, 0, fakeAuthor, Set.of(),
-        null);
+        null, Post.Type.ORIGINAL);
 
     when(apiClient.post(eq("/api/posts"), eq(new CreatePostRequest(content, postId)),
         eq(PostResponse.class))).thenReturn(expectedResponse);
@@ -93,8 +93,10 @@ public class PostServiceTest {
     UserResponse fakeAuthor = new UserResponse(user.getId(), user.getUsername(),
         user.getDisplayName());
     List<PostResponse> expectedPosts = List.of(
-        new PostResponse(postId, "content1", 0, 0, 0, fakeAuthor, Set.of(), null),
-        new PostResponse(postId + 1, "content2", 0, 0, 0, fakeAuthor, Set.of(), null));
+        new PostResponse(postId, "content1", 0, 0, 0, fakeAuthor, Set.of(), null,
+            Post.Type.ORIGINAL),
+        new PostResponse(postId + 1, "content2", 0, 0, 0, fakeAuthor, Set.of(), null,
+            Post.Type.ORIGINAL));
 
     when(apiClient.get(eq("/api/posts"), eq(new ParameterizedTypeReference<List<PostResponse>>() {
     }))).thenReturn(expectedPosts);
@@ -116,8 +118,8 @@ public class PostServiceTest {
   void postsByUserReturnsPostsByUser() {
     UserResponse fakeAuthor = new UserResponse(user.getId(), user.getUsername(),
         user.getDisplayName());
-    List<PostResponse> expectedPosts = List
-        .of(new PostResponse(postId, "content1", 0, 0, 0, fakeAuthor, Set.of(), null));
+    List<PostResponse> expectedPosts = List.of(new PostResponse(postId, "content1", 0, 0, 0,
+        fakeAuthor, Set.of(), null, Post.Type.ORIGINAL));
 
     when(apiClient.get(eq("/api/posts/mine"),
         eq(new ParameterizedTypeReference<List<PostResponse>>() {
@@ -145,7 +147,7 @@ public class PostServiceTest {
     UserResponse fakeAuthor = new UserResponse(user.getId(), user.getUsername(),
         user.getDisplayName());
     PostResponse expectedPost = new PostResponse(postId, "content", 1, 0, 0, fakeAuthor,
-        Set.of(user.getId()), null);
+        Set.of(user.getId()), null, Post.Type.ORIGINAL);
 
     when(apiClient.post(eq("/api/posts/" + postId + "/likes"), eq(Collections.emptyMap()),
         eq(PostResponse.class))).thenReturn(expectedPost);
