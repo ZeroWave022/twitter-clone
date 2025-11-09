@@ -53,10 +53,19 @@ I've also worked on improving the code quality and maintaining consistent format
 
 ---
 
-## Member 4 – _Full Name_
+## Member 4 – _Henrik Strøm-Andersen_
 
-**Contribution Summary:**  
-_Replace this text with your paragraph (max 200 words)._
+During the development of Twitter Clone, my main responsibility has been the UI side of the project.
+I created most of the app’s views, which means I spent much of my time working on the application’s FXML files.
+I also implemented the logic for displaying individual posts in the feed by creating a custom cell factory using a tailored `ListCell` (the `PostCell` class) and a dedicated post layout.
+
+Throughout development, I have improved the app’s UI design as new features were introduced, giving the GUI a more modern look while still keeping it simple - one of our core goals.
+
+I also took primary responsibility for ensuring that all project documentation is in place.
+As a result, I wrote most of the project’s documentation, but with valuable input and much appreciated help from other team members (Martin has been consistently helpful and involved in the writing).
+The documentation includes reflections, technical descriptions, and various diagrams.
+
+In addition to my UI and documentation work, I have participated in code reviews, created issues, engaged in pair programming, and used Git’s features effectively.
 
 ---
 
