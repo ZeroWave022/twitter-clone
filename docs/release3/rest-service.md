@@ -5,7 +5,7 @@ This document provides a complete overview of the REST API, including available 
 ## General
 
 The REST API uses **JWT-based authentication** for protected endpoints.
-Requests with a missing or invalid token will return a `403 Forbidden` response.
+Requests with a missing or invalid token will return a `401 Unauthorized` response.
 
 **Note:**
 The only unprotected endpoint is `POST /auth/login`.

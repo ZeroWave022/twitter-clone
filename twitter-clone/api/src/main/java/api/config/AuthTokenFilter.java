@@ -45,7 +45,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       String jwt = parseJwt(request);
 
       if (jwt == null || !jwtUtilsService.validateJwtToken(jwt)) {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().flush();
         return;
       }
@@ -59,7 +59,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
     } catch (UsernameNotFoundException e) {
-      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       response.getWriter().flush();
       return;
     }
