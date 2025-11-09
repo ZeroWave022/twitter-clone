@@ -13,6 +13,11 @@ Furthermore, the status board implemented in our GitHub Project helps us get an 
 
 The introduction of the **Agile Teamwork Effectiveness Model (ATEM)** encouraged us to reflect more on how our communication affected the project.
 After learning about ATEM, we became more deliberate in how we communicated and collaborated through regular updates, maintaining a shared understanding of goals, and holding discussions when facing problems.
+ATEM consists of three coordination mechanisms, namely shared mental models, mutual trust and communication.
+As we developed the project, we've seen that it became easier to have a common understanding of goals, tasks and the process - this is a part of the shared mental models.
+The mutual trust and openness to speak up has increased in the team as we got to know each others preferences and skills better.
+As for communication, this has been the hallmark of our collaboration. We have been sending each other messages often, discussing bugs, new features and how to implement these. In our weekly, physical meetings at Realfagbygget, we have been developing these ideas further, using tools like the blackboard.
+Sometimes, team members had creative ideas while working in pairs. These suggestions have promptly been taken further to the rest of the team when the next opportunity came by.
 This awareness has helped us enhance the quality of our teamwork and enabled us to stay on track throughout the project.
 
 From this experience, we learned that good planning and coordination are not static processes.
