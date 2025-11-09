@@ -1,0 +1,95 @@
+@startuml packageDiagram
+title Twitter Clone Package Diagram
+header IT1901: Group 8 - Twitter Clone - Release 3
+
+skinparam linetype ortho
+skinparam padding 7
+skinparam ArrowFontSize 16
+skinparam ArrowThickness 3
+skinparam nodesep 40
+left to right direction
+
+package "REST Client" as REST_CLIENT #fff3e0 {
+  package "JavaFX UI (ui)" as UI_JavaFX #ffffff {
+    [App]
+    [FeedController]
+    [LoginController]
+    [MakeNewPostController]
+    [PostController]
+    [ProfileController]
+    [PostCell]
+    [util.AppIcons]
+  }
+
+  package "Client Services (service)" as Client_Services #ffffff {
+    [ApiClientService]
+    [PostService]
+    [UserService]
+  }
+}
+
+package "REST Server" as REST_SERVER #fff3e0 {
+  package "API Layer (api)" as API_Layer #ffffff {
+    [ApiApplication]
+    [controller.PostController]
+    [controller.UserController]
+    [controller.AuthController]
+    [service.PostService]
+    [service.UserService]
+    [service.UserDetailsServiceImpl]
+    [service.JwtUtilsService]
+    [config.AppConfig]
+    [config.SecurityConfig]
+    [config.AuthTokenFilter]
+    [utils.JwtKeyGenerator]
+  }
+
+  package "Persistence (persistence)" as Persistence #ffffff {
+    [PostRepository]
+    [UserRepository]
+    [OrmPostRepository]
+    [OrmUserRepository]
+    [JsonPostRepository]
+    [JsonUserRepository]
+    [HibernateRepository]
+    [JsonRepository]
+  }
+}
+
+package "Core (core)" as Core #f0f7ff {
+  [Post]
+  [User]
+  package payload #ffffff {
+    package request #ffffff {
+      [CreatePostRequest]
+      [LoginRequest]
+      [UpdateUserRequest]
+    }
+
+    package response #ffffff {
+      [PostResponse]
+      [UserResponse]
+      [LoginResponse]
+    }
+  }
+}
+
+database "SQLite\nDatabase" as SQLite_DB
+
+
+UI_JavaFX --> Client_Services : Uses \nservices
+Client_Services -right-> Core : Uses/returns DTOs
+Client_Services <--> API_Layer : \nHTTP \nrequests/responses
+
+' The newlines and spaces are here to position the labels
+Persistence <-- API_Layer : \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSaving data                             \n(service -> repository)                            .
+Persistence --> Core : \n\n\nDepends on
+API_Layer --> Core : \n\n\n\n\n\n\n\n\n\n\nBuilds response DTOs
+API_Layer --> Core : \n\n\n\n\n\n\n\n\n\nReads domain model
+Persistence --> SQLite_DB : \n\n\n\n\n\n\n\nReads/writes
+
+legend right
+API_Layer: controllers -> services (controllers call services)
+end legend
+
+@enduml
