@@ -17,10 +17,17 @@ I actively participated in code reviews for most pull requests, helping to ident
 
 ---
 
-## Member 2 – _Full Name_
+## Member 2 – _Nathaniel Førrisdahl_
 
-**Contribution Summary:**  
-_Replace this text with your paragraph (max 200 words)._
+During this project, I implemented several core features related to post creation and retweet functionality.
+I created the Post class and developed the makeNewPostController, ensuring that new posts could be created and handled consistently across the system.
+I also implemented retweets end-to-end, which required coordinated changes in the API layer, persistence layer, service logic, and PostController.
+In addition to backend work, I implemented the user interface for retweeting and ensured the retweet functionality was fully integrated and intuitive from a user perspective. 
+
+To maintain code reliability, I wrote tests for the makeNewPostController and PostController to test retweet functionality and UI.
+I participated in reviewing and providing feedback on pull requests to support code quality and team collaboration.
+Another key contribution was troubleshooting build and runtime issues in Eclipse Che, helping ensure that the project could run smoothly in the shared development environment.
+Overall, my work contributed to both the development of major features and the stability of the project setup. 
 
 ---
 
