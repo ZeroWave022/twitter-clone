@@ -33,7 +33,7 @@ UI -> User: Display temporarily empty feed
 
 == Fetch Posts and Show Feed ==
 
-UI -> API: GET /api/feed with JWT token
+UI -> API: GET /api/posts with JWT token
 alt Invalid token
     API --> UI: HTTP 403: Forbidden
     UI -> User: Display error message, log in again
