@@ -69,10 +69,13 @@ In addition to my UI and documentation work, I have participated in code reviews
 
 ---
 
-## Member 5 – _Full Name_
+## Member 5 – _Mats Aleksander Larsson_
 
-**Contribution Summary:**  
-_Replace this text with your paragraph (max 200 words)._
+Throughout this project, I have contributed across multiple areas, focusing primarily on testing, documentation, and backend functionality. I implemented extensive unit tests for the service and persistence modules using Mockito, including `PostServiceTest`, `UserServiceTest`, `JsonRepositories`, and `OrmRepositories`. These tests significantly improved code reliability and ensured stability in the project.
+
+In addition, I participated in the implementation of REST API endpoints, contributing to the development of both the `UserController` and `PostController`. This included defining and verifying key endpoints to ensure correct interaction between the client and server. I also cleaned up parts of the codebase and ensured consistent JavaDoc coverage across all modules.
+
+I contributed to documentation updates, particularly reflections and teamwork sections, and participated in code reviews to maintain high code quality. Overall, my work on testing, endpoint implementation, and documentation strengthened the reliability and maintainability of the project.
 
 ---
 
