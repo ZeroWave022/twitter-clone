@@ -34,10 +34,22 @@ Overall, my work contributed to both the development of major features and the s
 
 ---
 
-## Member 3 – _Full Name_
+## Member 3 – _Martin Alexander Kaminski_
 
 **Contribution Summary:**  
-_Replace this text with your paragraph (max 200 words)._
+
+In the Twitter Clone project, I have provided guidance and support from start to finish.
+Using the knowledge acquired outside of university subjects, I helped team members design and implement features, as well as using Git efficiently.
+
+I have helped members of the team in setting up Git using SSH keys, explained and resolved multiple merge conflicts and reviewed numerous pull requests using built-in GitHub suggestions to simplify collaboration. Further assistance I've provided is documented using `Co-authored-by` in commit messages.
+I also organized tens of issues and pull requests using tags, statuses, naming conventions, and issue linking.
+
+I have implemented the use of [Hibernate ORM](https://hibernate.org/orm/) and [Jakarta Persistence (JPA)](https://jakarta.ee/learn/docs/jakartaee-tutorial/current/index.html).
+This has been essential to enable us to use a SQL Database like SQLite, avoiding the usage of JSON or CSV files.
+The related classes can be found in the [`persistence`](/twitter-clone/persistence/src/main/java/persistence/) module.
+
+Furthermore, I have also set up JaCoCo, checkstyle formatting, and written extensive documentation (often together with Henrik).
+I've also worked on improving the code quality and maintaining consistent formatting to keep our code quality standards high.
 
 ---
 
