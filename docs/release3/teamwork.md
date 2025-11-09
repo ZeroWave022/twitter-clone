@@ -9,6 +9,7 @@ Our planning process has gradually become more refined.
 Early in the project, the focus was mainly on dividing work evenly and meeting deadlines.
 As we gained experience, we learned that effective coordination depends just as much on communication as on technical organization.
 Using GitHub Projects, labels, and milestones has helped us visualize progress and dependencies more clearly, while consistent documentation and well-defined issues helped make the project easier to manage.
+Furthermore, the status board implemented in our GitHub Project helps us get an overview of what needs to be done and what's planned.
 
 The introduction of the **Agile Teamwork Effectiveness Model (ATEM)** encouraged us to reflect more on how our communication affected the project.
 After learning about ATEM, we became more deliberate in how we communicated and collaborated through regular updates, maintaining a shared understanding of goals, and holding discussions when facing problems.
