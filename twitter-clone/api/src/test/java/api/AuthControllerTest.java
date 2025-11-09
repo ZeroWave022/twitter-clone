@@ -1,17 +1,16 @@
 package api;
 
-import core.payload.request.LoginRequest;
-import core.payload.response.LoginResponse;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import core.payload.request.LoginRequest;
+import core.payload.response.LoginResponse;
+import core.payload.response.UserResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.web.context.WebApplicationContext;
-import core.payload.response.UserResponse;
 
 @SpringBootTest()
 class AuthControllerTest {
@@ -29,34 +28,24 @@ class AuthControllerTest {
   void login() {
     LoginRequest request = new LoginRequest("test user for api", "password");
 
-    restClient.post()
-        .uri("/login")
-        .body(request)
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody(LoginResponse.class)
-        .returnResult().getResponseBody();
+    restClient.post().uri("/login").body(request).exchange().expectStatus().isOk()
+        .expectBody(LoginResponse.class).returnResult().getResponseBody();
 
     LoginRequest invalidRequest = new LoginRequest("test user for api", "wrong");
 
-    restClient.post()
-        .uri("/login")
-        .body(invalidRequest)
-        .exchange()
-        .expectStatus().isForbidden();
+    restClient.post().uri("/login").body(invalidRequest).exchange().expectStatus().isForbidden();
   }
 
   @Test
   void getUserData() {
     LoginRequest request = new LoginRequest("test user for api", "password");
 
-    LoginResponse response = restClient.post().uri("/login").body(request).exchange().returnResult(LoginResponse.class)
-        .getResponseBody();
+    LoginResponse response = restClient.post().uri("/login").body(request).exchange()
+        .returnResult(LoginResponse.class).getResponseBody();
 
-    UserResponse user = restClient.get().uri("/me").header("Authorization",
-        "Bearer " + response.jwtToken()).exchange()
-        .expectBody(UserResponse.class)
-        .returnResult().getResponseBody();
+    UserResponse user = restClient.get().uri("/me")
+        .header("Authorization", "Bearer " + response.jwtToken()).exchange()
+        .expectBody(UserResponse.class).returnResult().getResponseBody();
 
     assertEquals(request.username(), user.username());
   }

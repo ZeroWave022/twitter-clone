@@ -1,12 +1,11 @@
 package api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import core.payload.request.LoginRequest;
 import core.payload.request.UpdateUserRequest;
 import core.payload.response.LoginResponse;
 import core.payload.response.UserResponse;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +22,8 @@ class UserControllerTest {
   @BeforeEach
   void setUp(WebApplicationContext context) {
     restClient = RestTestClient.bindToApplicationContext(context)
-        .configureServer(mockMvc -> mockMvc.apply(SecurityMockMvcConfigurers.springSecurity())).build();
+        .configureServer(mockMvc -> mockMvc.apply(SecurityMockMvcConfigurers.springSecurity()))
+        .build();
 
     LoginRequest request = new LoginRequest("user controller tester :)", "password");
 
@@ -38,11 +38,9 @@ class UserControllerTest {
 
   @Test
   void getUserWithId() {
-    UserResponse userResponse = restClient.get().uri("/api/users/" + user.id()).header("Authorization", "Bearer " + jwt)
-        .exchange()
-        .expectBody(UserResponse.class)
-        .returnResult()
-        .getResponseBody();
+    UserResponse userResponse = restClient.get().uri("/api/users/" + user.id())
+        .header("Authorization", "Bearer " + jwt).exchange().expectBody(UserResponse.class)
+        .returnResult().getResponseBody();
 
     assertEquals(user.id(), userResponse.id());
     assertEquals(user.username(), userResponse.username());
@@ -50,13 +48,11 @@ class UserControllerTest {
 
   @Test
   void testUpdateUser() {
-    UpdateUserRequest request = new UpdateUserRequest("new username", "new display name", "new password");
-    UserResponse updatedUser = restClient.put().uri("/api/users/" + user.id()).header("Authorization", "Bearer " + jwt)
-        .body(request).exchange()
-        .expectStatus().isOk()
-        .expectBody(UserResponse.class)
-        .returnResult()
-        .getResponseBody();
+    UpdateUserRequest request = new UpdateUserRequest("new username", "new display name",
+        "new password");
+    UserResponse updatedUser = restClient.put().uri("/api/users/" + user.id())
+        .header("Authorization", "Bearer " + jwt).body(request).exchange().expectStatus().isOk()
+        .expectBody(UserResponse.class).returnResult().getResponseBody();
 
     assertEquals(user.id(), updatedUser.id());
     assertEquals("new username", updatedUser.username());
