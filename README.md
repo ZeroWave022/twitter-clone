@@ -152,9 +152,24 @@ This WiX version is deprecated, and should be upgraded as soon as the project ca
 - [Teamwork](./docs/release2/teamwork.md)
 - [Work practices](./docs/release2/work-practices.md)
 - [Workflow](./docs/release2/workflow.md)
-
 - [Package diagram](./docs/release2/package-diagram.puml)
 - [Class diagram](./docs/release2/class-diagram.puml)
+
+### Release 3
+
+- [Release 3 docs](./docs/release3/README.md)
+- [Project description](./docs/release3/project-description.md)
+- [Contribution]
+- [Usage of AI tools](./docs/release3/ai-tools.md)
+- [Challenges](./docs/release3/challenges.md)
+- [REST service](./docs/release3/rest-service.md)
+- [Teamwork](./docs/release3/teamwork.md)
+- [Sustainability](./docs/release3/sustainability.md)
+- [Sustainability table](./docs/release3/sustainability-table.md)
+- [Sustainability SusAD diagram](./docs/release3/sustainability-susad-diagram.png)
+- [Package diagram](./docs/release3/package-diagram.puml)
+- [Core class diagram](./docs/release3/core-class-diagram.puml)
+- [Sequence diagram](./docs/release3/sequence-diagram.puml)
 
 ### Diagrams
 
@@ -179,5 +194,13 @@ This WiX version is deprecated, and should be upgraded as soon as the project ca
 <summary>Package diagram</summary>
 
 ![Package diagram](./docs/images/release3/package-diagram.png)
+
+</details>
+
+<details>
+
+<summary>Sustainability SusAD diagram</summary>
+
+![Sustainability SusAD diagram](./docs/release3/sustainability-susad-diagram.png)
 
 </details>
