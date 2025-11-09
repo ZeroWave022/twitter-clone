@@ -1,8 +1,14 @@
 # Twitter Clone: Project Description
 
+> [!WARNING]
+> This file is outdated.
+> Read the updated project description in the [project description markdown file for release 3](../release3/project-description.md).
+
 We want to create an application inspired by Twitter, which today is known as X. Throughout this project, we will refer to the base application as **Twitter**, not X.
 
-Twitter Clone is a simple social media application that allows users to publish and read short messages. Users can follow other users to see their posts in a personal feed, and they can also be followed back. The application supports interaction through replies and likes, allowing users to engage with one another.
+Twitter Clone is a simple social media application that allows users to publish and read short messages.
+All posts are displayed in a shared feed, giving users an easy way to stay updated on what other Twitter Clone users are sharing.
+The application supports interaction through likes and retweets, allowing users to engage with one another.
 
 The user experience focuses on short and concise communication, and the app functions as a tool for sharing information, opinions, and news. Twitter is well known for its influence on both news and public debate, and we aim to capture some of that dynamic in our application.
 
