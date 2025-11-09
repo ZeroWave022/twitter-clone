@@ -1,4 +1,4 @@
-@startuml classDiagram1
+@startuml uiClassDiagram
 title JavaFX UI Controllers and Services Class Diagram
 header IT1901: Group 8 - Twitter Clone - Release 3
 

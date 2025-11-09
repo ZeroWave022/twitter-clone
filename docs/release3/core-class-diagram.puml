@@ -1,4 +1,4 @@
-@startuml classDiagram2
+@startuml coreClassDiagram
 title Core Module Class Diagram
 header IT1901: Group 8 - Twitter Clone - Release 3
 
