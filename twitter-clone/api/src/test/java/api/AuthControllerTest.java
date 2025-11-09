@@ -32,7 +32,7 @@ class AuthControllerTest {
 
     LoginRequest invalidRequest = new LoginRequest("test user for api", "wrong");
 
-    restClient.post().uri("/login").body(invalidRequest).exchange().expectStatus().isForbidden();
+    restClient.post().uri("/login").body(invalidRequest).exchange().expectStatus().isUnauthorized();
   }
 
   @Test
@@ -51,6 +51,6 @@ class AuthControllerTest {
 
   @Test
   void handleUnauthedUser() {
-    restClient.get().uri("/me").exchange().expectStatus().isForbidden();
+    restClient.get().uri("/me").exchange().expectStatus().isUnauthorized();
   }
 }
