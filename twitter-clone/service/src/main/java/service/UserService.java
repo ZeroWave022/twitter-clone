@@ -41,8 +41,8 @@ public class UserService {
     try {
       loginResponse = this.apiClient.post("/auth/login", new LoginRequest(username, password),
           LoginResponse.class);
-    } catch (WebClientResponseException.Forbidden e) {
-      // 403 http status indicates wrong credentials
+    } catch (WebClientResponseException.Unauthorized e) {
+      // 401 http status indicates wrong credentials
       return false;
     }
 
