@@ -104,4 +104,33 @@ public class ApiClientService {
       }
     }).bodyValue(body).retrieve().bodyToMono(responseType).block();
   }
+
+  /**
+   * Sends a DELETE request to the API.
+   *
+   * @param <T>          the type of the response body
+   * @param path         the API path
+   * @param responseType the class of the response type
+   * @return the response body deserialized into the type {@code T}
+   */
+  public <T> T delete(String path, Class<T> responseType) {
+    return this.webClient.delete().uri(path).headers(headers -> {
+      if (this.jwtToken != null) {
+        headers.setBearerAuth(this.jwtToken);
+      }
+    }).retrieve().bodyToMono(responseType).block();
+  }
+
+  /**
+   * Sends a DELETE request to the API.
+   *
+   * @param path the API path
+   */
+  public void delete(String path) {
+    this.webClient.delete().uri(path).headers(headers -> {
+      if (this.jwtToken != null) {
+        headers.setBearerAuth(this.jwtToken);
+      }
+    }).retrieve();
+  }
 }

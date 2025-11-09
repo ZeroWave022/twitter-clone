@@ -12,10 +12,10 @@
       "vmArgs": []
     },
     {
-      "name": "modules-template testing",
+      "name": "twitter-clone testing",
       "vmArgs": [
         "--add-opens",
-        "calc.ui/ui=ALL-UNNAMED",
+        "twitter.ui/ui=ALL-UNNAMED",
         "--add-exports",
         "javafx.graphics/com.sun.javafx.application=ALL-UNNAMED",
         "--add-opens",
@@ -23,11 +23,11 @@
       ]
     }
   ],
-  "java.test.defaultConfig": "modules-template testing",
+  "java.test.defaultConfig": "twitter-clone testing",
   "java.compile.nullAnalysis.mode": "automatic",
   "java.debug.settings.onBuildFailureProceed": true,
   "java.format.settings.url": ".vscode/java-formatter.xml",
   "java.format.settings.profile": "JavaConventions",
-  "java.checkstyle.configuration": ".vscode/google_checks.xml",
+  "java.checkstyle.configuration": "twitter-clone/config/checkstyle/google_checks.xml",
   "java.checkstyle.version": "11.0.1"
 }

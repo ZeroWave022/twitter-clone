@@ -35,7 +35,7 @@ First, you must install all the modules. You will need to skip all tests, becaus
 Use the following command:
 
 ```sh
-mvn install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
+mvn clean install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
 ```
 
 <details>
@@ -45,7 +45,7 @@ mvn install -DskipTests -Dcheckstyle.skip -Dspotbugs.skip -Djacoco.skip -T 1C
 Then you'll need to wrap the parameters in quotation marks:
 
 ```sh
-mvn install "-DskipTests" "-Dcheckstyle.skip" "-Dspotbugs.skip" "-Djacoco.skip" -T 1C
+mvn clean install "-DskipTests" "-Dcheckstyle.skip" "-Dspotbugs.skip" "-Djacoco.skip" -T 1C
 ```
 
 </details>
@@ -76,7 +76,7 @@ Override the example secret with the generated value.
 Start the api:
 
 ```sh
-cd api 
+cd api
 mvn spring-boot:run
 ```
 
@@ -113,6 +113,28 @@ mvn verify
 You can read the SpotBugs report by opening `twitter-clone/<module>/target/site/spotbugs.html` and you can read the JaCoCo report by opening `twitter-clone/<module>/target/site/jacoco/index.html`.
 The `<module>` must be replaced with the module name, without the angle brackets.
 
+### Building the app
+
+First, please make sure to install all modules as explained in [Module installation](#module-installation).
+
+You can build and create a shippable executable of the app for your platform by using the following command:
+
+```sh
+cd ui
+mvn jpackage:jpackage
+```
+
+<details>
+
+<summary>Using or building for Windows?</summary>
+
+You must install the [WiX Toolset](https://github.com/wixtoolset/wix3) when building for Windows.
+
+Because we use Java 17, we must use the latest version of WiX 3.x.
+This WiX version is deprecated, and should be upgraded as soon as the project can move beyond Java 17.
+
+</details>
+
 ## Other Documentation
 
 ### Release 1
@@ -134,6 +156,28 @@ The `<module>` must be replaced with the module name, without the angle brackets
 - [Package diagram](./docs/release2/package-diagram.puml)
 - [Class diagram](./docs/release2/class-diagram.puml)
 
-| Package diagram | Class diagram |
-|---------------|----------------|
-| ![Package diagram](./docs/images/package-diagram.png) | ![Class diagram](./docs/images/class-diagram.png) |
+### Diagrams
+
+<details>
+
+<summary>UI and services class diagram</summary>
+
+![UI and services class diagram](./docs/images/release3/ui-class-diagram.png)
+
+</details>
+
+<details>
+
+<summary>Core class diagram</summary>
+
+![Core class diagram](./docs/images/release3/core-class-diagram.png)
+
+</details>
+
+<details>
+
+<summary>Package diagram</summary>
+
+![Package diagram](./docs/images/release3/package-diagram.png)
+
+</details>

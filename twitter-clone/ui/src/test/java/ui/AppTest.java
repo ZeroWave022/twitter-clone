@@ -27,8 +27,5 @@ public class AppTest extends UiTestBase {
     assertFalse(nq.queryAll().isEmpty());
 
     FxAssert.verifyThat("#logInBtn", LabeledMatchers.hasText("Log in"));
-
-    // sleep(1000)
   }
-
 }

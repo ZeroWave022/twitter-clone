@@ -28,6 +28,7 @@ public class PostService {
     }
     return new PostResponse(post.getId(), post.getContent(), post.getLikes(), post.getReTweets(),
         post.getCommentsAmount(), userService.toDto(post.getAuthor()),
-        post.getLikedByUsers().stream().map(User::getId).collect(Collectors.toSet()), originalId);
+        post.getLikedByUsers().stream().map(User::getId).collect(Collectors.toSet()), originalId,
+        post.getType());
   }
 }

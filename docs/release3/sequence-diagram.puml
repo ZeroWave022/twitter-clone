@@ -1,0 +1,47 @@
+@startuml sequenceDiagram
+title Login and Posts Fetching Sequence Diagram
+header IT1901: Group 8 - Twitter Clone - Release 3
+
+actor User as User order 1
+boundary "JavaFX UI" as UI order 2
+control "REST API" as API order 3
+database "Database" as DB order 4
+
+note right of API
+Uses Hibernate ORM for
+database interactions
+end note
+
+== Login ==
+
+User -> UI: Inputs login credentials
+UI -> API: POST /auth/login
+API -> DB: Query user by username
+
+alt User doesn't exist
+    DB --> API: User not found
+    API -> DB: Create new user with credentials
+    DB --> API: New user created
+else User exists
+    DB --> API: Return user data
+end
+
+API -> API: Generate JWT token
+API --> UI: HTTP 200: Return JWT token
+UI -> UI: Save JWT token locally
+UI -> User: Display temporarily empty feed
+
+== Fetch Posts and Show Feed ==
+
+UI -> API: GET /api/posts with JWT token
+alt Invalid token
+    API --> UI: HTTP 403: Forbidden
+    UI -> User: Display error message, log in again
+else Valid token
+    API -> DB: Fetch posts
+    DB --> API: Return posts data
+    API --> UI: HTTP 200: Return posts data
+    UI -> User: Display posts in feed
+end
+
+@enduml

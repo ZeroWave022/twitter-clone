@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.Post;
 import core.User;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.springframework.util.FileSystemUtils;
 
 class JsonPostRepositoryTest {
   @TempDir
@@ -42,15 +45,7 @@ class JsonPostRepositoryTest {
   @AfterEach
   void cleanup() throws IOException {
     // Delete the temp directory and its files
-    try (Stream<Path> walk = Files.walk(this.dataDir)) {
-      walk.forEach(filePath -> {
-        try {
-          Files.delete(filePath);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
-    }
+    FileSystemUtils.deleteRecursively(this.dataDir);
   }
 
   @Test

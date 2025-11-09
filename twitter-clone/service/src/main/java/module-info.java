@@ -1,6 +1,6 @@
 open module twitter.service {
   requires transitive twitter.core;
-  requires transitive twitter.persistence;
+  requires twitter.persistence;
 
   requires spring.context;
   requires spring.beans;

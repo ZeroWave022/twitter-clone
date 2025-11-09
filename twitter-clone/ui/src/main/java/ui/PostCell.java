@@ -1,5 +1,6 @@
 package ui;
 
+import core.Post;
 import core.payload.response.PostResponse;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -76,7 +77,7 @@ public class PostCell extends ListCell<PostResponse> {
     }
 
     // Decide which template to use
-    boolean isRetweet = post.originalPostId() != null;
+    boolean isRetweet = post.type() == Post.Type.RETWEET;
 
     if (isRetweet) {
       ensureRetweetLoaded();

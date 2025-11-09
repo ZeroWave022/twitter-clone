@@ -1,5 +1,6 @@
 package core.payload.response;
 
+import core.Post;
 import java.util.Set;
 
 /**
@@ -12,9 +13,11 @@ import java.util.Set;
  * @param commentsAmount amount of comments
  * @param author         author as a {@link UserResponse} DTO
  * @param likedByUsers   set of user ids that have liked the post
+ * @param originalPostId id of the originalPost
+ * @param type           type of the post
  */
 public record PostResponse(Long id, String content, int likes, int reTweets, int commentsAmount,
-    UserResponse author, Set<Long> likedByUsers, Long originalPostId) {
+    UserResponse author, Set<Long> likedByUsers, Long originalPostId, Post.Type type) {
   /**
    * Makes sure all fields are truly read only.
    */

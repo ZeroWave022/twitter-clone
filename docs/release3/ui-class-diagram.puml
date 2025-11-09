@@ -1,0 +1,222 @@
+@startuml uiClassDiagram
+title JavaFX UI Controllers and Services Class Diagram
+header IT1901: Group 8 - Twitter Clone - Release 3
+
+skinparam linetype ortho
+skinparam padding 1
+skinparam nodesep 40
+
+class FeedController {
+  ~ PostService postService
+  ~ UserService userService
+  - ListView<PostResponse> feedList
+  - Button profileBtn
+  - Label usernameLabel
+  - Label displayNameLabel
+
+  + void initialize()
+  - void switchToMakeNewPost()
+  - void switchToLogin()
+  - void switchToProfile()
+  - void updateFeed()
+}
+
+class LoginController {
+  ~ UserService userService
+  - TextField usernameField
+  - TextField passwordField
+  - Button logInBtn
+  - Label errorLabel
+
+  + LoginController(UserService)
+  + void initialize()
+  - void logIn()
+  - void switchToFeed()
+}
+
+class MakeNewPostController {
+  - PostService postService
+  - TextArea postText
+  - Button publishBtn
+  - Button backBtn
+  - Label charCount
+
+  + void initialize(URL, ResourceBundle)
+  - void publishPost()
+  - void switchToFeed()
+}
+
+class PostController {
+  ~ PostService postService
+  ~ UserService userService
+  - Label displayNameLabel
+  - Label usernameLabel
+  - Label contentLabel
+  - ImageView likeImageView
+  - ImageView retweetImageView
+  - Text likeBtnText
+  - Text retweetBtnText
+  - Button deleteBtn
+  - Label displayNameLabelRetweet
+  - Label usernameLabelRetweet
+  - Button retweetBtn
+  - Label contentLabel1
+  - Button deleteOriginalBtn
+  - PostResponse currentPost
+  - PostResponse originalPost
+
+  - boolean isOwn(PostResponse)
+  + void setData(PostResponse)
+  + void updateLikes()
+  + void updateRetweets()
+  - void onConfirmRetweetSafe(String)
+  + void deletePostAction(ActionEvent)
+}
+class ProfileController {
+  ~ PostService postService
+  ~ UserService userService
+  - Label displayNameLabel
+  - Label usernameLabel
+  - Label likeCountLabel
+  - Label postCountLabel
+  - Button logOutBtn
+  - Button backToFeedBtn
+  - ListView<PostResponse> feedList
+  - boolean updatingCounters
+  - List<PostResponse> postsByUser
+
+  + void initialize()
+  + void updateProfileCounters()
+  + int likesCount()
+  + void backToFeed()
+  + void logOut()
+}
+
+class PostCell {
+  - HBox regularNode
+  - PostController regularController
+  - HBox retweetNode
+  - PostController retweetController
+
+  - void ensureRegularLoaded()
+  - void ensureRetweetLoaded()
+  ~ void updateItem(PostResponse, boolean)
+}
+
+class UserService {
+  - ApiClientService apiClient
+  - UserResponse loggedInUser
+
+  + UserResponse getLoggedInUser()
+  + boolean login(String, String)
+  + void logOut()
+  - void updateLoggedInUser()
+}
+class PostService {
+  - ApiClientService apiClient
+  - Runnable postUpdateListener
+
+  + Optional<PostResponse> getPostById(Long)
+  + Optional<PostResponse> getPostById(Long, boolean)
+  + PostResponse createPost(String, Long)
+  + List<PostResponse> getAllPosts()
+  + List<PostResponse> getAllPosts(boolean)
+  + List<PostResponse> postsByUser()
+  + PostResponse likePost(Long)
+  + void setPostUpdateListener(Runnable)
+  + void notifyPostUpdated()
+  + void deletePost(Long)
+}
+class ApiClientService {
+  - WebClient webClient
+  - String jwtToken
+  + ApiClientService()
+  + void setJwtToken(String jwtToken)
+  + <T> T get(String, Class<T>)
+  + <T> T get(String, ParameterizedTypeReference<T>)
+  + <T, R> R post(String, T, Class<R>)
+  + <T, R> R post(String, T, ParameterizedTypeReference<R>)
+  + <T> T delete(String, Class<T>)
+  + void delete(String path)
+}
+
+class CreatePostRequest <<DTO>> {
+  + String content
+  + Long originalPost
+
+  + CreatePostRequest(String, Long)
+}
+class LoginRequest <<DTO>> {
+  + String username
+  + String password
+
+  + LoginRequest(String, String)
+}
+class UpdateUserRequest <<DTO>> {
+  + String username
+  + String displayName
+  + String password
+
+  + UpdateUserRequest(String, String, String)
+}
+
+
+class PostResponse <<DTO>> {
+  + Long id
+  + String content
+  + int likes
+  + int reTweets
+  + int commentsAmount
+  + UserResponse author
+  + Set<Long> likedByUsers
+  + Long originalPostId
+  + Post.Type type
+
+  + PostResponse(Long, String, int, int, int, \nUserResponse, Set<Long>, Post.Type)
+  + boolean likedByUser(Long)
+}
+class UserResponse <<DTO>> {
+  + Long id
+  + String username
+  + String displayName
+
+  + UserResponse(Long, String, String)
+}
+class LoginResponse <<DTO>> {
+  + String jwtToken
+
+  + LoginResponse(String)
+}
+
+
+LoginController --> UserService
+FeedController --> PostService
+FeedController --> UserService
+PostController --> PostService
+PostController --> UserService
+MakeNewPostController --> PostService
+ProfileController --> UserService
+ProfileController --> PostService
+
+
+PostService --> ApiClientService 
+UserService --> ApiClientService
+
+
+PostService ..> CreatePostRequest 
+PostService ..> PostResponse 
+UserService ..> LoginRequest 
+UserService ..> LoginResponse 
+UserService ..> UpdateUserRequest 
+UserService ..> UserResponse
+
+FeedController --> PostCell
+PostController *-- PostCell
+
+' Note: HTTP communication
+note bottom of ApiClientService
+  Sends HTTP requests to the API Layer
+  (e.g. POST /api/posts, GET /api/posts/{id})
+end note
+
+@enduml
