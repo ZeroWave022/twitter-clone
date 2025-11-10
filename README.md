@@ -159,7 +159,7 @@ This WiX version is deprecated, and should be upgraded as soon as the project ca
 
 - [Release 3 docs](./docs/release3/README.md)
 - [Project description](./docs/release3/project-description.md)
-- [Contribution]
+- [Contribution](./docs/release3/contribution.md)
 - [Usage of AI tools](./docs/release3/ai-tools.md)
 - [Challenges](./docs/release3/challenges.md)
 - [REST service](./docs/release3/rest-service.md)
