@@ -169,6 +169,7 @@ This WiX version is deprecated, and should be upgraded as soon as the project ca
 - [Sustainability SusAD diagram](./docs/release3/sustainability-susad-diagram.png)
 - [Package diagram](./docs/release3/package-diagram.puml)
 - [Core class diagram](./docs/release3/core-class-diagram.puml)
+- [UI and services class diagram](./docs/release3/ui-class-diagram.puml)
 - [Sequence diagram](./docs/release3/sequence-diagram.puml)
 
 ### Diagrams
@@ -194,6 +195,14 @@ This WiX version is deprecated, and should be upgraded as soon as the project ca
 <summary>Package diagram</summary>
 
 ![Package diagram](./docs/images/release3/package-diagram.png)
+
+</details>
+
+<details>
+
+<summary>Sequence diagram</summary>
+
+![Sequence diagram](./docs/images/release3/sequence-diagram.png)
 
 </details>
 
