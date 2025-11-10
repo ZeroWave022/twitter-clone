@@ -79,9 +79,12 @@ I contributed to documentation updates, particularly reflections and teamwork se
 
 ---
 
-## Member 6 – _Full Name_
+## Member 6 – _Adrian Ramberg Westgård_
 
-**Contribution Summary:**  
-_Replace this text with your paragraph (max 200 words)._
+My time and effort has primarily been spent developing and improving the UI/frontend, often in close collaboration with Henrik. I’ve also been responsible for connecting the UI to the backend and implementing the supporting logic required to make that interaction seamless. Notably, I played a key role in creating the profile page and implementing the liking and deletion of posts (together with Daniel and Martin), which gave me experience working across every module in our project.
+
+Additionally, I ensured that the application behaved as expected by writing comprehensive unit tests —for example, `ProfileControllerTest` —and by methodically identifying and fixing bugs as they appeared. I placed strong emphasis on maintaining clean, high-quality code, refactoring methods where needed, and developing small but impactful utility classes such as `NumberFormatter` and `AppIcons`, which improved the application’s usability and consistency.
+
+Finally, I contributed to team discussions, planning, and code reviews, providing feedback and helping ensure smooth collaboration and consistent code quality across the project.
 
 ---
