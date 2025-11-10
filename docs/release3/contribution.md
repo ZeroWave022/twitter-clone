@@ -1,0 +1,90 @@
+# Team Contributions
+
+Each team member has provided a short summary (max 200 words) of their contributions to the project.  
+This includes implemented features, collaboration, code reviews, problem-solving efforts, and other relevant work.
+
+---
+
+## Member 1 – _Daniel Grøtan Gregusson_
+
+My main responsibility for this release was implementing REST API authentication and developing the API client service.
+
+On the server side, I added a security configuration that verifies the `Authorization` header in incoming requests to protected endpoints and rejects those with invalid JWT tokens. To issue tokens, I created an authentication resource that validates user credentials and returns a signed JWT.
+
+On the client I introduced a significant architectural change by replacing the existing `UserRepository` and `PostRepository` pattern with a centralized `ApiClientService`. This refactor caused several merge conflicts but ultimately simplified our codebase and improved maintainability.
+
+I actively participated in code reviews for most pull requests, helping to identify bugs and suggest improvements. Additionally, I collaborated closely with Martin and Adrian on the delete post feature, where we encountered several implementation challenges and worked together to find efficient solutions.
+
+---
+
+## Member 2 – _Nathaniel Førrisdahl_
+
+During this project, I implemented several core features related to post creation and retweet functionality.
+I created the `Post` class and developed the `makeNewPostController`, ensuring that new posts could be created and handled consistently across the system.
+I also implemented retweets end-to-end, which required coordinated changes in the **API layer**, **persistence layer**, **service logic**, and `PostController`.
+
+In addition to backend development, I implemented the **user interface for retweeting** and ensured the retweet functionality was fully integrated and intuitive from a user perspective.
+
+To maintain code reliability, I wrote tests for the `makeNewPostController`,
+the retweet handling in the `PostController`, and the UI to verify that the functionality behaved as intended.
+I also participated in reviewing and providing feedback on pull requests to help support code quality and team collaboration.
+
+Another key contribution was troubleshooting build and runtime issues in **Eclipse Che**, helping ensure that the project could run smoothly in the shared development environment.
+Overall, my work contributed to both the development of major features and the stability of the project setup.
+
+---
+
+## Member 3 – _Martin Alexander Kaminski_
+
+**Contribution Summary:**  
+
+In the Twitter Clone project, I have provided guidance and support from start to finish.
+Using the knowledge acquired outside of university subjects, I helped team members design and implement features, as well as using Git efficiently.
+
+I have helped members of the team in setting up Git using SSH keys, explained and resolved multiple merge conflicts and reviewed numerous pull requests using built-in GitHub suggestions to simplify collaboration. Further assistance I've provided is documented using `Co-authored-by` in commit messages.
+I also organized tens of issues and pull requests using tags, statuses, naming conventions, and issue linking.
+
+I have implemented the use of [Hibernate ORM](https://hibernate.org/orm/) and [Jakarta Persistence (JPA)](https://jakarta.ee/learn/docs/jakartaee-tutorial/current/index.html).
+This has been essential to enable us to use a SQL Database like SQLite, avoiding the usage of JSON or CSV files.
+The related classes can be found in the [`persistence`](/twitter-clone/persistence/src/main/java/persistence/) module.
+
+Furthermore, I have also set up JaCoCo, checkstyle formatting, and written extensive documentation (often together with Henrik).
+I've also worked on improving the code quality and maintaining consistent formatting to keep our code quality standards high.
+
+---
+
+## Member 4 – _Henrik Strøm-Andersen_
+
+During the development of Twitter Clone, my main responsibility has been the UI side of the project.
+I created most of the app’s views, which means I spent much of my time working on the application’s FXML files.
+I also implemented the logic for displaying individual posts in the feed by creating a custom cell factory using a tailored `ListCell` (the `PostCell` class) and a dedicated post layout.
+
+Throughout development, I have improved the app’s UI design as new features were introduced, giving the GUI a more modern look while still keeping it simple - one of our core goals.
+
+I also took primary responsibility for ensuring that all project documentation is in place.
+As a result, I wrote most of the project’s documentation, but with valuable input and much appreciated help from other team members (Martin has been consistently helpful and involved in the writing).
+The documentation includes reflections, technical descriptions, and various diagrams.
+
+In addition to my UI and documentation work, I have participated in code reviews, created issues, engaged in pair programming, and used Git’s features effectively.
+
+---
+
+## Member 5 – _Mats Aleksander Larsson_
+
+Throughout this project, I have contributed across multiple areas, focusing primarily on testing, documentation, and backend functionality. I implemented extensive unit tests for the service and persistence modules using Mockito, including `PostServiceTest`, `UserServiceTest`, `JsonRepositories`, and `OrmRepositories`. These tests significantly improved code reliability and ensured stability in the project.
+
+In addition, I participated in the implementation of REST API endpoints, contributing to the development of both the `UserController` and `PostController`. This included defining and verifying key endpoints to ensure correct interaction between the client and server. I also cleaned up parts of the codebase and ensured consistent JavaDoc coverage across all modules.
+
+I contributed to documentation updates, particularly reflections and teamwork sections, and participated in code reviews to maintain high code quality. Overall, my work on testing, endpoint implementation, and documentation strengthened the reliability and maintainability of the project.
+
+---
+
+## Member 6 – _Adrian Ramberg Westgård_
+
+My time and effort has primarily been spent developing and improving the UI/frontend, often in close collaboration with Henrik. I’ve also been responsible for connecting the UI to the backend and implementing the supporting logic required to make that interaction seamless. Notably, I played a key role in creating the profile page and implementing the liking and deletion of posts (together with Daniel and Martin), which gave me experience working across every module in our project.
+
+Additionally, I ensured that the application behaved as expected by writing comprehensive unit tests —for example, `ProfileControllerTest` —and by methodically identifying and fixing bugs as they appeared. I placed strong emphasis on maintaining clean, high-quality code, refactoring methods where needed, and developing small but impactful utility classes such as `NumberFormatter` and `AppIcons`, which improved the application’s usability and consistency.
+
+Finally, I contributed to team discussions, planning, and code reviews, providing feedback and helping ensure smooth collaboration and consistent code quality across the project.
+
+---
