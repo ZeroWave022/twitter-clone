@@ -1,3 +1,25 @@
+# Twitter Clone
+
+This is a repo for Twitter Clone, a project done as part of the course [IT1901 Informatics, Project I](https://www.ntnu.edu/studies/courses/IT1901) at the [Norwegian University of Science and Technology (NTNU)](https://www.ntnu.edu/).
+
+Technologies used:
+
+- Java
+- [Maven](https://maven.apache.org/)
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Hibernate ORM](https://hibernate.org/orm/)
+- [Jackson](https://github.com/fasterxml/jackson) for parsing JSON in Java
+- [jjwt](https://github.com/jwtk/jjwt) for JSON Web Tokens
+- [JUnit](https://junit.org/)
+- [SpotBugs](https://spotbugs.github.io/)
+- [Mockito](https://site.mockito.org/)
+- [JaCoCo](https://github.com/jacoco/jacoco)
+- [Checkstyle](https://github.com/checkstyle/checkstyle)
+
+Under follows the original README of the project.
+
+---
+
 # IT1901 Group 8: Twitter Clone
 
 Welcome to group 8's Informatics Project I GitHub repository!
